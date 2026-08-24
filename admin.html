@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyVTU Admin</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+    <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      background: #090b0f;
+      color: white;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      outline: 0;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      padding: 22px 16px 50px;
+    }
+
+    /* HEADER */
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+
+    .admin-icon {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      background: rgba(21,149,255,.12);
+      color: #1595ff;
+
+      font-size: 20px;
+    }
+
+    .header-text {
+      flex: 1;
+    }
+
+    .header-text h1 {
+      font-size: 22px;
+    }
+
+    .header-text p {
+      color: #737c88;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    /* CARD */
+
+    .card {
+      background: #101318;
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 20px;
+
+      padding: 18px;
+
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+
+      margin-bottom: 16px;
+    }
+
+    /* INPUTS */
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+
+      color: #8b949f;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      margin-bottom: 7px;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+
+      background: #181c22;
+
+      border: 1px solid rgba(255,255,255,.07);
+
+      border-radius: 13px;
+
+      color: white;
+
+      outline: none;
+
+      font-size: 14px;
+
+      padding: 13px;
+    }
+
+    .textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      border-color: #1595ff;
+    }
+
+    /* SELECT ALL */
+
+    .select-all {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 13px;
+
+      background: #181c22;
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 14px;
+
+      margin-bottom: 12px;
+    }
+
+    .select-all input {
+      width: 19px;
+      height: 19px;
+
+      accent-color: #1595ff;
+    }
+
+    .select-all-text {
+      flex: 1;
+    }
+
+    .select-all-text strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .select-all-text span {
+      color: #737c88;
+      font-size: 11px;
+    }
+
+    /* USERS */
+
+    .users-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 10px;
+    }
+
+    .users-count {
+      color: #1595ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .users-list {
+      max-height: 350px;
+      overflow-y: auto;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 12px 5px;
+
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .user-item:last-child {
+      border-bottom: 0;
+    }
+
+    .user-item input {
+      width: 18px;
+      height: 18px;
+
+      accent-color: #1595ff;
+    }
+
+    .user-avatar {
+      width: 39px;
+      height: 39px;
+
+      min-width: 39px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #1595ff,
+          #7b3cff
+        );
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .user-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .user-info strong {
+      display: block;
+
+      font-size: 13px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-info span {
+      display: block;
+
+      color: #737c88;
+
+      font-size: 11px;
+
+      margin-top: 3px;
+    }
+
+    /* BUTTON */
+
+    .send-button {
+      width: 100%;
+
+      padding: 15px;
+
+      border-radius: 14px;
+
+      background: #1595ff;
+
+      color: white;
+
+      font-size: 14px;
+      font-weight: 750;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 9px;
+    }
+
+    .send-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    /* STATUS */
+
+    .status {
+      display: none;
+
+      padding: 12px;
+
+      border-radius: 12px;
+
+      margin-top: 12px;
+
+      font-size: 12px;
+
+      text-align: center;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      background: rgba(46,204,113,.10);
+      color: #69e49a;
+    }
+
+    .status.error {
+      background: rgba(255,70,80,.10);
+      color: #ff7d86;
+    }
+
+    /* EMPTY */
+
+    .empty {
+      text-align: center;
+
+      color: #737c88;
+
+      font-size: 12px;
+
+      padding: 30px 10px;
+    }
+
+    /* LOADING */
+
+    .loading {
+      text-align: center;
+
+      padding: 25px;
+
+      color: #737c88;
+
+      font-size: 12px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- HEADER -->
+  <header class="header">
+<div class="admin-icon">
+  
+  <i class="fa-solid fa-bell"></i>
+  
+</div>
+
+<div class="header-text">
+  
+  <h1>Notifications</h1>
+  
+  <p>
+    Send notifications to MyVTU users
+  </p>
+  
+</div>
+  </header>
+  <!-- CREATE NOTIFICATION -->
+  <section class="card">
+<div class="card-title">
+  Create Notification
+</div>
+
+
+<div class="field">
+
+  <label>
+    NOTIFICATION TITLE
+  </label>
+
+  <input
+    class="input"
+    id="notificationTitle"
+    type="text"
+    maxlength="100"
+    placeholder="e.g. Welcome to MyVTU"
+  >
+
+</div>
+
+
+<div class="field">
+
+  <label>
+    MESSAGE
+  </label>
+
+  <textarea
+    class="textarea"
+    id="notificationMessage"
+    maxlength="500"
+    placeholder="Write your notification message..."
+  ></textarea>
+
+</div>
+  </section>
+  <!-- USERS -->
+  <section class="card">
+<div class="users-header">
+
+  <div
+    class="card-title"
+    style="margin:0;"
+  >
+    Recipients
+  </div>
+
+  <div
+    class="users-count"
+    id="selectedCount"
+  >
+    0 selected
+  </div>
+
+</div>
+
+
+<!-- SELECT ALL -->
+
+<label class="select-all">
+
+  <input
+    type="checkbox"
+    id="selectAll"
+  >
+
+  <div class="select-all-text">
+
+    <strong>
+      Select All Users
+    </strong>
+
+    <span id="totalUsers">
+      Loading users...
+    </span>
+
+  </div>
+
+</label>
+
+
+<!-- USER LIST -->
+
+<div
+  class="users-list"
+  id="usersList"
+>
+
+  <div class="loading">
+
+    <i class="fa-solid fa-spinner fa-spin"></i>
+
+    Loading users...
+
+  </div>
+
+</div>
+  </section>
+  <!-- SEND -->
+  <section class="card">
+<button
+  class="send-button"
+  id="sendButton"
+  onclick="sendNotification()"
+>
+
+  <i class="fa-solid fa-paper-plane"></i>
+
+  Send Notification
+
+</button>
+
+
+<div
+  class="status"
+  id="status"
+></div>
+  </section>
+</div>
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let users = [];
+
+
+/* ==========================================
+   LOAD USERS
+========================================== */
+
+async function loadUsers() {
+
+  const list =
+    document.getElementById(
+      "usersList"
+    );
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "id, full_name, phone"
+      )
+      .order(
+        "full_name",
+        {
+          ascending: true
+        }
+      );
+
+
+    if (error) {
+
+      console.error(
+        "Users error:",
+        error
+      );
+
+      list.innerHTML = `
+
+        <div class="empty">
+
+          Could not load users.
+
+          <br><br>
+
+          ${escapeHTML(
+            error.message
+          )}
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    users = data || [];
+
+
+    document.getElementById(
+      "totalUsers"
+    ).innerText =
+      users.length +
+      " user" +
+      (
+        users.length === 1
+          ? ""
+          : "s"
+      );
+
+
+    renderUsers();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        Something went wrong loading users.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* ==========================================
+   RENDER USERS
+========================================== */
+
+function renderUsers() {
+
+  const list =
+    document.getElementById(
+      "usersList"
+    );
+
+
+  if (!users.length) {
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        No users found.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    users.map(user => {
+
+      const name =
+        user.full_name ||
+        "Unnamed User";
+
+
+      const initial =
+        name
+          .charAt(0)
+          .toUpperCase();
+
+
+      return `
+
+        <label class="user-item">
+
+          <input
+            type="checkbox"
+            class="user-checkbox"
+            value="${escapeHTML(
+              user.id
+            )}"
+          >
+
+          <div class="user-avatar">
+
+            ${escapeHTML(
+              initial
+            )}
+
+          </div>
+
+          <div class="user-info">
+
+            <strong>
+
+              ${escapeHTML(
+                name
+              )}
+
+            </strong>
+
+            <span>
+
+              ${escapeHTML(
+                user.phone ||
+                "No phone number"
+              )}
+
+            </span>
+
+          </div>
+
+        </label>
+
+      `;
+
+    }).join("");
+
+
+  document
+    .querySelectorAll(
+      ".user-checkbox"
+    )
+    .forEach(box => {
+
+      box.addEventListener(
+        "change",
+        updateSelectedCount
+      );
+
+    });
+
+
+  updateSelectedCount();
+
+}
+
+
+/* ==========================================
+   SELECT ALL
+========================================== */
+
+document
+  .getElementById("selectAll")
+  .addEventListener(
+    "change",
+    function () {
+
+      document
+        .querySelectorAll(
+          ".user-checkbox"
+        )
+        .forEach(box => {
+
+          box.checked =
+            this.checked;
+
+        });
+
+
+      updateSelectedCount();
+
+    }
+  );
+
+
+/* ==========================================
+   SELECTED COUNT
+========================================== */
+
+function updateSelectedCount() {
+
+  const boxes =
+    document.querySelectorAll(
+      ".user-checkbox"
+    );
+
+
+  const selected =
+    document.querySelectorAll(
+      ".user-checkbox:checked"
+    );
+
+
+  document.getElementById(
+    "selectedCount"
+  ).innerText =
+    selected.length +
+    " selected";
+
+
+  const selectAll =
+    document.getElementById(
+      "selectAll"
+    );
+
+
+  if (
+    boxes.length > 0 &&
+    selected.length === boxes.length
+  ) {
+
+    selectAll.checked =
+      true;
+
+  } else {
+
+    selectAll.checked =
+      false;
+
+  }
+
+}
+
+
+/* ==========================================
+   SEND NOTIFICATION
+========================================== */
+
+async function sendNotification() {
+
+  const title =
+    document
+      .getElementById(
+        "notificationTitle"
+      )
+      .value
+      .trim();
+
+
+  const message =
+    document
+      .getElementById(
+        "notificationMessage"
+      )
+      .value
+      .trim();
+
+
+  const selected =
+    [
+      ...document.querySelectorAll(
+        ".user-checkbox:checked"
+      )
+    ]
+    .map(
+      box => box.value
+    );
+
+
+  if (!title) {
+
+    showStatus(
+      "Enter a notification title.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!message) {
+
+    showStatus(
+      "Enter a notification message.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!selected.length) {
+
+    showStatus(
+      "Select at least one user.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "sendButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.innerHTML = `
+
+    <i class="fa-solid fa-spinner fa-spin"></i>
+
+    Sending...
+
+  `;
+
+
+  try {
+
+    console.log(
+      "Sending notification:",
+      {
+        title: title,
+        message: message,
+        user_ids: selected
+      }
+    );
+
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .functions
+      .invoke(
+        "send-notification",
+        {
+          body: {
+            title: title,
+            message: message,
+            user_ids: selected
+          }
+        }
+      );
+
+
+    console.log(
+      "Edge Function response:",
+      {
+        data: data,
+        error: error
+      }
+    );
+
+
+    if (error) {
+
+      console.error(
+        "EDGE FUNCTION ERROR:",
+        error
+      );
+
+      showStatus(
+        "Edge Function error: " +
+        error.message,
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
+
+      showStatus(
+        data?.message ||
+        "Notification was not sent.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    showStatus(
+      "Notification sent to " +
+      (
+        data.sent ??
+        selected.length
+      ) +
+      " user" +
+      (
+        (
+          data.sent ??
+          selected.length
+        ) === 1
+          ? ""
+          : "s"
+      ) +
+      ".",
+      "success"
+    );
+
+
+    document.getElementById(
+      "notificationTitle"
+    ).value = "";
+
+
+    document.getElementById(
+      "notificationMessage"
+    ).value = "";
+
+
+    document
+      .querySelectorAll(
+        ".user-checkbox"
+      )
+      .forEach(box => {
+
+        box.checked =
+          false;
+
+      });
+
+
+    document.getElementById(
+      "selectAll"
+    ).checked =
+      false;
+
+
+    updateSelectedCount();
+
+
+  } catch (error) {
+
+    console.error(
+      "SEND ERROR:",
+      error
+    );
+
+
+    showStatus(
+      "Failed to contact notification server.",
+      "error"
+    );
+
+  } finally {
+
+    button.disabled =
+      false;
+
+
+    button.innerHTML = `
+
+      <i class="fa-solid fa-paper-plane"></i>
+
+      Send Notification
+
+    `;
+
+  }
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+function showStatus(
+  message,
+  type
+) {
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+
+  status.innerText =
+    message;
+
+
+  status.className =
+    "status show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      status.classList.remove(
+        "show"
+      );
+
+    },
+    5000
+  );
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value) {
+
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadUsers();
+
+  }
+);
+
+</script>
+</body>
+</html>
+:::
+
+
