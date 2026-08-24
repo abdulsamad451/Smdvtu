@@ -1,0 +1,347 @@
+body {
+  background: #0d0d0d;
+  color: white;
+}
+
+.service-page {
+  max-width: 500px;
+  margin: auto;
+  min-height: 100vh;
+  padding: 25px 20px 40px;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+.service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.service-header h2 {
+  font-size: 22px;
+}
+
+.back-button {
+  width: 45px;
+  height: 45px;
+  border-radius: 15px;
+  background: #181818;
+  color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.wallet-mini {
+  background: #102a3d;
+  color: #3da9ff;
+  padding: 11px 13px;
+  border-radius: 14px;
+  font-size: 13px;
+}
+
+
+/* ===============================
+   TABS
+================================ */
+
+.service-tabs {
+  display: flex;
+  background: #151515;
+  border-radius: 18px;
+  padding: 5px;
+  margin-bottom: 30px;
+}
+
+.service-tab {
+  flex: 1;
+  padding: 15px;
+  border-radius: 14px;
+  background: transparent;
+  color: #888;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.service-tab.active {
+  background: #168de2;
+  color: white;
+}
+
+
+/* ===============================
+   TITLE
+================================ */
+
+.page-title {
+  margin-bottom: 25px;
+}
+
+.page-title h1 {
+  font-size: 29px;
+  margin-bottom: 7px;
+}
+
+.page-title p {
+  color: #888;
+}
+
+
+/* ===============================
+   NETWORK
+================================ */
+
+.input-title {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.networks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-bottom: 25px;
+}
+
+.network {
+  height: 70px;
+  border-radius: 18px;
+  background: #171717;
+  color: #aaa;
+  font-weight: 700;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.network.active {
+  color: white;
+  border-color: #168de2;
+  background: #10283a;
+}
+
+.mtn.active {
+  border-color: #ffd900;
+}
+
+.airtel.active {
+  border-color: #ff3548;
+}
+
+.glo.active {
+  border-color: #00d66b;
+}
+
+.nine.active {
+  border-color: #16a5ff;
+}
+
+
+/* ===============================
+   FORM
+================================ */
+
+.form-card {
+  background: #121212;
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.form-card label {
+  display: block;
+  color: #aaa;
+  font-size: 14px;
+  margin: 5px 0 9px;
+}
+
+.input-box {
+  height: 58px;
+  background: #1c1c1c;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.input-box i {
+  color: #168de2;
+}
+
+.input-box input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.naira {
+  color: #168de2;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+/* ===============================
+   QUICK AMOUNT
+================================ */
+
+.quick-amounts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 25px;
+}
+
+.quick-amounts button {
+  background: #1c1c1c;
+  color: #aaa;
+  padding: 12px 5px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* ===============================
+   DATA PLANS
+================================ */
+
+.data-plans {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.data-plans button {
+  background: #1b1b1b;
+  color: white;
+  padding: 17px;
+  border-radius: 17px;
+  text-align: left;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.data-plans button.active {
+  border-color: #168de2;
+  background: #10283a;
+}
+
+.data-plans strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.data-plans span {
+  color: #168de2;
+}
+
+
+/* ===============================
+   CONTINUE
+================================ */
+
+.continue-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 58px;
+
+  border-radius: 17px;
+
+  background: #168de2;
+  color: white;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  border: none;
+
+  cursor: pointer;
+
+  position: relative;
+  z-index: 100;
+
+  pointer-events: auto;
+}
+
+.continue-btn:hover {
+  opacity: 0.9;
+}
+
+.continue-btn:active {
+  transform: scale(0.98);
+}
+
+.continue-btn i {
+  margin-left: 8px;
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 400px) {
+
+  .service-page {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .networks {
+    gap: 6px;
+  }
+
+  .network {
+    height: 62px;
+    border-radius: 15px;
+    font-size: 13px;
+  }
+
+  .quick-amounts {
+    gap: 5px;
+  }
+
+}
+.service-message {
+  display: none;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.service-message.info {
+  display: block;
+  background: #10283a;
+  color: #55b8ff;
+}
+
+.service-message.success {
+  display: block;
+  background: #103522;
+  color: #4ee58a;
+}
+
+.service-message.error {
+  display: block;
+  background: #3a1515;
+  color: #ff7777;
+}
