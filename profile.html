@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Profile - MyVTU</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #090b0f;
+      color: white;
+      min-height: 100vh;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      min-height: 100vh;
+      padding: 22px 18px 45px;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .back-btn {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #111419;
+      color: white;
+
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+
+      font-size: 16px;
+    }
+
+    .header-title {
+      flex: 1;
+    }
+
+    .header-title h1 {
+      font-size: 22px;
+      font-weight: 750;
+    }
+
+    .header-title p {
+      color: #737c88;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+
+    /* =========================
+       PROFILE HEADER
+    ========================== */
+
+    .profile-card {
+      padding: 24px 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #111419,
+          #0d1014
+        );
+
+      border: 1px solid rgba(255,255,255,.07);
+
+      border-radius: 24px;
+
+      text-align: center;
+
+      margin-bottom: 24px;
+    }
+
+    .profile-picture-wrapper {
+      position: relative;
+
+      width: 92px;
+      height: 92px;
+
+      margin: 0 auto 13px;
+    }
+
+    .profile-picture {
+      width: 92px;
+      height: 92px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          #1595ff,
+          #8b3dff
+        );
+
+      border: 3px solid #168fe5;
+
+      font-size: 34px;
+    }
+
+    .profile-picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .camera-btn {
+      position: absolute;
+
+      right: -2px;
+      bottom: 0;
+
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #1595ff;
+      color: white;
+
+      border: 3px solid #111419;
+
+      border-radius: 50%;
+
+      font-size: 12px;
+    }
+
+    .profile-card h2 {
+      font-size: 21px;
+      margin-bottom: 5px;
+    }
+
+    .profile-card p {
+      color: #737c88;
+      font-size: 13px;
+    }
+
+    #profilePictureInput {
+      display: none;
+    }
+
+
+    /* =========================
+       SECTION
+    ========================== */
+
+    .section {
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      color: #7d8794;
+      font-size: 12px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+
+      margin: 0 5px 9px;
+    }
+
+    .settings-card {
+      background: #101318;
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 20px;
+
+      overflow: hidden;
+    }
+
+
+    /* =========================
+       SETTING ITEM
+    ========================== */
+
+    .setting-item {
+      width: 100%;
+
+      min-height: 66px;
+
+      padding: 12px 15px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 13px;
+
+      background: transparent;
+      color: white;
+
+      text-align: left;
+
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-item:active {
+      background: #171b21;
+    }
+
+    .setting-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(21,149,255,.10);
+      color: #1595ff;
+
+      border-radius: 12px;
+
+      font-size: 16px;
+    }
+
+    .setting-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .setting-content h3 {
+      font-size: 14px;
+      font-weight: 650;
+
+      margin-bottom: 4px;
+    }
+
+    .setting-content p {
+      color: #737c88;
+      font-size: 11px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .setting-arrow {
+      color: #5d6671;
+      font-size: 12px;
+    }
+
+
+    /* =========================
+       BIOMETRICS
+    ========================== */
+
+    .biometric-item {
+      cursor: default;
+    }
+
+    .toggle {
+      width: 48px;
+      height: 27px;
+
+      padding: 3px;
+
+      border-radius: 20px;
+
+      background: #30363e;
+
+      transition: .2s;
+    }
+
+    .toggle span {
+      display: block;
+
+      width: 21px;
+      height: 21px;
+
+      border-radius: 50%;
+
+      background: #fff;
+
+      transition: .2s;
+    }
+
+    .toggle.active {
+      background: #1595ff;
+    }
+
+    .toggle.active span {
+      transform: translateX(21px);
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    .logout-btn {
+      width: 100%;
+
+      padding: 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 9px;
+
+      background: #15181d;
+      color: #ff6873;
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 16px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       DELETE
+    ========================== */
+
+    .delete-btn {
+      width: 100%;
+
+      margin-top: 11px;
+
+      padding: 13px;
+
+      background: transparent;
+      color: #ff5966;
+
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+
+    /* =========================
+       MODAL
+    ========================== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+
+      background: rgba(0,0,0,.72);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 500px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      background: #101318;
+
+      border-radius: 28px 28px 0 0;
+
+      padding: 12px 18px 28px;
+
+      animation: slideUp .25s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .handle {
+      width: 40px;
+      height: 4px;
+
+      margin: 0 auto 20px;
+
+      border-radius: 10px;
+
+      background: #39414b;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 22px;
+    }
+
+    .modal-header h2 {
+      font-size: 18px;
+    }
+
+    .close-btn {
+      width: 37px;
+      height: 37px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #191d23;
+      color: #cbd2da;
+
+      border-radius: 12px;
+    }
+
+
+    /* =========================
+       FORM
+    ========================== */
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+
+      color: #8a939e;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap i {
+      position: absolute;
+
+      left: 14px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: #626b76;
+
+      font-size: 14px;
+    }
+
+    .form-input {
+      width: 100%;
+
+      height: 50px;
+
+      padding: 0 14px 0 42px;
+
+      background: #181c22;
+
+      color: white;
+
+      border: 1px solid rgba(255,255,255,.07);
+
+      border-radius: 14px;
+
+      outline: none;
+
+      font-size: 14px;
+    }
+
+    .form-input:focus {
+      border-color: #1595ff;
+    }
+
+    .warning {
+      padding: 13px;
+
+      margin-bottom: 16px;
+
+      background: rgba(255,76,88,.08);
+
+      border: 1px solid rgba(255,76,88,.14);
+
+      border-radius: 14px;
+
+      color: #ff8991;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+    .primary-btn {
+      width: 100%;
+
+      padding: 14px;
+
+      background: #1595ff;
+      color: white;
+
+      border-radius: 14px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .danger-btn {
+      width: 100%;
+
+      padding: 14px;
+
+      background: #e94350;
+      color: white;
+
+      border-radius: 14px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       SUPPORT
+    ========================== */
+
+    .support-value {
+      color: #1595ff !important;
+    }
+
+
+    /* =========================
+       TOAST
+    ========================== */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 25px;
+
+      transform:
+        translate(-50%, 100px);
+
+      background: #181c22;
+
+      color: white;
+
+      padding: 12px 17px;
+
+      border-radius: 13px;
+
+      font-size: 12px;
+
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
+
+      opacity: 0;
+
+      transition: .25s;
+
+      z-index: 2000;
+
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform:
+        translate(-50%, 0);
+
+      opacity: 1;
+    }
+
+
+    @media (max-width: 380px) {
+
+      .app {
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+
+      .profile-card {
+        padding: 20px 15px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+      <button
+        class="back-btn"
+        onclick="goBack()">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+      </button>
+
+      <div class="header-title">
+
+        <h1>Profile</h1>
+
+        <p>Manage your account</p>
+
+      </div>
+
+    </header>
+
+
+    <!-- PROFILE -->
+
+    <section class="profile-card">
+
+      <div class="profile-picture-wrapper">
+
+        <div
+          class="profile-picture"
+          id="profilePicture">
+
+          <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <button
+          class="camera-btn"
+          onclick="document.getElementById('profilePictureInput').click()">
+
+          <i class="fa-solid fa-camera"></i>
+
+        </button>
+
+      </div>
+
+      <input
+        type="file"
+        id="profilePictureInput"
+        accept="image/*"
+        onchange="changeProfilePicture(event)"
+      >
+
+      <h2 id="profileName">
+        Loading...
+      </h2>
+
+      <p id="profileEmail">
+        Loading...
+      </p>
+
+    </section>
+
+
+    <!-- PERSONAL DETAILS -->
+
+    <section class="section">
+
+      <div class="section-title">
+        Personal Details
+      </div>
+
+      <div class="settings-card">
+
+
+        <button
+          class="setting-item"
+          onclick="showPersonalDetails()">
+
+          <div class="setting-icon">
+
+            <i class="fa-regular fa-id-card"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Personal details</h3>
+
+            <p>
+              View your name, email and phone number
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- SECURITY -->
+
+    <section class="section">
+
+      <div class="section-title">
+        Security
+      </div>
+
+      <div class="settings-card">
+
+
+        <button
+          class="setting-item"
+          onclick="showChangePassword()">
+
+          <div class="setting-icon">
+
+            <i class="fa-solid fa-lock"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Change password</h3>
+
+            <p>
+              Update your login password
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+        <button
+          class="setting-item"
+          onclick="showResetPin()">
+
+          <div class="setting-icon">
+
+            <i class="fa-solid fa-key"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Reset PIN</h3>
+
+            <p>
+              Change your 4-digit purchase PIN
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+        <div class="setting-item biometric-item">
+
+          <div class="setting-icon">
+
+            <i class="fa-solid fa-fingerprint"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Biometrics</h3>
+
+            <p id="biometricText">
+              Use Face ID or fingerprint
+            </p>
+
+          </div>
+
+          <button
+            class="toggle"
+            id="biometricToggle"
+            onclick="toggleBiometrics()">
+
+            <span></span>
+
+          </button>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- SUPPORT -->
+
+    <section class="section">
+
+      <div class="section-title">
+        Support
+      </div>
+
+      <div class="settings-card">
+
+
+        <button
+          class="setting-item"
+          onclick="callSupport()">
+
+          <div class="setting-icon">
+
+            <i class="fa-solid fa-headset"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Contact support</h3>
+
+            <p class="support-value">
+              +234 707 646 4276
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+        <button
+          class="setting-item"
+          onclick="emailSupport()">
+
+          <div class="setting-icon">
+
+            <i class="fa-regular fa-envelope"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Email support</h3>
+
+            <p class="support-value">
+              smdvtureal@gmail.com
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+        <button
+          class="setting-item"
+          onclick="showPrivacyPolicy()">
+
+          <div class="setting-icon">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+          </div>
+
+          <div class="setting-content">
+
+            <h3>Privacy policy</h3>
+
+            <p>
+              Learn how we protect your information
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right setting-arrow"></i>
+
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- ACCOUNT -->
+
+    <section class="section">
+
+      <div class="section-title">
+        Account
+      </div>
+
+
+      <button 
+        class="logout-btn"
+        onclick="logoutUser()">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Log out
+
+      </button>
+
+
+      <button
+        class="delete-btn"
+        onclick="showDeleteAccount()">
+
+        Delete account
+
+      </button>
+
+    </section>
+
+
+  </div>
+
+
+  <!-- =========================
+       PERSONAL DETAILS MODAL
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="personalModal"
+    onclick="closeModalOutside(event, 'personalModal')">
+
+    <div
+      class="modal"
+      onclick="event.stopPropagation()">
+
+      <div class="handle"></div>
+
+      <div class="modal-header">
+
+        <h2>Personal Details</h2>
+
+        <button
+          class="close-btn"
+          onclick="closeModal('personalModal')">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>FULL NAME</label>
+
+        <input
+          class="form-input"
+          id="detailName"
+          readonly
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>EMAIL ADDRESS</label>
+
+        <input
+          class="form-input"
+          id="detailEmail"
+          readonly
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>PHONE NUMBER</label>
+
+        <input
+          class="form-input"
+          id="detailPhone"
+          readonly
+        >
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CHANGE PASSWORD
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="passwordModal"
+    onclick="closeModalOutside(event, 'passwordModal')">
+
+    <div
+      class="modal"
+      onclick="event.stopPropagation()">
+
+      <div class="handle"></div>
+
+      <div class="modal-header">
+
+        <h2>Change Password</h2>
+
+        <button
+          class="close-btn"
+          onclick="closeModal('passwordModal')">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>NEW PASSWORD</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+            type="password"
+            class="form-input"
+            id="newPassword"
+            placeholder="Enter new password"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>CONFIRM PASSWORD</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+            type="password"
+            class="form-input"
+            id="confirmPassword"
+            placeholder="Confirm new password"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        onclick="changePassword()">
+
+        Change Password
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       RESET PIN
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="pinModal"
+    onclick="closeModalOutside(event, 'pinModal')">
+
+    <div
+      class="modal"
+      onclick="event.stopPropagation()">
+
+      <div class="handle"></div>
+
+      <div class="modal-header">
+
+        <h2>Reset Purchase PIN</h2>
+
+        <button
+          class="close-btn"
+          onclick="closeModal('pinModal')">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="warning">
+
+        Your purchase PIN will be required before
+        buying airtime or data.
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>NEW 4-DIGIT PIN</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-key"></i>
+
+          <input
+            type="password"
+            inputmode="numeric"
+            maxlength="4"
+            class="form-input"
+            id="newPin"
+            placeholder="••••"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>CONFIRM PIN</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-key"></i>
+
+          <input
+            type="password"
+            inputmode="numeric"
+            maxlength="4"
+            class="form-input"
+            id="confirmPin"
+            placeholder="••••"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        onclick="resetPin()">
+
+        Save New PIN
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       DELETE ACCOUNT
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="deleteModal"
+    onclick="closeModalOutside(event, 'deleteModal')">
+
+    <div
+      class="modal"
+      onclick="event.stopPropagation()">
+
+      <div class="handle"></div>
+
+      <div class="modal-header">
+
+        <h2>Delete Account</h2>
+
+        <button
+          class="close-btn"
+          onclick="closeModal('deleteModal')">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="warning">
+
+        <strong>This action cannot be undone.</strong>
+        <br><br>
+        Your account and associated data may be
+        permanently removed. Enter your login
+        password and 4-digit PIN to continue.
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>LOGIN PASSWORD</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+            type="password"
+            class="form-input"
+            id="deletePassword"
+            placeholder="Enter your password"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>PURCHASE PIN</label>
+
+        <div class="input-wrap">
+
+          <i class="fa-solid fa-key"></i>
+
+          <input
+            type="password"
+            inputmode="numeric"
+            maxlength="4"
+            class="form-input"
+            id="deletePin"
+            placeholder="Enter 4-digit PIN"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="danger-btn"
+        onclick="deleteAccount()">
+
+        Delete My Account
+
+      </button>
+
+    </div>
+
+  </div>
+<!-- =========================
+     FINAL DELETE CONFIRMATION
+========================= -->
+
+<div
+  class="modal-overlay"
+  id="finalDeleteModal"
+  onclick="closeModalOutside(event, 'finalDeleteModal')">
+
+  <div
+    class="modal"
+    onclick="event.stopPropagation()">
+
+    <div class="handle"></div>
+
+    <div class="modal-header">
+
+      <h2>Delete Account</h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('finalDeleteModal')">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>This action cannot be undone.</strong>
+
+      <br><br>
+
+      Your MyVTU account and associated data may
+      be permanently removed.
+
+      <br><br>
+
+      Are you absolutely sure you want to continue?
+
+    </div>
+
+
+    <button
+      class="danger-btn"
+      id="finalDeleteBtn"
+      onclick="confirmDeleteAccount()">
+
+      <i class="fa-solid fa-trash"></i>
+
+      Permanently Delete Account
+
+    </button>
+
+
+    <button
+      class="primary-btn"
+      onclick="closeModal('finalDeleteModal')"
+      style="margin-top:10px;">
+
+      Cancel
+
+    </button>
+
+  </div>
+
+</div>
+
+  <!-- =========================
+       PRIVACY
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="privacyModal"
+    onclick="closeModalOutside(event, 'privacyModal')">
+
+    <div
+      class="modal"
+      onclick="event.stopPropagation()">
+
+      <div class="handle"></div>
+
+      <div class="modal-header">
+
+        <h2>Privacy Policy</h2>
+
+        <button
+          class="close-btn"
+          onclick="closeModal('privacyModal')">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div style="
+        color:#a0a8b2;
+        font-size:13px;
+        line-height:1.7;
+      ">
+
+        <p style="margin-bottom:14px;">
+          MyVTU respects your privacy and is committed
+          to protecting your personal information.
+        </p>
+
+        <p style="margin-bottom:14px;">
+          We may collect information such as your name,
+          email address, phone number and transaction
+          information in order to provide our services.
+        </p>
+
+        <p style="margin-bottom:14px;">
+          Your account information is used to manage
+          your wallet, process transactions and provide
+          customer support.
+        </p>
+
+        <p>
+          We do not intentionally sell your personal
+          information to third parties.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+<!-- =========================
+     LOGOUT CONFIRMATION
+========================= -->
+
+<div
+  class="modal-overlay"
+  id="logoutModal"
+  onclick="closeModalOutside(event, 'logoutModal')">
+
+  <div
+    class="modal"
+    onclick="event.stopPropagation()">
+
+    <div class="handle"></div>
+
+    <div class="modal-header">
+
+      <h2>Log Out</h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('logoutModal')">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+    <div class="warning">
+
+      Are you sure you want to log out of your
+      MyVTU account?
+
+    </div>
+
+    <button
+      class="danger-btn"
+      id="confirmLogoutBtn"
+      onclick="confirmLogout()">
+
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Yes, Log Me Out
+
+    </button>
+
+    <button
+      class="primary-btn"
+      onclick="closeModal('logoutModal')"
+      style="margin-top:10px;">
+
+      Cancel
+
+    </button>
+
+  </div>
+
+</div>
+
+  <!-- TOAST -->
+
+  <div
+    class="toast"
+    id="toast">
+
+    Done
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://gthosvtitmymsrbynmuq.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+  </script>
+
+
+  <script>
+
+    let currentUser = null;
+    let currentProfile = null;
+
+
+    /* =========================
+       LOAD PROFILE
+    ========================== */
+
+    async function loadProfile() {
+
+      try {
+
+        const {
+          data: { user },
+          error: authError
+        } =
+          await supabaseClient.auth.getUser();
+
+
+        if (
+          authError ||
+          !user
+        ) {
+
+          window.location.href =
+            "login.html";
+
+          return;
+
+        }
+
+
+        currentUser = user;
+
+
+        const {
+          data: profile,
+          error
+        } =
+          await supabaseClient
+
+            .from("profiles")
+
+            .select("*")
+
+            .eq("id", user.id)
+
+            .single();
+
+
+        if (error) {
+
+          console.error(
+            "Profile error:",
+            error
+          );
+
+          return;
+
+        }
+
+
+        currentProfile =
+          profile;
+
+
+        const name =
+          profile.full_name ||
+          "User";
+
+
+        const email =
+          user.email ||
+          "No email";
+
+
+        const phone =
+          profile.phone ||
+          "No phone number";
+
+
+        document.getElementById(
+          "profileName"
+        ).innerText = name;
+
+
+        document.getElementById(
+          "profileEmail"
+        ).innerText = email;
+
+
+        document.getElementById(
+          "detailName"
+        ).value = name;
+
+
+        document.getElementById(
+          "detailEmail"
+        ).value = email;
+
+
+        document.getElementById(
+          "detailPhone"
+        ).value = phone;
+
+
+        /* Profile picture */
+
+        if (
+          profile.avatar_url
+        ) {
+
+          document.getElementById(
+            "profilePicture"
+          ).innerHTML = `
+
+            <img
+              src="${escapeHTML(profile.avatar_url)}"
+              alt="Profile picture"
+            >
+
+          `;
+
+        }
+
+
+        /* Biometrics */
+
+        const biometricEnabled =
+          localStorage.getItem(
+            "myvtu_biometrics"
+          ) === "true";
+
+
+        updateBiometricUI(
+          biometricEnabled
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+
+
+    /* =========================
+       ESCAPE
+    ========================== */
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       PROFILE PICTURE
+    ========================== */
+
+    async function changeProfilePicture(
+      event
+    ) {
+
+      const file =
+        event.target.files[0];
+
+
+      if (!file) return;
+
+
+      if (!file.type.startsWith("image/")) {
+
+        showToast(
+          "Please select an image."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+
+        showToast(
+          "Image must be below 5MB."
+        );
+
+        return;
+
+      }
+
+
+      if (!currentUser) {
+
+        showToast(
+          "Please log in again."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        showToast(
+          "Uploading picture..."
+        );
+
+
+        const extension =
+          file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+        const filePath =
+          currentUser.id +
+          "/profile." +
+          extension;
+
+
+        /*
+          IMPORTANT:
+
+          This requires a Supabase Storage
+          bucket named "avatars".
+        */
+
+        const {
+          error: uploadError
+        } =
+          await supabaseClient.storage
+
+            .from("avatars")
+
+            .upload(
+              filePath,
+              file,
+              {
+                upsert: true,
+                contentType: file.type
+              }
+            );
+
+
+        if (uploadError) {
+
+          console.error(
+            uploadError
+          );
+
+          showToast(
+            "Could not upload picture."
+          );
+
+          return;
+
+        }
+
+
+        const {
+          data
+        } =
+          supabaseClient.storage
+
+            .from("avatars")
+
+            .getPublicUrl(
+              filePath
+            );
+
+
+        const avatarUrl =
+          data.publicUrl;
+
+
+        const {
+          error:
+            profileError
+        } =
+          await supabaseClient
+
+            .from("profiles")
+
+            .update({
+              avatar_url: avatarUrl
+            })
+
+            .eq(
+              "id",
+              currentUser.id
+            );
+
+
+        if (profileError) {
+
+          console.error(
+            profileError
+          );
+
+          showToast(
+            "Picture uploaded but profile was not updated."
+          );
+
+          return;
+
+        }
+
+
+        document.getElementById(
+          "profilePicture"
+        ).innerHTML = `
+
+          <img
+            src="${escapeHTML(avatarUrl)}?t=${Date.now()}"
+            alt="Profile picture"
+          >
+
+        `;
+
+
+        showToast(
+          "Profile picture updated."
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Something went wrong."
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       PERSONAL DETAILS
+    ========================== */
+
+    function showPersonalDetails() {
+
+      openModal(
+        "personalModal"
+      );
+
+    }
+
+
+    /* =========================
+       PASSWORD
+    ========================== */
+
+    function showChangePassword() {
+
+      document.getElementById(
+        "newPassword"
+      ).value = "";
+
+      document.getElementById(
+        "confirmPassword"
+      ).value = "";
+
+
+      openModal(
+        "passwordModal"
+      );
+
+    }
+
+
+    async function changePassword() {
+
+      const password =
+        document.getElementById(
+          "newPassword"
+        ).value.trim();
+
+
+      const confirm =
+        document.getElementById(
+          "confirmPassword"
+        ).value.trim();
+
+
+      if (password.length < 6) {
+
+        showToast(
+          "Password must be at least 6 characters."
+        );
+
+        return;
+
+      }
+
+
+      if (password !== confirm) {
+
+        showToast(
+          "Passwords do not match."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient.auth
+            .updateUser({
+              password: password
+            });
+
+
+        if (error) {
+
+          console.error(error);
+
+          showToast(
+            error.message ||
+            "Could not change password."
+          );
+
+          return;
+
+        }
+
+
+        closeModal(
+          "passwordModal"
+        );
+
+
+        showToast(
+          "Password changed successfully."
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Something went wrong."
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       PIN
+    ========================== */
+function showResetPin() {
+  
+  document.getElementById("newPin").value = "";
+  
+  document.getElementById("confirmPin").value = "";
+  
+  openModal("pinModal");
+  
+}
+    async function resetPin() {
+  
+  const pin =
+    document.getElementById(
+      "newPin"
+    ).value.trim();
+  
+  
+  const confirm =
+    document.getElementById(
+      "confirmPin"
+    ).value.trim();
+  
+  
+  if (!/^\d{4}$/.test(pin)) {
+    
+    showToast(
+      "PIN must contain exactly 4 digits."
+    );
+    
+    return;
+    
+  }
+  
+  
+  if (pin !== confirm) {
+    
+    showToast(
+      "PINs do not match."
+    );
+    
+    return;
+    
+  }
+  
+  
+  if (!currentUser) {
+    
+    showToast(
+      "Please log in again."
+    );
+    
+    return;
+    
+  }
+  
+  
+  try {
+    
+    showToast(
+      "Updating PIN..."
+    );
+    
+    
+    /*
+      Send the PIN securely to the
+      manage-pin Edge Function.
+
+      The Edge Function hashes the PIN
+      before saving it.
+    */
+    
+    const {
+      data,
+      error
+    } =
+    await supabaseClient.functions.invoke(
+      "manage-pin",
+      {
+        body: {
+          action: "set",
+          pin: pin
+        }
+      }
+    );
+    
+    
+    if (error) {
+      
+      console.error(
+        "Manage PIN error:",
+        error
+      );
+      
+      showToast(
+        "Could not update PIN."
+      );
+      
+      return;
+      
+    }
+    
+    
+    if (!data || !data.success) {
+      
+      showToast(
+        data?.message ||
+        "Could not update PIN."
+      );
+      
+      return;
+      
+    }
+    
+    
+    /*
+      Clear the PIN fields
+    */
+    
+    document.getElementById(
+      "newPin"
+    ).value = "";
+    
+    
+    document.getElementById(
+      "confirmPin"
+    ).value = "";
+    
+    
+    closeModal(
+      "pinModal"
+    );
+    
+    
+    showToast(
+      data.message ||
+      "PIN updated successfully."
+    );
+    
+    
+  } catch (error) {
+    
+    console.error(
+      "Reset PIN error:",
+      error
+    );
+    
+    
+    showToast(
+      "Something went wrong. Please try again."
+    );
+    
+  }
+  
+}
+
+
+    /* =========================
+       BIOMETRICS
+    ========================== */
+
+    function toggleBiometrics() {
+
+      const current =
+        localStorage.getItem(
+          "myvtu_biometrics"
+        ) === "true";
+
+
+      const newValue =
+        !current;
+
+
+      localStorage.setItem(
+        "myvtu_biometrics",
+        String(newValue)
+      );
+
+
+      updateBiometricUI(
+        newValue
+      );
+
+
+      showToast(
+        newValue
+          ? "Biometrics enabled."
+          : "Biometrics disabled."
+      );
+
+    }
+
+
+    function updateBiometricUI(
+      enabled
+    ) {
+
+      const toggle =
+        document.getElementById(
+          "biometricToggle"
+        );
+
+
+      const text =
+        document.getElementById(
+          "biometricText"
+        );
+
+
+      if (enabled) {
+
+        toggle.classList.add(
+          "active"
+        );
+
+        text.innerText =
+          "Biometric verification is enabled";
+
+      } else {
+
+        toggle.classList.remove(
+          "active"
+        );
+
+        text.innerText =
+          "Use Face ID or fingerprint";
+
+      }
+
+    }
+
+
+    /* =========================
+       SUPPORT
+    ========================== */
+
+    function callSupport() {
+
+      window.location.href =
+        "tel:+2347076464276";
+
+    }
+
+
+    function emailSupport() {
+
+      window.location.href =
+        "mailto:smdvtureal@gmail.com";
+
+    }
+
+
+    /* =========================
+       PRIVACY
+    ========================== */
+
+    function showPrivacyPolicy() {
+
+      openModal(
+        "privacyModal"
+      );
+
+    }
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutUser() {
+  
+  openModal("logoutModal");
+  
+}
+
+
+async function confirmLogout() {
+  
+  const button =
+    document.getElementById(
+      "confirmLogoutBtn"
+    );
+  
+  button.disabled = true;
+  
+  button.innerHTML = `
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    Logging out...
+  `;
+  
+  
+  try {
+    
+    const {
+      error
+    } =
+    await supabaseClient.auth.signOut();
+    
+    
+    if (error) {
+      
+      console.error(
+        "Logout error:",
+        error
+      );
+      
+      button.disabled = false;
+      
+      button.innerHTML = `
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Yes, Log Me Out
+      `;
+      
+      showToast(
+        "Could not log out. Please try again."
+      );
+      
+      return;
+      
+    }
+    
+    
+    /*
+      Clear local biometric setting
+      for this browser session.
+    */
+    
+    localStorage.removeItem(
+      "myvtu_biometrics"
+    );
+    
+    
+    closeModal(
+      "logoutModal"
+    );
+    
+    
+    showToast(
+      "Logged out successfully."
+    );
+    
+    
+    setTimeout(
+      () => {
+        
+        window.location.replace(
+          "login.html"
+        );
+        
+      },
+      700
+    );
+    
+    
+  } catch (error) {
+    
+    console.error(
+      "Logout error:",
+      error
+    );
+    
+    button.disabled = false;
+    
+    button.innerHTML = `
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Yes, Log Me Out
+    `;
+    
+    showToast(
+      "Something went wrong. Please try again."
+    );
+    
+  }
+  
+}
+
+
+    /* =========================
+       DELETE ACCOUNT
+    ========================== */
+
+    async function deleteAccount() {
+
+  const password =
+    document.getElementById(
+      "deletePassword"
+    ).value;
+
+  const pin =
+    document.getElementById(
+      "deletePin"
+    ).value.trim();
+
+
+  if (!password) {
+
+    showToast(
+      "Enter your login password."
+    );
+
+    return;
+
+  }
+
+
+  if (!/^\d{4}$/.test(pin)) {
+
+    showToast(
+      "Enter your 4-digit PIN."
+    );
+
+    return;
+
+  }
+
+
+  if (!currentUser) {
+
+    showToast(
+      "Please log in again."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Verify the password first.
+    No browser confirm() is used.
+  */
+
+  try {
+
+    showToast(
+      "Verifying account..."
+    );
+
+
+    const {
+      error: loginError
+    } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email:
+          currentUser.email,
+
+        password:
+          password
+
+      });
+
+
+    if (loginError) {
+
+      showToast(
+        "Incorrect login password."
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Verify PIN
+    */
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select("purchase_pin")
+
+        .eq(
+          "id",
+          currentUser.id
+        )
+
+        .single();
+
+
+    if (profileError) {
+
+      console.error(
+        "PIN verification error:",
+        profileError
+      );
+
+      showToast(
+        "Could not verify PIN."
+      );
+
+      return;
+
+    }
+
+
+    if (
+      String(profile.purchase_pin || "") !==
+      String(pin)
+    ) {
+
+      showToast(
+        "Incorrect purchase PIN."
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Password + PIN are correct.
+      Show our own confirmation popup.
+    */
+
+    openModal(
+      "finalDeleteModal"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Delete verification error:",
+      error
+    );
+
+    showToast(
+      "Something went wrong. Please try again."
+    );
+
+  }
+
+}
+
+
+    /* =========================
+       MODALS
+    ========================== */
+
+    function openModal(
+      id
+    ) {
+
+      document.getElementById(
+        id
+      ).classList.add(
+        "show"
+      );
+
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    function closeModal(
+      id
+    ) {
+
+      document.getElementById(
+        id
+      ).classList.remove(
+        "show"
+      );
+
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    function closeModalOutside(
+      event,
+      id
+    ) {
+
+      if (
+        event.target.id === id
+      ) {
+
+        closeModal(id);
+
+      }
+
+    }
+
+
+    /* =========================
+       BACK
+    ========================== */
+
+    function goBack() {
+
+      if (document.referrer) {
+
+        window.history.back();
+
+      } else {
+
+        window.location.href =
+          "dashboard.html";
+
+      }
+
+    }
+
+
+    /* =========================
+       TOAST
+    ========================== */
+
+    let toastTimer;
+
+
+    function showToast(
+      message
+    ) {
+
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
+
+      toast.innerText =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2800
+        );
+
+    }
+
+
+    /* =========================
+       START
+    ========================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        loadProfile();
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

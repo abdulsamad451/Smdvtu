@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Transaction History - MyVTU</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #090b0f;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      min-height: 100vh;
+      padding: 22px 18px 35px;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+
+    .back-btn {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #111419;
+      color: #fff;
+
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+
+      font-size: 16px;
+    }
+
+    .header-title {
+      flex: 1;
+    }
+
+    .header-title h1 {
+      font-size: 21px;
+      font-weight: 750;
+    }
+
+    .header-title p {
+      color: #737c88;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+
+    /* =========================
+       SUMMARY
+    ========================== */
+
+    .summary-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 17px;
+
+      margin-bottom: 23px;
+
+      background: linear-gradient(
+        145deg,
+        #111419,
+        #0d1014
+      );
+
+      border: 1px solid rgba(255,255,255,.07);
+
+      border-radius: 20px;
+    }
+
+    .summary-label {
+      color: #7d8794;
+      font-size: 12px;
+    }
+
+    .summary-count {
+      margin-top: 4px;
+      font-size: 21px;
+      font-weight: 750;
+    }
+
+    .history-icon {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: rgba(21,149,255,.10);
+      color: #1595ff;
+    }
+
+
+    /* =========================
+       LIST
+    ========================== */
+
+    .section-heading {
+      margin-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    #transactionsList {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .transaction {
+      min-height: 79px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 13px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #111419,
+          #0d1014
+        );
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 18px;
+
+      transition: .2s ease;
+    }
+
+    .transaction:active {
+      transform: scale(.985);
+      background: #151920;
+    }
+
+    .transaction-icon {
+      width: 45px;
+      height: 45px;
+      min-width: 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: rgba(21,149,255,.10);
+      color: #259cff;
+
+      font-size: 17px;
+    }
+
+    .transaction-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .transaction-info h3 {
+      font-size: 14px;
+      font-weight: 650;
+
+      margin-bottom: 5px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .transaction-info p {
+      color: #737c88;
+      font-size: 11px;
+    }
+
+    .transaction-right {
+      text-align: right;
+      min-width: 78px;
+    }
+
+    .transaction-right strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      white-space: nowrap;
+    }
+
+    .transaction-right small {
+      display: inline-block;
+
+      padding: 4px 8px;
+
+      border-radius: 8px;
+
+      font-size: 9px;
+      font-weight: 650;
+
+      text-transform: capitalize;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================== */
+
+    .status-success {
+      background: rgba(39,185,76,.12);
+      color: #55d675;
+    }
+
+    .status-pending {
+      background: rgba(255,183,61,.12);
+      color: #ffbd4a;
+    }
+
+    .status-failed {
+      background: rgba(255,76,88,.12);
+      color: #ff6973;
+    }
+
+
+    /* =========================
+       EMPTY
+    ========================== */
+
+    .empty-state {
+      padding: 45px 20px;
+
+      text-align: center;
+
+      background: #101318;
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      border-radius: 20px;
+    }
+
+    .empty-icon {
+      width: 62px;
+      height: 62px;
+
+      margin: 0 auto 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 20px;
+
+      background: rgba(21,149,255,.09);
+      color: #1595ff;
+
+      font-size: 24px;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .empty-state p {
+      color: #737c88;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+
+    /* =========================
+       LOADING
+    ========================== */
+
+    .loading-state {
+      min-height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 13px;
+
+      background: #101318;
+
+      border-radius: 18px;
+    }
+
+    .loading-icon {
+      width: 45px;
+      height: 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: rgba(21,149,255,.10);
+      color: #1595ff;
+    }
+
+    .loading-text {
+      color: #8a939e;
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       TRANSACTION DETAILS
+    ========================== */
+
+    .details-overlay {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,.72);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+
+      z-index: 999;
+    }
+
+    .details-overlay.show {
+      display: flex;
+    }
+
+    .details-sheet {
+      width: 100%;
+      max-width: 500px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      background: #101318;
+
+      border-radius: 28px 28px 0 0;
+
+      padding: 12px 18px 28px;
+
+      animation: slideUp .25s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .sheet-handle {
+      width: 40px;
+      height: 4px;
+
+      margin: 0 auto 20px;
+
+      border-radius: 10px;
+
+      background: #39414b;
+    }
+
+    .details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 23px;
+    }
+
+    .details-header h2 {
+      font-size: 18px;
+    }
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #191d23;
+      color: #cbd2da;
+
+      border-radius: 12px;
+
+      font-size: 15px;
+    }
+
+
+    /* =========================
+       RECEIPT TOP
+    ========================== */
+
+    .receipt-top {
+      text-align: center;
+
+      padding: 8px 0 24px;
+
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .receipt-status-icon {
+      width: 68px;
+      height: 68px;
+
+      margin: 0 auto 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      font-size: 27px;
+    }
+
+    .receipt-status-icon.success {
+      background: rgba(39,185,76,.12);
+      color: #55d675;
+    }
+
+    .receipt-status-icon.pending {
+      background: rgba(255,183,61,.12);
+      color: #ffbd4a;
+    }
+
+    .receipt-status-icon.failed {
+      background: rgba(255,76,88,.12);
+      color: #ff6973;
+    }
+
+    .receipt-status {
+      font-size: 14px;
+      font-weight: 650;
+
+      margin-bottom: 7px;
+    }
+
+    .receipt-amount {
+      font-size: 31px;
+      font-weight: 800;
+
+      letter-spacing: -.5px;
+    }
+
+
+    /* =========================
+       DETAILS
+    ========================== */
+
+    .details-list {
+      margin-top: 20px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      gap: 20px;
+
+      padding: 14px 0;
+
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #737c88;
+      font-size: 12px;
+    }
+
+    .detail-value {
+      max-width: 58%;
+
+      text-align: right;
+
+      color: #f0f3f6;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      word-break: break-word;
+    }
+
+    .reference-value {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+
+    .copy-reference {
+      width: 27px;
+      height: 27px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(21,149,255,.10);
+      color: #1595ff;
+
+      border-radius: 8px;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================
+       CLOSE BUTTON
+    ========================== */
+
+    .done-btn {
+      width: 100%;
+
+      margin-top: 20px;
+
+      padding: 14px;
+
+      background: #1595ff;
+      color: white;
+
+      border-radius: 14px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       ERROR
+    ========================== */
+
+    .error-state {
+      padding: 35px 20px;
+
+      text-align: center;
+
+      background: #101318;
+
+      border-radius: 20px;
+    }
+
+    .error-icon {
+      width: 55px;
+      height: 55px;
+
+      margin: 0 auto 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+
+      background: rgba(255,76,88,.10);
+      color: #ff6973;
+    }
+
+    .error-state h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .error-state p {
+      color: #737c88;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .retry-btn {
+      padding: 9px 16px;
+
+      background: #1595ff;
+      color: white;
+
+      border-radius: 11px;
+
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+
+    /* =========================
+       SMALL SCREEN
+    ========================== */
+
+    @media (max-width: 380px) {
+
+      .page {
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+
+      .transaction {
+        padding: 11px;
+        gap: 9px;
+      }
+
+      .transaction-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+      }
+
+      .transaction-info h3 {
+        font-size: 13px;
+      }
+
+      .transaction-right {
+        min-width: 67px;
+      }
+
+      .transaction-right strong {
+        font-size: 12px;
+      }
+
+      .receipt-amount {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- HEADER -->
+
+    <header class="page-header">
+
+      <button
+        type="button"
+        class="back-btn"
+        onclick="goBack()">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+      </button>
+
+      <div class="header-title">
+
+        <h1>Transaction History</h1>
+
+        <p>Your complete wallet activity</p>
+
+      </div>
+
+    </header>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary-card">
+
+      <div>
+
+        <div class="summary-label">
+          Total Transactions
+        </div>
+
+        <div
+          class="summary-count"
+          id="transactionCount">
+
+          --
+
+        </div>
+
+      </div>
+
+      <div class="history-icon">
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+      </div>
+
+    </section>
+
+
+    <!-- TRANSACTIONS -->
+
+    <section>
+
+      <div class="section-heading">
+
+        <h2>All Transactions</h2>
+
+      </div>
+
+      <div id="transactionsList">
+
+        <div class="loading-state">
+
+          <div class="loading-icon">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+          </div>
+
+          <div class="loading-text">
+
+            Loading your transactions...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       TRANSACTION DETAILS MODAL
+  ========================== -->
+
+  <div
+    class="details-overlay"
+    id="detailsOverlay"
+    onclick="closeDetails(event)">
+
+    <div
+      class="details-sheet"
+      onclick="event.stopPropagation()">
+
+      <div class="sheet-handle"></div>
+
+      <div class="details-header">
+
+        <h2>Transaction Details</h2>
+
+        <button
+          type="button"
+          class="close-btn"
+          onclick="closeDetails()">
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="receipt-top">
+
+        <div
+          class="receipt-status-icon success"
+          id="receiptStatusIcon">
+
+          <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <div
+          class="receipt-status"
+          id="receiptStatus">
+
+          Successful
+
+        </div>
+
+        <div
+          class="receipt-amount"
+          id="receiptAmount">
+
+          ₦0.00
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="details-list"
+        id="detailsList">
+
+      </div>
+
+
+      <button
+        type="button"
+        class="done-btn"
+        onclick="closeDetails()">
+
+        Done
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://gthosvtitmymsrbynmuq.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+  </script>
+
+
+  <script>
+
+    let selectedTransaction = null;
+
+
+    /* =========================
+       BACK
+    ========================== */
+
+    function goBack() {
+
+      if (document.referrer) {
+
+        window.history.back();
+
+      } else {
+
+        window.location.href = "dashboard.html";
+
+      }
+
+    }
+
+
+    /* =========================
+       ESCAPE HTML
+    ========================== */
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       ICON
+    ========================== */
+
+    function getTransactionIcon(transaction) {
+
+      const text = (
+
+        (transaction.type || "") +
+        " " +
+        (transaction.description || "")
+
+      ).toLowerCase();
+
+
+      if (
+        text.includes("airtime") ||
+        text.includes("phone")
+      ) {
+
+        return "fa-phone-volume";
+
+      }
+
+
+      if (
+        text.includes("data") ||
+        text.includes("internet")
+      ) {
+
+        return "fa-wifi";
+
+      }
+
+
+      if (
+        text.includes("tv") ||
+        text.includes("dstv") ||
+        text.includes("gotv")
+      ) {
+
+        return "fa-tv";
+
+      }
+
+
+      if (
+        text.includes("electric") ||
+        text.includes("power")
+      ) {
+
+        return "fa-plug";
+
+      }
+
+
+      if (
+        text.includes("fund") ||
+        text.includes("deposit") ||
+        text.includes("wallet")
+      ) {
+
+        return "fa-wallet";
+
+      }
+
+
+      return "fa-receipt";
+
+    }
+
+
+    /* =========================
+       STATUS
+    ========================== */
+
+    function getStatusInfo(status) {
+
+      const value =
+        String(status || "success").toLowerCase();
+
+
+      if (
+        value.includes("pending") ||
+        value.includes("processing")
+      ) {
+
+        return {
+          className: "pending",
+          icon: "fa-clock",
+          text: "Pending"
+        };
+
+      }
+
+
+      if (
+        value.includes("failed") ||
+        value.includes("cancel")
+      ) {
+
+        return {
+          className: "failed",
+          icon: "fa-xmark",
+          text: "Failed"
+        };
+
+      }
+
+
+      return {
+        className: "success",
+        icon: "fa-check",
+        text: "Successful"
+      };
+
+    }
+
+
+    /* =========================
+       DATE
+    ========================== */
+
+    function formatDate(dateValue) {
+
+      if (!dateValue) {
+        return "Date unavailable";
+      }
+
+      const date =
+        new Date(dateValue);
+
+      if (isNaN(date.getTime())) {
+        return "Date unavailable";
+      }
+
+      return date.toLocaleDateString(
+        "en-NG",
+        {
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    /* =========================
+       TIME
+    ========================== */
+
+    function formatTime(dateValue) {
+
+      if (!dateValue) {
+        return "Time unavailable";
+      }
+
+      const date =
+        new Date(dateValue);
+
+      if (isNaN(date.getTime())) {
+        return "Time unavailable";
+      }
+
+      return date.toLocaleTimeString(
+        "en-NG",
+        {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        }
+      );
+
+    }
+
+
+    /* =========================
+       CREATE DETAIL ROW
+    ========================== */
+
+    function createDetailRow(
+      label,
+      value,
+      copyable = false
+    ) {
+
+      if (
+        value === undefined ||
+        value === null ||
+        value === ""
+      ) {
+
+        return "";
+
+      }
+
+
+      const safeValue =
+        escapeHTML(value);
+
+
+      if (copyable) {
+
+        return `
+
+          <div class="detail-row">
+
+            <span class="detail-label">
+              ${escapeHTML(label)}
+            </span>
+
+            <div class="detail-value reference-value">
+
+              <span>
+                ${safeValue}
+              </span>
+
+              <button
+                type="button"
+                class="copy-reference"
+                onclick="copyReference('${escapeHTML(value)}')">
+
+                <i class="fa-regular fa-copy"></i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+
+      return `
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            ${escapeHTML(label)}
+          </span>
+
+          <span class="detail-value">
+            ${safeValue}
+          </span>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================
+       OPEN DETAILS
+    ========================== */
+
+    function openTransactionDetails(
+      transaction
+    ) {
+
+      selectedTransaction =
+        transaction;
+
+
+      const amount =
+        Number(transaction.amount || 0);
+
+
+      const status =
+        getStatusInfo(transaction.status);
+
+
+      /* Amount */
+
+      document.getElementById(
+        "receiptAmount"
+      ).innerText =
+
+        "₦" +
+        amount.toLocaleString(
+          "en-NG",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        );
+
+
+      /* Status */
+
+      document.getElementById(
+        "receiptStatus"
+      ).innerText =
+        status.text;
+
+
+      const statusIcon =
+        document.getElementById(
+          "receiptStatusIcon"
+        );
+
+
+      statusIcon.className =
+        "receipt-status-icon " +
+        status.className;
+
+
+      statusIcon.innerHTML =
+        `<i class="fa-solid ${status.icon}"></i>`;
+
+
+      /* =========================
+         DETAILS
+      ========================== */
+
+      const description =
+        transaction.description ||
+        transaction.type ||
+        "Transaction";
+
+
+      let details = "";
+
+
+      details += createDetailRow(
+        "Description",
+        description
+      );
+
+
+      if (transaction.type) {
+
+        details += createDetailRow(
+          "Transaction Type",
+          transaction.type
+        );
+
+      }
+
+
+      if (transaction.phone) {
+
+        details += createDetailRow(
+          "Phone Number",
+          transaction.phone
+        );
+
+      }
+
+
+      if (transaction.network) {
+
+        details += createDetailRow(
+          "Network",
+          transaction.network
+        );
+
+      }
+
+
+      if (transaction.recipient) {
+
+        details += createDetailRow(
+          "Recipient",
+          transaction.recipient
+        );
+
+      }
+
+
+      if (transaction.reference) {
+
+        details += createDetailRow(
+          "Reference",
+          transaction.reference,
+          true
+        );
+
+      }
+
+
+      if (transaction.transaction_id) {
+
+        details += createDetailRow(
+          "Transaction ID",
+          transaction.transaction_id,
+          true
+        );
+
+      }
+
+
+      if (transaction.id) {
+
+        details += createDetailRow(
+          "Record ID",
+          transaction.id,
+          true
+        );
+
+      }
+
+
+      details += createDetailRow(
+        "Date",
+        formatDate(transaction.created_at)
+      );
+
+
+      details += createDetailRow(
+        "Time",
+        formatTime(transaction.created_at)
+      );
+
+
+      if (transaction.payment_method) {
+
+        details += createDetailRow(
+          "Payment Method",
+          transaction.payment_method
+        );
+
+      }
+
+
+      document.getElementById(
+        "detailsList"
+      ).innerHTML = details;
+
+
+      /* Show */
+
+      document.getElementById(
+        "detailsOverlay"
+      ).classList.add("show");
+
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    /* =========================
+       CLOSE DETAILS
+    ========================== */
+
+    function closeDetails(event) {
+
+      if (
+        event &&
+        event.target !==
+        document.getElementById(
+          "detailsOverlay"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      document.getElementById(
+        "detailsOverlay"
+      ).classList.remove("show");
+
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    /* =========================
+       COPY REFERENCE
+    ========================== */
+
+    async function copyReference(
+      reference
+    ) {
+
+      try {
+
+        await navigator.clipboard.writeText(
+          reference
+        );
+
+        alert("Copied successfully.");
+
+      } catch (error) {
+
+        alert("Could not copy.");
+
+      }
+
+    }
+
+
+    /* =========================
+       LOAD HISTORY
+    ========================== */
+
+    async function loadTransactionHistory() {
+
+      const list =
+        document.getElementById(
+          "transactionsList"
+        );
+
+
+      const count =
+        document.getElementById(
+          "transactionCount"
+        );
+
+
+      try {
+
+        /* USER */
+
+        const {
+          data: { user },
+          error: authError
+        } =
+          await supabaseClient.auth.getUser();
+
+
+        if (authError || !user) {
+
+          count.innerText = "0";
+
+
+          list.innerHTML = `
+
+            <div class="empty-state">
+
+              <div class="empty-icon">
+
+                <i class="fa-solid fa-lock"></i>
+
+              </div>
+
+              <h3>Login required</h3>
+
+              <p>
+                Please log in to view your transaction history.
+              </p>
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        /* TRANSACTIONS */
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+
+            .from("transactions")
+
+            .select("*")
+
+            .eq("user_id", user.id)
+
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
+
+
+        if (error) {
+
+          console.error(
+            "Transaction error:",
+            error
+          );
+
+          showError();
+
+          return;
+
+        }
+
+
+        count.innerText =
+          data
+            ? data.length.toLocaleString("en-NG")
+            : "0";
+
+
+        /* EMPTY */
+
+        if (
+          !data ||
+          data.length === 0
+        ) {
+
+          list.innerHTML = `
+
+            <div class="empty-state">
+
+              <div class="empty-icon">
+
+                <i class="fa-solid fa-receipt"></i>
+
+              </div>
+
+              <h3>No transactions yet</h3>
+
+              <p>
+                Your airtime, data, wallet funding
+                and other activities will appear here.
+              </p>
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        list.innerHTML = "";
+
+
+        /* DISPLAY */
+
+        data.forEach(
+          transaction => {
+
+            const amount =
+              Number(
+                transaction.amount || 0
+              );
+
+
+            const status =
+              getStatusInfo(
+                transaction.status
+              );
+
+
+            const description =
+              transaction.description ||
+              transaction.type ||
+              "Transaction";
+
+
+            const icon =
+              getTransactionIcon(
+                transaction
+              );
+
+
+            const div =
+              document.createElement(
+                "div"
+              );
+
+
+            div.className =
+              "transaction";
+
+
+            div.setAttribute(
+              "role",
+              "button"
+            );
+
+
+            div.setAttribute(
+              "tabindex",
+              "0"
+            );
+
+
+            div.innerHTML = `
+
+              <div class="transaction-icon">
+
+                <i class="fa-solid ${icon}"></i>
+
+              </div>
+
+
+              <div class="transaction-info">
+
+                <h3>
+                  ${escapeHTML(description)}
+                </h3>
+
+                <p>
+                  ${formatDate(transaction.created_at)}
+                  •
+                  ${formatTime(transaction.created_at)}
+                </p>
+
+              </div>
+
+
+              <div class="transaction-right">
+
+                <strong>
+                  ₦${amount.toLocaleString(
+                    "en-NG",
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }
+                  )}
+                </strong>
+
+                <small class="status-${status.className}">
+                  ${status.text}
+                </small>
+
+              </div>
+
+            `;
+
+
+            /* TAP */
+
+            div.addEventListener(
+              "click",
+              () => {
+
+                openTransactionDetails(
+                  transaction
+                );
+
+              }
+            );
+
+
+            /* KEYBOARD */
+
+            div.addEventListener(
+              "keydown",
+              event => {
+
+                if (
+                  event.key === "Enter" ||
+                  event.key === " "
+                ) {
+
+                  event.preventDefault();
+
+                  openTransactionDetails(
+                    transaction
+                  );
+
+                }
+
+              }
+            );
+
+
+            list.appendChild(div);
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError();
+
+      }
+
+    }
+
+
+    /* =========================
+       ERROR
+    ========================== */
+
+    function showError() {
+
+      document.getElementById(
+        "transactionsList"
+      ).innerHTML = `
+
+        <div class="error-state">
+
+          <div class="error-icon">
+
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+          </div>
+
+          <h3>
+            Unable to load transactions
+          </h3>
+
+          <p>
+            Something went wrong while loading
+            your transaction history.
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            onclick="loadTransactionHistory()">
+
+            Try Again
+
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================
+       ESC KEY
+    ========================== */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeDetails();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       START
+    ========================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        loadTransactionHistory();
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MyVTU</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+.page{
+  width:100%;
+  max-width:520px;
+  min-height:100vh;
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  background:#000;
+}
+
+/* ==========================================
+   HERO IMAGE
+========================================== */
+
+.hero{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:72%;
+  overflow:hidden;
+}
+
+.hero-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+}
+
+/* DARK GRADIENT */
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.05) 0%,
+      rgba(0,0,0,.10) 35%,
+      rgba(0,0,0,.35) 60%,
+      rgba(0,0,0,.92) 100%
+    );
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.content{
+  position:relative;
+  z-index:2;
+
+  min-height:100vh;
+
+  display:flex;
+  flex-direction:column;
+
+  padding:
+    42px
+    36px
+    28px;
+}
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  font-size:24px;
+  font-weight:850;
+
+  margin-bottom:auto;
+}
+
+.logo-icon{
+  width:40px;
+  height:40px;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#168fe5;
+
+  box-shadow:
+    0 8px 25px rgba(22,143,229,.35);
+}
+
+.logo-icon i{
+  font-size:19px;
+}
+
+/* ==========================================
+   HERO TEXT
+========================================== */
+
+.hero-text{
+  margin-top:auto;
+  margin-bottom:24px;
+}
+
+.hero-text h1{
+  font-size:34px;
+  line-height:1.12;
+  letter-spacing:-1.3px;
+  font-weight:850;
+
+  max-width:400px;
+}
+
+.blue{
+  color:#22b8ff;
+}
+
+.hero-text p{
+  margin-top:18px;
+
+  color:#a8adb5;
+
+  font-size:15px;
+  line-height:1.55;
+
+  max-width:390px;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.buttons{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.main-button,
+.login-button{
+  width:100%;
+
+  border:none;
+  outline:none;
+
+  border-radius:20px;
+
+  padding:19px 18px;
+
+  font-size:16px;
+  font-weight:800;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.main-button{
+  background:#20aeea;
+  color:#00131d;
+
+  box-shadow:
+    0 12px 30px rgba(32,174,234,.25);
+}
+
+.login-button{
+  background:rgba(20,20,22,.82);
+
+  color:#fff;
+
+  border:1px solid rgba(255,255,255,.18);
+
+  backdrop-filter:blur(12px);
+}
+
+.main-button:active,
+.login-button:active{
+  transform:scale(.98);
+}
+
+/* ==========================================
+   FEATURES
+========================================== */
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+
+  gap:12px;
+
+  margin-top:24px;
+}
+
+.feature{
+  text-align:center;
+}
+
+.feature-icon{
+  width:54px;
+  height:54px;
+
+  margin:auto;
+
+  border-radius:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(25,27,30,.88);
+
+  border:1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25);
+}
+
+.feature-icon i{
+  color:#17b5f5;
+  font-size:22px;
+}
+
+.feature span{
+  display:block;
+
+  margin-top:9px;
+
+  color:#aaaeb5;
+
+  font-size:13px;
+}
+
+/* ==========================================
+   TERMS
+========================================== */
+
+.terms{
+  text-align:center;
+
+  margin-top:27px;
+
+  color:#777b83;
+
+  font-size:11px;
+
+  line-height:1.5;
+}
+
+.terms a{
+  color:#18b4f4;
+
+  text-decoration:none;
+
+  font-weight:600;
+}
+
+/* ==========================================
+   SMALL PHONES
+========================================== */
+
+@media(max-height:700px){
+
+  .content{
+    padding-top:25px;
+  }
+
+  .hero{
+    height:67%;
+  }
+
+  .hero-text h1{
+    font-size:29px;
+  }
+
+  .hero-text p{
+    margin-top:12px;
+    font-size:13px;
+  }
+
+  .features{
+    margin-top:17px;
+  }
+
+  .terms{
+    margin-top:18px;
+  }
+
+}
+
+/* ==========================================
+   VERY SMALL WIDTH
+========================================== */
+
+@media(max-width:360px){
+
+  .content{
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .hero-text h1{
+    font-size:28px;
+  }
+
+  .main-button,
+  .login-button{
+    padding:17px;
+  }
+
+}
+/* ==========================================
+   PAGE TRANSITION LOADER
+========================================== */
+
+.page-loader {
+  position: fixed;
+  inset: 0;
+  
+  z-index: 99999;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(0, 0, 0, .96);
+  
+  backdrop-filter: blur(10px);
+  
+  opacity: 0;
+  visibility: hidden;
+  
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+.page-loader.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loader-box {
+  text-align: center;
+  
+  transform: translateY(10px);
+  
+  transition:
+    transform .25s ease;
+}
+
+.page-loader.show .loader-box {
+  transform: translateY(0);
+}
+
+.loader-spinner {
+  width: 42px;
+  height: 42px;
+  
+  margin: 0 auto 16px;
+  
+  border: 4px solid rgba(255, 255, 255, .12);
+  
+  border-top-color: #20aeea;
+  
+  border-right-color: #20aeea;
+  
+  border-radius: 50%;
+  
+  animation:
+    pageSpin .75s linear infinite;
+}
+
+@keyframes pageSpin {
+  
+  to {
+    transform: rotate(360deg);
+  }
+  
+}
+
+.loader-text {
+  color: #fff;
+  
+  font-size: 14px;
+  
+  font-weight: 600;
+  
+  letter-spacing: .2px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- ======================================
+       BACKGROUND / HERO IMAGE
+  ======================================= -->
+
+  <div class="hero">
+
+    <img
+      class="hero-image"
+      src="welcome-image.jpeg"
+      alt="MyVTU"
+    >
+
+  </div>
+
+
+  <!-- ======================================
+       CONTENT
+  ======================================= -->
+
+  <main class="content">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+      <div class="logo-icon">
+
+        <i class="fa-solid fa-wallet"></i>
+
+      </div>
+
+      <span>MyVTU</span>
+
+    </div>
+
+
+    <!-- HERO TEXT -->
+
+    <section class="hero-text">
+
+      <h1>
+
+        Seamless
+        <span class="blue">Payments</span>
+
+        <br>
+
+        At Your
+        <span class="blue">Fingertips</span>
+
+      </h1>
+
+
+      <p>
+
+        Bills, data, airtime, electricity—
+        everything simplified in one app
+
+      </p>
+
+    </section>
+
+
+   <!-- ======================================
+     BUTTONS
+======================================= -->
+
+<div class="buttons">
+
+  <button
+    class="main-button"
+    onclick="goToPage('register.html')">
+
+    Create An Account
+
+  </button>
+
+
+  <button
+    class="login-button"
+    onclick="goToPage('login.html')">
+
+    Login
+
+  </button>
+
+</div>
+
+
+<!-- ======================================
+     FEATURES
+======================================= -->
+
+<div class="features">
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+
+    <span>Secure</span>
+
+  </div>
+
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      <i class="fa-solid fa-globe"></i>
+    </div>
+
+    <span>Fast</span>
+
+  </div>
+
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      <i class="fa-solid fa-thumbs-up"></i>
+    </div>
+
+    <span>Trusted</span>
+
+  </div>
+
+</div>
+
+
+<!-- ======================================
+     TERMS
+======================================= -->
+
+<div class="terms">
+
+  By continuing, you agree to
+
+  <a href="terms.html">
+    Terms &amp; Conditions
+  </a>
+
+  and
+
+  <a href="privacy.html">
+    Privacy Policy
+  </a>
+
+</div>
+
+
+<!-- ======================================
+     PAGE LOADING OVERLAY
+======================================= -->
+
+<div class="page-loader" id="pageLoader">
+
+  <div class="loader-box">
+
+    <div class="loader-spinner"></div>
+
+    <div class="loader-text">
+      Please wait...
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function goToPage(page){
+
+  const loader =
+    document.getElementById("pageLoader");
+
+  /*
+    Prevent multiple taps
+  */
+
+  document
+    .querySelectorAll("button")
+    .forEach(button => {
+
+      button.disabled = true;
+
+    });
+
+
+  /*
+    Show loading animation
+  */
+
+  loader.classList.add("show");
+
+
+  /*
+    Small delay makes the transition
+    smooth before changing page
+  */
+
+  setTimeout(() => {
+
+    window.location.href = page;
+
+  }, 450);
+
+}
+
+</script>
+
+</body>
+</html>

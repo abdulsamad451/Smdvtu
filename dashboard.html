@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyVTU</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <header class="header">
+
+      <div
+        class="profile-area"
+        onclick="goToProfile()"
+        style="cursor:pointer;">
+
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+
+        <div class="profile-text">
+          <p class="greeting" id="greeting">Good Evening</p>
+          <h2 id="userName">Loading...</h2>
+        </div>
+
+      </div>
+
+
+      <div class="header-icons">
+
+        <button
+          type="button"
+          aria-label="Support"
+          onclick="alert('Support page coming next.')">
+
+          <i class="fa-solid fa-headphones"></i>
+
+        </button>
+
+
+        <button
+          type="button"
+          aria-label="Notifications"
+          onclick="alert('Notifications coming next.')">
+
+          <i class="fa-regular fa-bell"></i>
+
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         WALLET CARD
+    ========================== -->
+    <section class="wallet-card">
+
+      <div class="wallet-top">
+
+        <div class="balance-label">
+
+          <span>Account Balance</span>
+
+          <button
+            type="button"
+            class="eye-btn"
+            onclick="toggleBalance()"
+            id="balanceEye"
+            aria-label="Show or hide balance">
+
+            <i class="fa-regular fa-eye"></i>
+
+          </button>
+
+        </div>
+
+
+        <!-- LOGO / NAME -->
+
+        <button
+          type="button"
+          class="bank"
+          onclick="goToProfile()"
+          style="
+            border:0;
+            background:none;
+            cursor:pointer;
+            font:inherit;
+          ">
+
+          MyVTU
+
+        </button>
+
+      </div>
+
+
+      <div class="balance-row">
+
+        <div class="balance-main">
+
+          <h1 id="balance">₦0.00</h1>
+
+
+       
+
+        </div>
+
+      </div>
+
+
+      <div class="wallet-buttons">
+
+        <button
+          type="button"
+          onclick="goToPage('fund-wallet.html')">
+
+          <i class="fa-solid fa-plus"></i>
+
+          <span>Add Money</span>
+
+        </button>
+
+
+        <button
+          type="button"
+          onclick="earn()">
+
+          <i class="fa-solid fa-gift"></i>
+
+          <span>Earn</span>
+
+        </button>
+
+      </div>
+
+    </section>
+
+<!-- ======================================
+     PAGE LOADING OVERLAY
+======================================= -->
+
+<div class="page-loader" id="pageLoader">
+
+  <div class="loader-box">
+
+    <div class="loader-spinner"></div>
+
+    <div class="loader-text">
+      Please wait...
+    </div>
+
+  </div>
+
+</div>
+
+    <!-- =========================
+         QUICK ACCESS
+    ========================== -->
+    <section class="section">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2>Quick Access</h2>
+
+          <p>Pay your bills quickly</p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="section-action"
+          onclick="showMore()">
+
+          More
+
+          <i class="fa-solid fa-chevron-right"></i>
+
+        </button>
+
+      </div>
+
+
+      <div class="services">
+
+
+        <!-- AIRTIME -->
+
+        <button
+          type="button"
+          class="service airtime"
+          onclick="openService('Airtime')">
+
+          <div class="service-icon">
+
+            <i class="fa-solid fa-phone-volume"></i>
+
+          </div>
+
+          <span>Airtime</span>
+
+        </button>
+
+
+        <!-- INTERNET -->
+
+        <button
+          type="button"
+          class="service internet"
+          onclick="goToInternet()">
+
+          <div class="service-icon">
+
+            <i class="fa-solid fa-wifi"></i>
+
+          </div>
+
+          <span>Internet</span>
+
+        </button>
+
+
+        <!-- TV -->
+
+        <button
+          type="button"
+          class="service tv"
+          onclick="showComingSoon('TV')">
+
+          <div class="service-icon">
+
+            <i class="fa-solid fa-tv"></i>
+
+          </div>
+
+          <span>TV</span>
+
+        </button>
+
+
+        <!-- ELECTRICITY -->
+
+        <button
+          type="button"
+          class="service electricity"
+          onclick="showComingSoon('Electricity')">
+
+          <div class="service-icon">
+
+            <i class="fa-solid fa-plug"></i>
+
+          </div>
+
+          <span>Electricity</span>
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROMO
+    ========================== -->
+    <section class="promo">
+
+      <div class="promo-content">
+
+        <div class="promo-text">
+
+          <span class="promo-label">
+            POWER YOUR
+          </span>
+
+          <h2>INTERNET LIFE</h2>
+
+          <p>
+            Recharge your data subscription with ease.
+          </p>
+
+
+          <!-- BUY DATA -->
+
+          <button
+            type="button"
+            class="promo-button"
+            onclick="goToInternet()">
+
+            Buy Data
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+          </button>
+
+        </div>
+
+
+        <div class="phone-image">
+
+          <i class="fa-solid fa-mobile-screen-button"></i>
+
+          <div class="signal signal-one"></div>
+          <div class="signal signal-two"></div>
+          <div class="signal signal-three"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PROMO DOTS -->
+
+    <div class="dots" aria-hidden="true">
+
+      <span></span>
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+
+    <!-- =========================
+         RECENT TRANSACTIONS
+    ========================== -->
+    <section class="section recent-section">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2>Recent Transactions</h2>
+
+          <p>Your latest activity</p>
+
+        </div>
+
+
+        <!-- VIEW ALL -->
+
+        <button
+          type="button"
+          class="section-action"
+          onclick="goToTransactions()">
+
+          View all
+
+          <i class="fa-solid fa-chevron-right"></i>
+
+        </button>
+
+      </div>
+
+
+      <div id="transactionsList">
+
+        <div class="transaction loading-transaction">
+
+          <div class="transaction-icon">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+          </div>
+
+          <div class="transaction-info">
+
+            <h3>Loading transactions</h3>
+
+            <p>Please wait...</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         BOTTOM NAVIGATION
+    ========================== -->
+    <nav class="bottom-nav">
+
+
+      <!-- HOME -->
+
+      <button
+        type="button"
+        class="nav-item active"
+        onclick="navigate('home', this)">
+
+        <div class="nav-icon">
+
+          <i class="fa-solid fa-house"></i>
+
+        </div>
+
+        <span>Home</span>
+
+      </button>
+
+
+      <!-- MORE -->
+
+    <button
+  type="button"
+  class="nav-item"
+  onclick="goToMore()">
+
+        <div class="nav-icon">
+
+          <i class="fa-solid fa-ellipsis"></i>
+
+        </div>
+
+        <span>More</span>
+
+      </button>
+
+
+      <!-- TRANSACTIONS -->
+
+      <button
+        type="button"
+        class="nav-item"
+        onclick="goToTransactions()">
+
+        <div class="nav-icon">
+
+          <i class="fa-regular fa-file-lines"></i>
+
+        </div>
+
+        <span>Transactions</span>
+
+      </button>
+
+
+      <!-- PROFILE -->
+
+      <button
+        type="button"
+        class="nav-item"
+        onclick="goToProfile()">
+
+        <div class="nav-icon">
+
+          <i class="fa-regular fa-user"></i>
+
+        </div>
+
+        <span>Profile</span>
+
+      </button>
+
+    </nav>
+
+  </div>
+
+
+  <!-- =========================
+       COMING SOON POPUP
+  ========================== -->
+
+  <div
+    id="comingSoonPopup"
+    style="
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.70);
+      backdrop-filter:blur(6px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:99999;
+    "
+    onclick="closeComingSoon(event)">
+
+    <div
+      style="
+        width:100%;
+        max-width:350px;
+        background:#11151c;
+        border:1px solid #252d38;
+        border-radius:24px;
+        padding:28px 20px 20px;
+        text-align:center;
+        box-shadow:0 25px 70px rgba(0,0,0,.5);
+      ">
+
+      <div
+        style="
+          width:65px;
+          height:65px;
+          border-radius:50%;
+          background:rgba(22,143,229,.14);
+          color:#168fe5;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          margin:0 auto 15px;
+          font-size:26px;
+        ">
+
+        <i class="fa-solid fa-clock"></i>
+
+      </div>
+
+
+      <h2
+        id="comingSoonTitle"
+        style="
+          color:#fff;
+          font-size:20px;
+          margin-bottom:8px;
+        ">
+
+        Coming Soon
+
+      </h2>
+
+
+      <p
+        id="comingSoonMessage"
+        style="
+          color:#929aa6;
+          font-size:14px;
+          line-height:1.5;
+          margin-bottom:20px;
+        ">
+
+        This service is coming soon.
+
+      </p>
+
+
+      <button
+        type="button"
+        onclick="closeComingSoon()"
+        style="
+          width:100%;
+          border:0;
+          border-radius:15px;
+          padding:14px;
+          background:#168fe5;
+          color:#fff;
+          font-size:15px;
+          font-weight:700;
+        ">
+
+        Okay
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://gthosvtitmymsrbynmuq.supabase.co";
+
+
+    const SUPABASE_KEY =
+      "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+  </script>
+
+
+  <!-- APP SCRIPT -->
+
+  <script src="script.js"></script>
+
+
+  <!-- =========================
+       NAVIGATION FUNCTIONS
+  ========================== -->
+
+  <script>
+
+    /* PROFILE */
+
+    function goToProfile(){
+
+      window.location.href =
+        "profile.html";
+
+    }
+
+
+    /* INTERNET / DATA */
+
+    function goToInternet(){
+
+      window.location.href =
+        "internet.html";
+
+    }
+
+
+    /* TRANSACTIONS */
+
+    function goToTransactions(){
+
+      window.location.href =
+        "transaction-history.html";
+
+    }
+
+
+    /* COMING SOON */
+
+    function showComingSoon(service){
+
+      const popup =
+        document.getElementById(
+          "comingSoonPopup"
+        );
+
+      const title =
+        document.getElementById(
+          "comingSoonTitle"
+        );
+
+      const message =
+        document.getElementById(
+          "comingSoonMessage"
+        );
+
+
+      title.innerText =
+        service + " Coming Soon";
+
+
+      message.innerText =
+        service +
+        " bill payment is not available yet 🔂. We're working on it and it will be available soon.";
+
+
+      popup.style.display =
+        "flex";
+
+    }
+
+
+    /* CLOSE COMING SOON */
+
+    function closeComingSoon(event){
+
+      if(
+        event &&
+        event.target &&
+        event.target.id !==
+        "comingSoonPopup"
+      ){
+
+        return;
+
+      }
+
+
+      document
+        .getElementById(
+          "comingSoonPopup"
+        )
+        .style.display =
+        "none";
+
+    }
+
+function goToPage(page){
+
+  const loader =
+    document.getElementById("pageLoader");
+
+  /*
+    Prevent multiple taps
+  */
+
+  document
+    .querySelectorAll("button")
+    .forEach(button => {
+
+      button.disabled = true;
+
+    });
+
+
+  /*
+    Show loading animation
+  */
+
+  loader.classList.add("show");
+
+
+  /*
+    Small delay makes the transition
+    smooth before changing page
+  */
+
+  setTimeout(() => {
+
+    window.location.href = page;
+
+  }, 2000);
+
+}
+
+    /* =========================
+       GREETING
+    ========================== */
+
+    function updateGreeting(){
+
+      const hour =
+        new Date().getHours();
+
+
+      let greeting =
+        "Good Evening";
+
+
+      if(hour < 12){
+
+        greeting =
+          "Good Morning";
+
+      }
+
+      else if(hour < 17){
+
+        greeting =
+          "Good Afternoon";
+
+      }
+
+
+      const greetingElement =
+        document.getElementById(
+          "greeting"
+        );
+
+
+      if(greetingElement){
+
+        greetingElement.innerText =
+          greeting;
+
+      }
+
+    }
+    
+
+
+    updateGreeting();
+
+  </script>
+
+</body>
+</html>
