@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payment Successful - SMDVTU</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: white;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 500px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 30px 20px 40px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #123d29;
+      color: #4ee58b;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 42px;
+
+      margin-top: 60px;
+      margin-bottom: 25px;
+
+      border: 1px solid #246443;
+    }
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #999;
+      text-align: center;
+      line-height: 1.5;
+      font-size: 15px;
+      max-width: 360px;
+    }
+
+    .card {
+      width: 100%;
+      background: #171717;
+      border: 1px solid #292929;
+      border-radius: 22px;
+      padding: 22px;
+      margin-top: 30px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+
+      padding: 14px 0;
+      border-bottom: 1px solid #292929;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .row span:first-child {
+      color: #999;
+      font-size: 14px;
+    }
+
+    .row span:last-child {
+      color: white;
+      font-weight: 600;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .amount {
+      color: #4ee58b !important;
+      font-size: 20px;
+    }
+
+    .status {
+      color: #4ee58b !important;
+    }
+
+    .message {
+      width: 100%;
+      display: none;
+
+      margin-top: 20px;
+      padding: 15px;
+
+      border-radius: 16px;
+
+      background: #171717;
+      border: 1px solid #292929;
+
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.5;
+
+      text-align: center;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      color: #ff8e8e;
+      border-color: #7d3030;
+    }
+
+    .message.success {
+      color: #7ee2a8;
+      border-color: #28734a;
+    }
+
+    .button {
+      width: 100%;
+
+      margin-top: 25px;
+
+      padding: 18px;
+
+      border: none;
+      border-radius: 20px;
+
+      background: #168fe5;
+      color: white;
+
+      font-size: 17px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .button:active {
+      transform: scale(.98);
+    }
+
+    .secondary {
+      margin-top: 12px;
+
+      background: #171717;
+      border: 1px solid #292929;
+      color: #ccc;
+    }
+
+    .loader {
+      width: 22px;
+      height: 22px;
+
+      border: 3px solid #444;
+      border-top-color: #168fe5;
+
+      border-radius: 50%;
+
+      animation: spin .8s linear infinite;
+
+      display: inline-block;
+      vertical-align: middle;
+
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .small {
+      margin-top: 25px;
+      color: #666;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="icon">
+    <i class="fa-solid fa-check"></i>
+  </div>
+
+  <h1>Payment Successful 🎉</h1>
+
+  <p class="subtitle">
+    Your Paystack payment was successful.
+    We are confirming your payment and updating your wallet.
+  </p>
+
+
+  <div class="card">
+
+    <div class="row">
+      <span>Status</span>
+      <span
+        id="paymentStatus"
+        class="status">
+        Successful
+      </span>
+    </div>
+
+    <div class="row">
+      <span>Amount</span>
+      <span
+        id="paymentAmount"
+        class="amount">
+        Checking...
+      </span>
+    </div>
+
+    <div class="row">
+      <span>Reference</span>
+      <span id="paymentReference">
+        Checking...
+      </span>
+    </div>
+
+    <div class="row">
+      <span>Wallet Balance</span>
+      <span id="walletBalance">
+        Checking...
+      </span>
+    </div>
+
+  </div>
+
+
+  <div
+    id="message"
+    class="message show">
+
+    <span class="loader"></span>
+    Confirming wallet update...
+
+  </div>
+
+
+  <button
+    id="dashboardButton"
+    class="button"
+    type="button"
+    onclick="goDashboard()">
+
+    Go to Dashboard
+
+  </button>
+
+
+  <button
+    class="button secondary"
+    type="button"
+    onclick="goFundWallet()">
+
+    Fund Wallet Again
+
+  </button>
+
+
+  <p class="small">
+    Your wallet is credited only after Paystack
+    payment confirmation is received by our server.
+  </p>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// ======================================
+// GET PAYSTACK REFERENCE
+// ======================================
+
+function getReference() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  return (
+    params.get("reference") ||
+    params.get("trxref") ||
+    ""
+  );
+
+}
+
+
+// ======================================
+// FORMAT MONEY
+// ======================================
+
+function formatMoney(amount) {
+
+  return "₦" +
+    Number(amount || 0).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+// ======================================
+// MESSAGE
+// ======================================
+
+function showMessage(
+  text,
+  type = ""
+) {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  box.innerHTML =
+    text;
+
+  box.className =
+    "message show " +
+    type;
+
+}
+
+
+// ======================================
+// GET USER SESSION
+// ======================================
+
+async function getSession() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+  if (
+    error ||
+    !data ||
+    !data.session
+  ) {
+
+    return null;
+
+  }
+
+  return data.session;
+
+}
+
+
+// ======================================
+// LOAD WALLET BALANCE
+// ======================================
+
+async function loadBalance() {
+
+  try {
+
+    const session =
+      await getSession();
+
+    if (!session) {
+
+      showMessage(
+        "Please log in again to view your wallet balance.",
+        "error"
+      );
+
+      document
+        .getElementById(
+          "walletBalance"
+        )
+        .innerText =
+        "Unavailable";
+
+      return null;
+
+    }
+
+
+    const {
+      data: profile,
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("balance")
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+
+    if (
+      error ||
+      !profile
+    ) {
+
+      console.error(
+        "BALANCE ERROR:",
+        error
+      );
+
+      document
+        .getElementById(
+          "walletBalance"
+        )
+        .innerText =
+        "Unavailable";
+
+      return null;
+
+    }
+
+
+    const balance =
+      Number(
+        profile.balance || 0
+      );
+
+
+    document
+      .getElementById(
+        "walletBalance"
+      )
+      .innerText =
+      formatMoney(balance);
+
+
+    return balance;
+
+  } catch (error) {
+
+    console.error(
+      "LOAD BALANCE ERROR:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+// ======================================
+// CHECK PAYMENT
+// ======================================
+
+async function checkPayment() {
+
+  const reference =
+    getReference();
+
+
+  if (reference) {
+
+    document
+      .getElementById(
+        "paymentReference"
+      )
+      .innerText =
+      reference;
+
+  } else {
+
+    document
+      .getElementById(
+        "paymentReference"
+      )
+      .innerText =
+      "Not available";
+
+  }
+
+
+  // Load current wallet balance
+  await loadBalance();
+
+
+  // Tell user webhook is processing
+  showMessage(
+    '<span class="loader"></span> Confirming wallet update...'
+  );
+
+
+  /*
+    The Paystack webhook runs on the server.
+
+    We don't credit the wallet here.
+
+    We simply wait a few seconds for the
+    webhook to update the balance.
+  */
+
+
+  let attempts = 0;
+
+  const maxAttempts = 10;
+
+
+  const timer =
+    setInterval(
+      async function() {
+
+        attempts++;
+
+
+        const balance =
+          await loadBalance();
+
+
+        if (
+          balance !== null
+        ) {
+
+          showMessage(
+            "Payment received successfully. Your wallet has been updated.",
+            "success"
+          );
+
+          clearInterval(
+            timer
+          );
+
+          return;
+
+        }
+
+
+        if (
+          attempts >=
+          maxAttempts
+        ) {
+
+          clearInterval(
+            timer
+          );
+
+          showMessage(
+            "Your payment was successful. If the wallet balance has not updated yet, please refresh the page shortly.",
+            "error"
+          );
+
+        }
+
+      },
+      3000
+    );
+
+}
+
+
+// ======================================
+// DASHBOARD
+// ======================================
+
+function goDashboard() {
+
+  window.location.href =
+    "dashboard.html";
+
+}
+
+
+// ======================================
+// FUND WALLET
+// ======================================
+
+function goFundWallet() {
+
+  window.location.href =
+    "fund.html";
+
+}
+
+
+// ======================================
+// START
+// ======================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    const reference =
+      getReference();
+
+    console.log(
+      "PAYSTACK REFERENCE:",
+      reference
+    );
+
+    checkPayment();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
