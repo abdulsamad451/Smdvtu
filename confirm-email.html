@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Email Confirmed - MyVTU</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <link rel="stylesheet" href="auth.css">
+
+  <style>
+    .confirm-icon {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #151515;
+      border: 2px solid #28734a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7ee2a8;
+      font-size: 34px;
+    }
+
+    .confirm-text {
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .redirect-text {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 18px;
+    }
+
+    .countdown {
+      color: #168fe5;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="auth-page">
+
+  <div class="brand">
+
+    <div class="brand-icon">
+      <i class="fa-solid fa-wallet"></i>
+    </div>
+
+    <h1>MyVTU</h1>
+
+    <p>Power your everyday payments</p>
+
+  </div>
+
+
+  <div class="auth-card">
+
+    <div class="confirm-icon">
+      <i class="fa-solid fa-check"></i>
+    </div>
+
+    <h2>Email Confirmed!</h2>
+
+    <p class="confirm-text">
+      Your email address has been successfully verified.
+      Your MyVTU account is now ready to use.
+    </p>
+
+
+    <button
+      type="button"
+      class="auth-button"
+      onclick="goToLogin()">
+
+      Continue to Login
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+    </button>
+
+
+    <p class="redirect-text">
+      Redirecting to login in
+      <span id="countdown" class="countdown">10</span>
+      seconds...
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let seconds = 10;
+
+const countdown =
+  document.getElementById("countdown");
+
+
+function goToLogin() {
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+const timer =
+  setInterval(function() {
+
+    seconds--;
+
+    countdown.innerText =
+      seconds;
+
+
+    if (seconds <= 0) {
+
+      clearInterval(timer);
+
+      goToLogin();
+
+    }
+
+  }, 1000);
+
+</script>
+
+</body>
+</html>
