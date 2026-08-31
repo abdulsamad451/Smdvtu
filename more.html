@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>More - MyVTU</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+  background:#080b10;
+  color:#fff;
+}
+
+.page{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding:20px 18px 110px;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:25px;
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.back{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:14px;
+  background:#141922;
+  color:#fff;
+  font-size:17px;
+  cursor:pointer;
+}
+
+.back:active{
+  transform:scale(.94);
+}
+
+.header h1{
+  font-size:23px;
+  font-weight:750;
+}
+
+.header-subtitle{
+  color:#707985;
+  font-size:12px;
+  margin-top:3px;
+}
+
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+.profile-card{
+  position:relative;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+
+  padding:20px;
+
+  border-radius:24px;
+
+  margin-bottom:25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #087fe5,
+      #1454d9
+    );
+
+  box-shadow:
+    0 15px 35px
+    rgba(0,100,255,.18);
+}
+
+.profile-card:after{
+  content:"";
+
+  position:absolute;
+
+  width:150px;
+  height:150px;
+
+  border-radius:50%;
+
+  right:-65px;
+  top:-70px;
+
+  background:
+    rgba(255,255,255,.08);
+}
+
+.profile-avatar{
+  width:54px;
+  height:54px;
+
+  border-radius:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+    rgba(255,255,255,.16);
+
+  font-size:21px;
+
+  margin-right:14px;
+
+  position:relative;
+  z-index:1;
+}
+
+.profile-info{
+  position:relative;
+  z-index:1;
+}
+
+.profile-info h2{
+  font-size:17px;
+  margin-bottom:4px;
+}
+
+.profile-info p{
+  color:#d9eaff;
+  font-size:12px;
+}
+
+
+/* ==========================================
+   SECTION
+========================================== */
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin:
+    25px
+    2px
+    11px;
+}
+
+.section-title h3{
+  font-size:14px;
+  font-weight:700;
+}
+
+.section-title span{
+  color:#626a76;
+  font-size:11px;
+}
+
+
+/* ==========================================
+   MENU
+========================================== */
+
+.menu{
+  display:flex;
+  flex-direction:column;
+
+  background:#11151c;
+
+  border:
+    1px solid
+    #202632;
+
+  border-radius:22px;
+
+  overflow:hidden;
+}
+
+
+/* ==========================================
+   MENU ITEM
+========================================== */
+
+.more-item{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+
+  padding:16px;
+
+  background:#11151c;
+
+  border:none;
+
+  color:#fff;
+
+  text-align:left;
+
+  cursor:pointer;
+
+  transition:
+    background .2s,
+    transform .15s;
+}
+
+.more-item:not(:last-child){
+  border-bottom:
+    1px solid
+    #202632;
+}
+
+.more-item:active{
+  background:#171d26;
+  transform:scale(.99);
+}
+
+
+/* ==========================================
+   ICON
+========================================== */
+
+.more-icon{
+  width:45px;
+  height:45px;
+
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#19212c;
+
+  color:#168fe5;
+
+  font-size:17px;
+
+  flex-shrink:0;
+
+  margin-right:13px;
+}
+
+
+/* ==========================================
+   TEXT
+========================================== */
+
+.more-text{
+  flex:1;
+}
+
+.more-text h3{
+  font-size:14px;
+  font-weight:700;
+
+  margin-bottom:4px;
+}
+
+.more-text p{
+  color:#69717d;
+  font-size:11px;
+  line-height:1.4;
+}
+
+.more-arrow{
+  color:#555e6b;
+  font-size:12px;
+  margin-left:10px;
+}
+
+
+/* ==========================================
+   SPECIAL CONNECT
+========================================== */
+
+.connect-item .more-icon{
+  color:#22c55e;
+  background:
+    rgba(34,197,94,.10);
+}
+
+
+/* ==========================================
+   VERSION
+========================================== */
+
+.version{
+  text-align:center;
+
+  color:#4f5763;
+
+  font-size:10px;
+
+  margin-top:25px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:5px;
+}
+
+
+/* ==========================================
+   SECRET ADMIN BUTTON
+========================================== */
+
+.secret-admin-btn{
+
+  width:24px;
+  height:24px;
+
+  border:1px solid #252d38;
+
+  border-radius:7px;
+
+  background:#11151c;
+
+  color:#69717d;
+
+  font-size:10px;
+
+  padding:0;
+
+  cursor:pointer;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  opacity:.75;
+
+  transition:
+    .2s;
+}
+
+.secret-admin-btn:active{
+  transform:scale(.88);
+}
+
+.secret-admin-btn:hover{
+  color:#168fe5;
+  border-color:#168fe5;
+}
+
+
+/* ==========================================
+   BOTTOM NAV
+========================================== */
+
+.bottom-nav{
+  position:fixed;
+
+  left:50%;
+
+  transform:
+    translateX(-50%);
+
+  bottom:0;
+
+  width:100%;
+
+  max-width:520px;
+
+  height:72px;
+
+  padding:
+    8px
+    18px
+    12px;
+
+  background:
+    rgba(8,11,16,.96);
+
+  border-top:
+    1px solid
+    #1b2029;
+
+  backdrop-filter:
+    blur(15px);
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  z-index:100;
+}
+
+.nav-item{
+  border:none;
+
+  background:none;
+
+  color:#606773;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:5px;
+
+  font-size:10px;
+
+  cursor:pointer;
+}
+
+.nav-item i{
+  font-size:17px;
+}
+
+.nav-item.active{
+  color:#168fe5;
+}
+
+.nav-item:active{
+  transform:scale(.94);
+}
+
+
+/* ==========================================
+   PAGE LOADING
+========================================== */
+
+.page-loader{
+  position:fixed;
+
+  inset:0;
+
+  background:#080b10;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  flex-direction:column;
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.2s;
+
+  z-index:9999;
+}
+
+.page-loader.show{
+  opacity:1;
+  visibility:visible;
+}
+
+.loader-spinner{
+  width:34px;
+  height:34px;
+
+  border:
+    3px solid
+    #252d38;
+
+  border-top-color:#168fe5;
+
+  border-radius:50%;
+
+  animation:
+    spin .7s linear infinite;
+
+  margin-bottom:12px;
+}
+
+.loader-text{
+  color:#69717d;
+  font-size:12px;
+}
+
+@keyframes spin{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+
+/* ==========================================
+   ADMIN POPUP
+========================================== */
+
+.admin-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+    rgba(0,0,0,.72);
+
+  backdrop-filter:
+    blur(8px);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:
+    opacity .2s,
+    visibility .2s;
+
+  z-index:20000;
+}
+
+.admin-overlay.show{
+
+  opacity:1;
+
+  visibility:visible;
+}
+
+
+.admin-popup{
+
+  width:100%;
+
+  max-width:360px;
+
+  background:#11151c;
+
+  border:
+    1px solid
+    #252d38;
+
+  border-radius:22px;
+
+  padding:24px;
+
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.5);
+
+  transform:
+    translateY(15px)
+    scale(.96);
+
+  transition:
+    transform .2s;
+}
+
+.admin-overlay.show .admin-popup{
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+.admin-popup-icon{
+
+  width:48px;
+  height:48px;
+
+  margin:0 auto 15px;
+
+  border-radius:15px;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:#168fe5;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:18px;
+}
+
+
+.admin-popup h2{
+
+  text-align:center;
+
+  font-size:18px;
+
+  margin-bottom:6px;
+}
+
+
+.admin-popup p{
+
+  text-align:center;
+
+  color:#69717d;
+
+  font-size:12px;
+
+  margin-bottom:20px;
+}
+
+
+.admin-password{
+
+  width:100%;
+
+  height:48px;
+
+  border:
+    1px solid
+    #29313d;
+
+  border-radius:13px;
+
+  background:#080b10;
+
+  color:#fff;
+
+  outline:none;
+
+  padding:
+    0 14px;
+
+  font-size:14px;
+
+  text-align:center;
+
+  margin-bottom:12px;
+}
+
+.admin-password:focus{
+
+  border-color:#168fe5;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(22,143,229,.10);
+}
+
+
+.admin-error{
+
+  text-align:center;
+
+  color:#ef4444;
+
+  font-size:11px;
+
+  min-height:16px;
+
+  margin-bottom:10px;
+
+  display:none;
+}
+
+
+.admin-buttons{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:10px;
+}
+
+
+.admin-cancel,
+.admin-login{
+
+  height:44px;
+
+  border:none;
+
+  border-radius:12px;
+
+  font-size:13px;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+
+.admin-cancel{
+
+  background:#1b2029;
+
+  color:#aab1bc;
+}
+
+
+.admin-login{
+
+  background:#168fe5;
+
+  color:#fff;
+}
+
+
+.admin-cancel:active,
+.admin-login:active{
+
+  transform:scale(.97);
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:360px){
+
+  .page{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .more-item{
+    padding:14px;
+  }
+
+  .more-icon{
+    width:42px;
+    height:42px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     PAGE
+========================================== -->
+
+<div class="page">
+
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="header-left">
+
+      <button
+        class="back"
+        onclick="goTo('dashboard.html')"
+      >
+
+        <i class="fa-solid fa-chevron-left"></i>
+
+      </button>
+
+
+      <div>
+
+        <h1>More</h1>
+
+        <div class="header-subtitle">
+          Everything you need
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ========================================
+       PROFILE
+  ========================================= -->
+
+  <div
+    class="profile-card"
+    onclick="goTo('profile.html')"
+    style="cursor:pointer"
+  >
+
+    <div class="profile-avatar">
+
+      <i class="fa-solid fa-user"></i>
+
+    </div>
+
+
+    <div class="profile-info">
+
+      <h2>My Account</h2>
+
+      <p>
+        Manage your profile and account
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ========================================
+       SERVICES
+  ========================================= -->
+
+  <div class="section-title">
+
+    <h3>Services</h3>
+
+    <span>Quick access</span>
+
+  </div>
+
+
+  <div class="menu">
+
+
+    <!-- INTERNET DATA -->
+
+    <button
+      class="more-item"
+      onclick="goTo('internet.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-wifi"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>Internet Data</h3>
+
+        <p>
+          Buy data bundles instantly
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+
+    <!-- ALL SERVICES -->
+
+    <button
+      class="more-item"
+      onclick="goTo('services.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-layer-group"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>All Services</h3>
+
+        <p>
+          Access all available services
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+
+    <!-- FUND WALLET -->
+
+    <button
+      class="more-item"
+      onclick="goTo('fund-wallet.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-wallet"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>Fund Wallet</h3>
+
+        <p>
+          Add money to your wallet
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- ========================================
+       ACCOUNT
+  ========================================= -->
+
+  <div class="section-title">
+
+    <h3>Account</h3>
+
+    <span>Manage your account</span>
+
+  </div>
+
+
+  <div class="menu">
+
+
+    <!-- PROFILE -->
+
+    <button
+      class="more-item"
+      onclick="goTo('profile.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-user"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>Profile</h3>
+
+        <p>
+          Manage your personal information
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+
+    <!-- TRANSACTION HISTORY -->
+
+    <button
+      class="more-item"
+      onclick="goTo('transaction-history.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>Transaction History</h3>
+
+        <p>
+          View your previous transactions
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- ========================================
+       SUPPORT
+  ========================================= -->
+
+  <div class="section-title">
+
+    <h3>Support</h3>
+
+    <span>Need assistance?</span>
+
+  </div>
+
+
+  <div class="menu">
+
+
+    <!-- CONNECT -->
+
+    <button
+      class="more-item connect-item"
+      onclick="goTo('connect.html')"
+    >
+
+      <div class="more-icon">
+
+        <i class="fa-solid fa-headset"></i>
+
+      </div>
+
+
+      <div class="more-text">
+
+        <h3>Connect</h3>
+
+        <p>
+          Get help and contact us
+        </p>
+
+      </div>
+
+
+      <div class="more-arrow">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+      </div>
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- ========================================
+       VERSION + SECRET ADMIN BUTTON
+  ========================================= -->
+
+  <div class="version">
+
+    <span>MyVTU • Version 1.0</span>
+
+    <button
+      class="secret-admin-btn"
+      onclick="openAdmin()"
+      aria-label="Admin"
+      type="button"
+    >
+
+      <i class="fa-solid fa-gear"></i>
+
+    </button>
+
+  </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     BOTTOM NAVIGATION
+========================================== -->
+
+<div class="bottom-nav">
+
+
+  <!-- HOME -->
+
+  <button
+    class="nav-item"
+    onclick="goTo('dashboard.html')"
+  >
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </button>
+
+
+
+  <!-- SERVICES -->
+
+  <button
+    class="nav-item"
+    onclick="goTo('services.html')"
+  >
+
+    <i class="fa-solid fa-grid-2"></i>
+
+    <span>Services</span>
+
+  </button>
+
+
+
+  <!-- INTERNET -->
+
+  <button
+    class="nav-item"
+    onclick="goTo('internet.html')"
+  >
+
+    <i class="fa-solid fa-wifi"></i>
+
+    <span>Data</span>
+
+  </button>
+
+
+
+  <!-- MORE -->
+
+  <button
+    class="nav-item active"
+    onclick="goTo('more.html')"
+  >
+
+    <i class="fa-solid fa-ellipsis"></i>
+
+    <span>More</span>
+
+  </button>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     LOADING SCREEN
+========================================== -->
+
+<div
+  class="page-loader"
+  id="pageLoader"
+>
+
+  <div class="loader-spinner"></div>
+
+  <div class="loader-text">
+    Loading...
+  </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     ADMIN POPUP
+========================================== -->
+
+<div
+  class="admin-overlay"
+  id="adminOverlay"
+  onclick="closeAdminOutside(event)"
+>
+
+  <div
+    class="admin-popup"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="admin-popup-icon">
+
+      <i class="fa-solid fa-shield-halved"></i>
+
+    </div>
+
+
+    <h2>Admin Access</h2>
+
+    <p>
+      Enter the administrator password
+    </p>
+
+
+    <input
+      type="password"
+      id="adminPassword"
+      class="admin-password"
+      placeholder="Enter password"
+      autocomplete="off"
+    >
+
+
+    <div
+      class="admin-error"
+      id="adminError"
+    >
+      Incorrect password
+    </div>
+
+
+    <div class="admin-buttons">
+
+      <button
+        type="button"
+        class="admin-cancel"
+        onclick="closeAdmin()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        type="button"
+        class="admin-login"
+        onclick="checkAdminPassword()"
+      >
+        Continue
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* ==========================================
+   DIRECT PAGE NAVIGATION
+========================================== */
+
+let navigating = false;
+
+
+function goTo(page){
+
+  if(navigating){
+    return;
+  }
+
+
+  navigating = true;
+
+
+  const loader =
+    document.getElementById(
+      "pageLoader"
+    );
+
+
+  loader.classList.add("show");
+
+
+  setTimeout(
+    function(){
+
+      window.location.href = page;
+
+    },
+    250
+  );
+
+}
+
+
+/* ==========================================
+   PREVENT DOUBLE TAP
+========================================== */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    const button =
+      event.target.closest(
+        "button"
+      );
+
+
+    if(
+      button &&
+      button.getAttribute("onclick") &&
+      button
+        .getAttribute("onclick")
+        .includes("goTo")
+    ){
+
+      button.style.pointerEvents =
+        "none";
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   OPEN ADMIN POPUP
+========================================== */
+
+function openAdmin(){
+
+  const overlay =
+    document.getElementById(
+      "adminOverlay"
+    );
+
+  const password =
+    document.getElementById(
+      "adminPassword"
+    );
+
+  const error =
+    document.getElementById(
+      "adminError"
+    );
+
+
+  overlay.classList.add("show");
+
+  password.value = "";
+
+  error.style.display = "none";
+
+
+  setTimeout(
+    function(){
+
+      password.focus();
+
+    },
+    200
+  );
+
+}
+
+
+/* ==========================================
+   CLOSE ADMIN POPUP
+========================================== */
+
+function closeAdmin(){
+
+  const overlay =
+    document.getElementById(
+      "adminOverlay"
+    );
+
+  overlay.classList.remove("show");
+
+}
+
+
+/* ==========================================
+   CLOSE WHEN CLICKING OUTSIDE
+========================================== */
+
+function closeAdminOutside(event){
+
+  if(
+    event.target.id ===
+    "adminOverlay"
+  ){
+
+    closeAdmin();
+
+  }
+
+}
+
+
+/* ==========================================
+   CHECK ADMIN PASSWORD
+========================================== */
+
+function checkAdminPassword(){
+
+  const password =
+    document.getElementById(
+      "adminPassword"
+    ).value.trim();
+
+  const error =
+    document.getElementById(
+      "adminError"
+    );
+
+
+  if(password === "ad1"){
+
+    window.location.href =
+      "admin.html";
+
+    return;
+
+  }
+
+
+  error.style.display =
+    "block";
+
+}
+
+
+/* ==========================================
+   ENTER KEY SUPPORT
+========================================== */
+
+document
+  .getElementById("adminPassword")
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      if(event.key === "Enter"){
+
+        checkAdminPassword();
+
+      }
+
+    }
+  );
+
+</script>
+
+
+</body>
+</html>
