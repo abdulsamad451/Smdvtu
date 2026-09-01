@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Users - SMDVTU Admin</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #090b0f;
+  color: white;
+  min-height: 100vh;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 18px;
+}
+
+
+/* HEADER */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 22px;
+}
+
+.back-btn {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #111419;
+  color: white;
+
+  border: 1px solid rgba(255,255,255,.07);
+
+  border-radius: 13px;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-text h1 {
+  font-size: 21px;
+}
+
+.header-text p {
+  color: #727b87;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+
+/* SEARCH */
+
+.search-box {
+  position: relative;
+  margin-bottom: 17px;
+}
+
+.search-box i {
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #65707c;
+}
+
+.search-box input {
+
+  width: 100%;
+  height: 48px;
+
+  padding: 0 15px 0 42px;
+
+  background: #111419;
+
+  border: 1px solid rgba(255,255,255,.07);
+
+  border-radius: 14px;
+
+  outline: none;
+
+  color: white;
+
+  font-size: 13px;
+}
+
+.search-box input:focus {
+  border-color: #1595ff;
+}
+
+
+/* COUNT */
+
+.user-count {
+  color: #727b87;
+  font-size: 12px;
+  margin: 0 4px 10px;
+}
+
+
+/* USERS */
+
+.users {
+  display: grid;
+  gap: 10px;
+}
+
+
+/* USER CARD */
+
+.user-card {
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 15px;
+
+  background: #101318;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 17px;
+
+  color: white;
+
+  text-align: left;
+
+  transition: .2s;
+}
+
+.user-card:hover {
+  background: #151a20;
+  transform: translateY(-1px);
+}
+
+.user-card:active {
+  transform: scale(.99);
+}
+
+
+/* AVATAR */
+
+.avatar {
+
+  width: 45px;
+  height: 45px;
+
+  min-width: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #1595ff,
+    #7d3cff
+  );
+
+  border-radius: 14px;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+/* INFO */
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  margin-bottom: 4px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.user-phone {
+
+  color: #727b87;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* STATUS */
+
+.user-status {
+
+  font-size: 9px;
+
+  padding: 5px 8px;
+
+  border-radius: 8px;
+
+  background: rgba(55,200,120,.10);
+
+  color: #55d993;
+
+  font-weight: 700;
+}
+
+.user-status.admin {
+  background: rgba(21,149,255,.10);
+  color: #1595ff;
+}
+
+
+/* ARROW */
+
+.arrow {
+
+  color: #4e5864;
+
+  font-size: 12px;
+
+  margin-left: 2px;
+}
+
+
+/* EMPTY */
+
+.empty {
+
+  padding: 50px 20px;
+
+  text-align: center;
+
+  background: #101318;
+
+  border-radius: 17px;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  color: #727b87;
+
+  font-size: 12px;
+}
+
+.empty i {
+
+  display: block;
+
+  font-size: 28px;
+
+  margin-bottom: 12px;
+
+  color: #46505c;
+}
+
+
+/* LOADING */
+
+.loading {
+
+  padding: 50px;
+
+  text-align: center;
+
+  color: #727b87;
+
+  font-size: 12px;
+}
+
+.spinner {
+
+  width: 30px;
+  height: 30px;
+
+  margin: 0 auto 12px;
+
+  border: 3px solid #252b32;
+
+  border-top-color: #1595ff;
+
+  border-radius: 50%;
+
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ERROR */
+
+.error {
+
+  padding: 20px;
+
+  background: rgba(255,80,90,.08);
+
+  border: 1px solid rgba(255,80,90,.15);
+
+  border-radius: 15px;
+
+  color: #ff8991;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* MOBILE */
+
+@media(max-width:500px) {
+
+  .app {
+    padding: 15px 13px 30px;
+  }
+
+  .user-card {
+    padding: 13px;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .user-status {
+    display: none;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <button
+      class="back-btn"
+      onclick="window.location.href='admin.html'">
+
+      <i class="fa-solid fa-arrow-left"></i>
+
+    </button>
+
+    <div class="header-text">
+
+      <h1>Users</h1>
+
+      <p>SMDVTU registered users</p>
+
+    </div>
+
+  </header>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-box">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Search users..."
+      autocomplete="off"
+    >
+
+  </div>
+
+
+  <div
+    class="user-count"
+    id="userCount">
+
+    Loading users...
+
+  </div>
+
+
+  <!-- USERS -->
+
+  <div
+    class="users"
+    id="usersContainer">
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading users...
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let allUsers = [];
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   ADMIN CHECK
+========================= */
+
+async function checkAdmin() {
+
+  try {
+
+    const {
+      data: {
+        user
+      },
+      error
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (error || !user) {
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select("is_admin")
+
+        .eq(
+          "id",
+          user.id
+        )
+
+        .single();
+
+
+    if (
+      profileError ||
+      !profile ||
+      profile.is_admin !== true
+    ) {
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(error);
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================
+   LOAD USERS
+========================= */
+
+async function loadUsers() {
+
+  const container =
+    document.getElementById(
+      "usersContainer"
+    );
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select(`
+          id,
+          full_name,
+          phone,
+          is_admin
+        `)
+
+        .order(
+          "full_name",
+          {
+            ascending: true
+          }
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      container.innerHTML = `
+
+        <div class="error">
+
+          <strong>
+            Could not load users.
+          </strong>
+
+          <br><br>
+
+          ${escapeHTML(error.message)}
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    allUsers =
+      data || [];
+
+
+    updateUserCount(
+      allUsers.length
+    );
+
+
+    renderUsers(
+      allUsers
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        Something went wrong while
+        loading users.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   COUNT
+========================= */
+
+function updateUserCount(count) {
+
+  document.getElementById(
+    "userCount"
+  ).innerText =
+
+    count +
+    (
+      count === 1
+        ? " user"
+        : " users"
+    );
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderUsers(users) {
+
+  const container =
+    document.getElementById(
+      "usersContainer"
+    );
+
+
+  if (!users.length) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <i class="fa-solid fa-users"></i>
+
+        No users found.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    users.map(user => {
+
+      const name =
+        user.full_name ||
+        "Unnamed User";
+
+
+      const initial =
+        name
+          .charAt(0)
+          .toUpperCase();
+
+
+      const phone =
+        user.phone ||
+        "No phone number";
+
+
+      const isAdmin =
+        user.is_admin === true;
+
+
+      const status =
+        isAdmin
+          ? "ADMIN"
+          : "USER";
+
+
+      return `
+
+        <button
+          class="user-card"
+          type="button"
+          onclick="openUser('${escapeHTML(user.id)}')">
+
+
+          <div class="avatar">
+
+            ${escapeHTML(initial)}
+
+          </div>
+
+
+          <div class="user-info">
+
+            <div class="user-name">
+
+              ${escapeHTML(name)}
+
+            </div>
+
+            <div class="user-phone">
+
+              ${escapeHTML(phone)}
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="user-status ${isAdmin ? "admin" : ""}">
+
+            ${status}
+
+          </div>
+
+
+          <div class="arrow">
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </div>
+
+
+        </button>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   OPEN USER
+========================= */
+
+function openUser(id) {
+
+  window.location.href =
+    "admin-user-details.html?id=" +
+    encodeURIComponent(id);
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    function() {
+
+      const search =
+        this.value
+          .trim()
+          .toLowerCase();
+
+
+      if (!search) {
+
+        renderUsers(
+          allUsers
+        );
+
+        updateUserCount(
+          allUsers.length
+        );
+
+        return;
+
+      }
+
+
+      const filtered =
+        allUsers.filter(user => {
+
+          const name =
+            String(
+              user.full_name || ""
+            ).toLowerCase();
+
+
+          const phone =
+            String(
+              user.phone || ""
+            ).toLowerCase();
+
+
+          return (
+            name.includes(search) ||
+            phone.includes(search)
+          );
+
+        });
+
+
+      renderUsers(
+        filtered
+      );
+
+
+      updateUserCount(
+        filtered.length
+      );
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
+
+(async function() {
+
+  const isAdmin =
+    await checkAdmin();
+
+
+  if (!isAdmin) return;
+
+
+  await loadUsers();
+
+})();
+
+</script>
+
+</body>
+</html>

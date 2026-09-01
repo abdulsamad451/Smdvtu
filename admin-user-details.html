@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Details - SMDVTU Admin</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #090b0f;
+  color: white;
+  min-height: 100vh;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  padding: 18px;
+}
+
+
+/* HEADER */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 22px;
+}
+
+.back-btn {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #111419;
+  color: white;
+
+  border: 1px solid rgba(255,255,255,.07);
+
+  border-radius: 13px;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-text h1 {
+  font-size: 20px;
+}
+
+.header-text p {
+  color: #727b87;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+
+/* LOADING */
+
+.loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: #727b87;
+  font-size: 12px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+
+  margin: 0 auto 13px;
+
+  border: 3px solid #252b32;
+  border-top-color: #1595ff;
+
+  border-radius: 50%;
+
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ERROR */
+
+.error {
+  padding: 20px;
+
+  background: rgba(255,80,90,.08);
+
+  border: 1px solid rgba(255,80,90,.15);
+
+  border-radius: 16px;
+
+  color: #ff8991;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* PROFILE */
+
+.profile-card {
+
+  background: #101318;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 20px;
+
+  padding: 22px;
+
+  margin-bottom: 15px;
+
+  text-align: center;
+}
+
+.avatar {
+
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #1595ff,
+    #7d3cff
+  );
+
+  border-radius: 22px;
+
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.profile-name {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.profile-phone {
+  color: #727b87;
+  font-size: 12px;
+}
+
+.status {
+  display: inline-block;
+
+  margin-top: 12px;
+
+  padding: 6px 10px;
+
+  border-radius: 9px;
+
+  background: rgba(55,200,120,.10);
+
+  color: #55d993;
+
+  font-size: 9px;
+
+  font-weight: 800;
+}
+
+
+/* BALANCE */
+
+.balance-card {
+
+  background:
+    linear-gradient(
+      135deg,
+      #111a24,
+      #101318
+    );
+
+  border: 1px solid rgba(21,149,255,.15);
+
+  border-radius: 20px;
+
+  padding: 22px;
+
+  margin-bottom: 15px;
+}
+
+.balance-label {
+  color: #78818d;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.balance {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.balance-naira {
+  color: #1595ff;
+}
+
+
+/* SECTION */
+
+.section-title {
+
+  color: #89929e;
+
+  font-size: 12px;
+
+  text-transform: uppercase;
+
+  letter-spacing: .6px;
+
+  margin: 22px 4px 10px;
+}
+
+
+/* DETAILS */
+
+.details {
+
+  background: #101318;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+}
+
+.detail-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 16px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.05);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-icon {
+
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(21,149,255,.10);
+
+  color: #1595ff;
+
+  border-radius: 11px;
+
+  font-size: 14px;
+}
+
+.detail-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.detail-label {
+  color: #66717e;
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+
+  color: #e9edf2;
+
+  font-size: 12px;
+
+  word-break: break-word;
+}
+
+
+/* ACTIONS */
+
+.actions {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.action-btn {
+
+  padding: 14px;
+
+  background: #111419;
+
+  color: white;
+
+  border: 1px solid rgba(255,255,255,.07);
+
+  border-radius: 14px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+.action-btn i {
+  margin-right: 6px;
+}
+
+.action-btn.disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+
+/* MOBILE */
+
+@media(max-width:500px) {
+
+  .app {
+    padding: 15px 13px 30px;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <button
+      class="back-btn"
+      onclick="window.location.href='admin-users.html'">
+
+      <i class="fa-solid fa-arrow-left"></i>
+
+    </button>
+
+    <div class="header-text">
+
+      <h1>User Details</h1>
+
+      <p>SMDVTU account information</p>
+
+    </div>
+
+  </header>
+
+
+  <!-- CONTENT -->
+
+  <div id="content">
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading user...
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   GET USER ID
+========================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const userId =
+  params.get("id");
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   FORMAT MONEY
+========================= */
+
+function formatMoney(value) {
+
+  const number =
+    Number(value || 0);
+
+  return number.toLocaleString(
+    "en-NG",
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }
+  );
+
+}
+
+
+/* =========================
+   ADMIN CHECK
+========================= */
+
+async function checkAdmin() {
+
+  const {
+    data: {
+      user
+    },
+    error
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (error || !user) {
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+
+  const {
+    data: profile,
+    error: profileError
+  } =
+    await supabaseClient
+
+      .from("profiles")
+
+      .select("is_admin")
+
+      .eq(
+        "id",
+        user.id
+      )
+
+      .single();
+
+
+  if (
+    profileError ||
+    !profile ||
+    profile.is_admin !== true
+  ) {
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================
+   LOAD USER
+========================= */
+
+async function loadUser() {
+
+  const content =
+    document.getElementById(
+      "content"
+    );
+
+
+  if (!userId) {
+
+    content.innerHTML = `
+
+      <div class="error">
+
+        <strong>User not found.</strong>
+
+        <br><br>
+
+        No user ID was supplied.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  try {
+
+    const {
+      data: user,
+      error
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select(`
+          id,
+          full_name,
+          phone,
+          balance,
+          created_at,
+          updated_at,
+          account_number,
+          account_bank,
+          account_reference,
+          is_admin
+        `)
+
+        .eq(
+          "id",
+          userId
+        )
+
+        .single();
+
+
+    if (error || !user) {
+
+      console.error(error);
+
+      content.innerHTML = `
+
+        <div class="error">
+
+          <strong>
+            Could not load user.
+          </strong>
+
+          <br><br>
+
+          ${escapeHTML(
+            error?.message ||
+            "User does not exist."
+          )}
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    renderUser(user);
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    content.innerHTML = `
+
+      <div class="error">
+
+        Something went wrong while
+        loading this user.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   RENDER USER
+========================= */
+
+function renderUser(user) {
+
+  const content =
+    document.getElementById(
+      "content"
+    );
+
+
+  const name =
+    user.full_name ||
+    "Unnamed User";
+
+
+  const initial =
+    name
+      .charAt(0)
+      .toUpperCase();
+
+
+  const phone =
+    user.phone ||
+    "No phone number";
+
+
+  const balance =
+    formatMoney(
+      user.balance
+    );
+
+
+  const status =
+    user.is_admin
+      ? "ADMIN"
+      : "USER";
+
+
+  const created =
+    user.created_at
+      ? new Date(
+          user.created_at
+        ).toLocaleString(
+          "en-NG"
+        )
+      : "Not available";
+
+
+  const updated =
+    user.updated_at
+      ? new Date(
+          user.updated_at
+        ).toLocaleString(
+          "en-NG"
+        )
+      : "Not available";
+
+
+  content.innerHTML = `
+
+    <div class="profile-card">
+
+      <div class="avatar">
+
+        ${escapeHTML(initial)}
+
+      </div>
+
+      <div class="profile-name">
+
+        ${escapeHTML(name)}
+
+      </div>
+
+      <div class="profile-phone">
+
+        ${escapeHTML(phone)}
+
+      </div>
+
+      <div class="status">
+
+        ${status}
+
+      </div>
+
+    </div>
+
+
+    <div class="balance-card">
+
+      <div class="balance-label">
+
+        Wallet Balance
+
+      </div>
+
+      <div class="balance">
+
+        <span class="balance-naira">₦</span>${balance}
+
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+      Account Information
+
+    </div>
+
+
+    <div class="details">
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Full Name
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(name)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-phone"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Phone Number
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(phone)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-building-columns"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Account Number
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(
+              user.account_number ||
+              "Not available"
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-building"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Bank
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(
+              user.account_bank ||
+              "Not available"
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-hashtag"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Account Reference
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(
+              user.account_reference ||
+              "Not available"
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-calendar-plus"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Account Created
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(created)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-clock-rotate-left"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            Last Updated
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(updated)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-icon">
+
+          <i class="fa-solid fa-fingerprint"></i>
+
+        </div>
+
+        <div class="detail-content">
+
+          <div class="detail-label">
+
+            User ID
+
+          </div>
+
+          <div class="detail-value">
+
+            ${escapeHTML(user.id)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="section-title">
+
+      Management
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="action-btn disabled"
+        type="button">
+
+        <i class="fa-solid fa-wallet"></i>
+
+        Manage Balance
+
+      </button>
+
+
+      <button
+        class="action-btn disabled"
+        type="button">
+
+        <i class="fa-solid fa-receipt"></i>
+
+        Transactions
+
+      </button>
+
+
+      <button
+        class="action-btn disabled"
+        type="button">
+
+        <i class="fa-solid fa-ban"></i>
+
+        Account Status
+
+      </button>
+
+
+      <button
+        class="action-btn disabled"
+        type="button">
+
+        <i class="fa-solid fa-trash"></i>
+
+        Delete User
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+(async function() {
+
+  const isAdmin =
+    await checkAdmin();
+
+
+  if (!isAdmin) return;
+
+
+  await loadUser();
+
+})();
+
+</script>
+
+</body>
+</html>

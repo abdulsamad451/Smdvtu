@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SMDVTU Admin Panel</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #090b0f;
+  color: white;
+  min-height: 100vh;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+  color: #8c96a3;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+
+  border: 4px solid #20252c;
+  border-top-color: #1595ff;
+
+  border-radius: 50%;
+
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================
+   ADMIN APP
+========================= */
+
+#adminApp {
+  display: none;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.brand-icon {
+
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #1595ff,
+    #7d3cff
+  );
+
+  border-radius: 14px;
+
+  font-size: 18px;
+}
+
+.brand h1 {
+  font-size: 21px;
+}
+
+.brand p {
+  color: #727b87;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.logout-btn {
+
+  padding: 11px 15px;
+
+  background: #171b21;
+
+  color: #ff6873;
+
+  border: 1px solid rgba(255,255,255,.07);
+
+  border-radius: 12px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome {
+
+  padding: 22px;
+
+  margin-bottom: 20px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111419,
+      #0d1014
+    );
+
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.welcome h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.welcome p {
+  color: #78818d;
+  font-size: 12px;
+}
+
+
+/* =========================
+   STAT GRID
+========================= */
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 14px;
+
+  margin-bottom: 25px;
+}
+
+.stat-card {
+
+  background: #101318;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 18px;
+
+  padding: 18px;
+}
+
+.stat-icon {
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(21,149,255,.10);
+
+  color: #1595ff;
+
+  border-radius: 12px;
+
+  margin-bottom: 14px;
+}
+
+.stat-card h3 {
+
+  font-size: 21px;
+
+  margin-bottom: 4px;
+}
+
+.stat-card p {
+
+  color: #727b87;
+
+  font-size: 11px;
+}
+
+
+/* =========================
+   ADMIN MENU
+========================= */
+
+.section-title {
+
+  font-size: 13px;
+
+  color: #89929e;
+
+  text-transform: uppercase;
+
+  letter-spacing: .6px;
+
+  margin: 0 4px 10px;
+}
+
+.admin-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+.admin-card {
+
+  padding: 20px;
+
+  background: #101318;
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 18px;
+
+  color: white;
+
+  text-align: left;
+
+  transition: .2s;
+}
+
+.admin-card:hover {
+
+  background: #151a20;
+
+  transform: translateY(-2px);
+}
+
+.admin-card-icon {
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(21,149,255,.10);
+
+  color: #1595ff;
+
+  border-radius: 13px;
+
+  margin-bottom: 15px;
+
+  font-size: 17px;
+}
+
+.admin-card h3 {
+
+  font-size: 14px;
+
+  margin-bottom: 5px;
+}
+
+.admin-card p {
+
+  color: #727b87;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================
+   ACCESS DENIED
+========================= */
+
+#accessDenied {
+
+  display: none;
+
+  min-height: 100vh;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 25px;
+}
+
+.denied-card {
+
+  max-width: 380px;
+
+  padding: 30px;
+
+  background: #101318;
+
+  border:
+    1px solid rgba(255,255,255,.06);
+
+  border-radius: 22px;
+}
+
+.denied-icon {
+
+  width: 60px;
+  height: 60px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,80,90,.10);
+
+  color: #ff6873;
+
+  border-radius: 18px;
+
+  font-size: 24px;
+}
+
+.denied-card h2 {
+
+  font-size: 20px;
+
+  margin-bottom: 8px;
+}
+
+.denied-card p {
+
+  color: #78818d;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+  margin-bottom: 20px;
+}
+
+.login-btn {
+
+  width: 100%;
+
+  padding: 13px;
+
+  background: #1595ff;
+
+  color: white;
+
+  border-radius: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+  .stats {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .app {
+
+    padding:
+      17px 14px 35px;
+
+  }
+
+  .header {
+
+    align-items: flex-start;
+
+  }
+
+  .brand h1 {
+
+    font-size: 18px;
+
+  }
+
+  .logout-btn {
+
+    padding:
+      9px 11px;
+
+  }
+
+  .stats {
+
+    gap: 10px;
+
+  }
+
+  .stat-card {
+
+    padding: 14px;
+
+  }
+
+  .stat-card h3 {
+
+    font-size: 18px;
+
+  }
+
+  .admin-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<div id="loadingScreen">
+
+  <div class="spinner"></div>
+
+  <div>
+    Checking admin access...
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ACCESS DENIED
+========================= -->
+
+<div id="accessDenied">
+
+  <div class="denied-card">
+
+    <div class="denied-icon">
+
+      <i class="fa-solid fa-lock"></i>
+
+    </div>
+
+    <h2>Access Denied</h2>
+
+    <p>
+      You do not have permission to access
+      the SMDVTU administration panel.
+    </p>
+
+    <button
+      class="login-btn"
+      onclick="window.location.href='login.html'">
+
+      Back to Login
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN APP
+========================= -->
+
+<div
+  class="app"
+  id="adminApp">
+
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+      </div>
+
+      <div>
+
+        <h1>SMDVTU Admin</h1>
+
+        <p>Administration Dashboard</p>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="logout-btn"
+      onclick="logoutAdmin()">
+
+      <i class="fa-solid fa-right-from-bracket"></i>
+
+      Logout
+
+    </button>
+
+  </header>
+
+
+  <!-- WELCOME -->
+
+  <div class="welcome">
+
+    <h2>
+      Welcome, Administrator 👋
+    </h2>
+
+    <p id="adminEmail">
+      Loading administrator...
+    </p>
+
+  </div>
+
+
+  <!-- STATISTICS -->
+
+  <div class="stats">
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-users"></i>
+
+      </div>
+
+      <h3 id="totalUsers">
+        0
+      </h3>
+
+      <p>Total Users</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-wallet"></i>
+
+      </div>
+
+      <h3 id="totalWallets">
+        0
+      </h3>
+
+      <p>Wallet Accounts</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+      </div>
+
+      <h3 id="totalTransactions">
+        0
+      </h3>
+
+      <p>Transactions</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+
+        <i class="fa-solid fa-user-shield"></i>
+
+      </div>
+
+      <h3>
+        ADMIN
+      </h3>
+
+      <p>Access Level</p>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- =========================
+       ADMIN TOOLS
+  ========================= -->
+
+  <div class="section-title">
+    Administration
+  </div>
+
+
+  <div class="admin-grid">
+
+
+    <!-- USERS -->
+
+    <button
+      class="admin-card"
+      onclick="window.location.href='admin-users.html'">
+
+      <div class="admin-card-icon">
+
+        <i class="fa-solid fa-users"></i>
+
+      </div>
+
+      <h3>
+        Users
+      </h3>
+
+      <p>
+        View and manage registered
+        SMDVTU users.
+      </p>
+
+    </button>
+
+
+    <!-- NOTIFICATIONS -->
+
+    <button
+      class="admin-card"
+      onclick="window.location.href='admin-notifications.html'">
+
+      <div class="admin-card-icon">
+
+        <i class="fa-solid fa-bell"></i>
+
+      </div>
+
+      <h3>
+        Notifications
+      </h3>
+
+      <p>
+        Send important announcements
+        to your users.
+      </p>
+
+    </button>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================
+     SUPABASE
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   CHECK ADMIN
+========================= */
+
+async function checkAdmin() {
+
+  try {
+
+    const {
+      data: {
+        user
+      },
+      error: authError
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (
+      authError ||
+      !user
+    ) {
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select("is_admin")
+
+        .eq(
+          "id",
+          user.id
+        )
+
+        .single();
+
+
+    if (
+      profileError ||
+      !profile
+    ) {
+
+      console.error(
+        profileError
+      );
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    if (
+      profile.is_admin !== true
+    ) {
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    /* ADMIN VERIFIED */
+
+    document.getElementById(
+      "loadingScreen"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "adminApp"
+    ).style.display =
+      "block";
+
+
+    document.getElementById(
+      "adminEmail"
+    ).innerText =
+      user.email || "Administrator";
+
+
+    loadStatistics();
+
+  } catch (error) {
+
+    console.error(
+      "Admin check error:",
+      error
+    );
+
+    showAccessDenied();
+
+  }
+
+}
+
+
+/* =========================
+   ACCESS DENIED
+========================= */
+
+function showAccessDenied() {
+
+  document.getElementById(
+    "loadingScreen"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "accessDenied"
+  ).style.display =
+    "flex";
+
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
+
+async function loadStatistics() {
+
+  try {
+
+    const {
+      count,
+      error
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        );
+
+
+    if (!error) {
+
+      document.getElementById(
+        "totalUsers"
+      ).innerText =
+        count || 0;
+
+
+      document.getElementById(
+        "totalWallets"
+      ).innerText =
+        count || 0;
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Statistics error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutAdmin() {
+
+  try {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>

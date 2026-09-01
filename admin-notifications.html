@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications - SMDVTU Admin</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #090b0f;
+  color: white;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 18px 15px 40px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  color: #8c96a3;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid #20252c;
+  border-top-color: #1595ff;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================
+   ADMIN APP
+========================= */
+
+#adminApp {
+  display: none;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #171b21;
+  color: white;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.header-icon {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg,#1595ff,#7d3cff);
+  font-size: 17px;
+}
+
+.header h1 {
+  font-size: 20px;
+}
+
+.header p {
+  color: #727b87;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  background: #101318;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 17px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  color: #89929e;
+  margin-bottom: 7px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  background: #0b0e12;
+  color: white;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 11px;
+  outline: none;
+  padding: 13px;
+  font-size: 13px;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #1595ff;
+}
+
+select {
+  appearance: none;
+}
+
+
+/* =========================
+   USER SELECT
+========================= */
+
+.user-select-area {
+  display: none;
+}
+
+.user-select-area.show {
+  display: block;
+}
+
+
+/* =========================
+   SEND BUTTON
+========================= */
+
+.send-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg,#1595ff,#4778ff);
+  color: white;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.send-btn:active {
+  transform: scale(.98);
+}
+
+.send-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+#messageBox {
+  display: none;
+  padding: 12px 14px;
+  border-radius: 11px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#messageBox.success {
+  display: block;
+  background: rgba(34,197,94,.10);
+  color: #4ade80;
+  border: 1px solid rgba(34,197,94,.15);
+}
+
+#messageBox.error {
+  display: block;
+  background: rgba(239,68,68,.10);
+  color: #ff6873;
+  border: 1px solid rgba(239,68,68,.15);
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.refresh-btn {
+  padding: 8px 11px;
+  background: #171b21;
+  color: #1595ff;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 9px;
+  font-size: 11px;
+}
+
+
+/* =========================
+   NOTIFICATION ITEM
+========================= */
+
+.notification-item {
+  padding: 15px;
+  background: #0b0e12;
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 13px;
+  margin-bottom: 10px;
+}
+
+.notification-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.notification-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.notification-type {
+  font-size: 9px;
+  padding: 4px 7px;
+  border-radius: 20px;
+  background: rgba(21,149,255,.10);
+  color: #1595ff;
+  white-space: nowrap;
+}
+
+.notification-message {
+  color: #8c96a3;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.notification-date {
+  color: #59616b;
+  font-size: 10px;
+}
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.notification-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.delete-btn {
+  padding: 8px 11px;
+  border-radius: 9px;
+  background: rgba(255,80,90,.08);
+  color: #ff6873;
+  border: 1px solid rgba(255,80,90,.12);
+  font-size: 11px;
+}
+
+.delete-btn:active {
+  transform: scale(.97);
+}
+
+.delete-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+  padding: 30px 15px;
+  text-align: center;
+  color: #68717c;
+  font-size: 12px;
+}
+
+.empty i {
+  font-size: 25px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+
+/* =========================
+   CONFIRM MODAL
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.70);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 360px;
+  background: #101318;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.modal-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 13px;
+  background: rgba(255,80,90,.10);
+  color: #ff6873;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 13px;
+}
+
+.modal h2 {
+  font-size: 17px;
+  margin-bottom: 7px;
+}
+
+.modal p {
+  color: #78818d;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-btn,
+.confirm-delete-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cancel-btn {
+  background: #171b21;
+  color: white;
+}
+
+.confirm-delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 500px) {
+
+  .app {
+    padding: 15px 13px 35px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<div id="loadingScreen">
+
+  <div class="spinner"></div>
+
+  <div>
+    Checking admin access...
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN APP
+========================= -->
+
+<div
+  class="app"
+  id="adminApp">
+
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="header-left">
+
+      <button
+        class="back-btn"
+        onclick="window.location.href='admin.html'">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+      </button>
+
+      <div class="header-icon">
+
+        <i class="fa-solid fa-bell"></i>
+
+      </div>
+
+      <div>
+
+        <h1>
+          Notifications
+        </h1>
+
+        <p>
+          Send notifications to SMDVTU users
+        </p>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       SEND NOTIFICATION
+  ========================= -->
+
+  <div class="card">
+
+    <div class="card-title">
+      Send Notification
+    </div>
+
+    <div id="messageBox"></div>
+
+
+    <div class="form-group">
+
+      <label>
+        SEND TO
+      </label>
+
+      <select
+        id="recipientType"
+        onchange="changeRecipient()">
+
+        <option value="all">
+          All Users
+        </option>
+
+        <option value="specific">
+          Specific User
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div
+      class="form-group user-select-area"
+      id="userSelectArea">
+
+      <label>
+        SELECT USER
+      </label>
+
+      <select id="userSelect">
+
+        <option value="">
+          Loading users...
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        NOTIFICATION TITLE
+      </label>
+
+      <input
+        type="text"
+        id="notificationTitle"
+        maxlength="100"
+        placeholder="Enter notification title"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        MESSAGE
+      </label>
+
+      <textarea
+        id="notificationMessage"
+        maxlength="1000"
+        placeholder="Write your notification message..."
+      ></textarea>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        TYPE
+      </label>
+
+      <select id="notificationType">
+
+        <option value="announcement">
+          Announcement
+        </option>
+
+        <option value="system">
+          System
+        </option>
+
+        <option value="promotion">
+          Promotion
+        </option>
+
+        <option value="important">
+          Important
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <button
+      class="send-btn"
+      id="sendBtn"
+      onclick="sendNotification()">
+
+      <i class="fa-solid fa-paper-plane"></i>
+
+      Send Notification
+
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       RECENT NOTIFICATIONS
+  ========================= -->
+
+  <div class="card">
+
+    <div class="history-header">
+
+      <div
+        class="card-title"
+        style="margin:0;">
+
+        Recent Notifications
+
+      </div>
+
+      <button
+        class="refresh-btn"
+        onclick="loadNotifications()">
+
+        <i class="fa-solid fa-rotate"></i>
+
+        Refresh
+
+      </button>
+
+    </div>
+
+
+    <div id="notificationsList">
+
+      <div class="empty">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        Loading notifications...
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================
+     DELETE CONFIRMATION
+========================= -->
+
+<div
+  class="modal-overlay"
+  id="deleteModal">
+
+  <div class="modal">
+
+    <div class="modal-icon">
+
+      <i class="fa-solid fa-trash"></i>
+
+    </div>
+
+    <h2>
+      Delete Notification?
+    </h2>
+
+    <p>
+      This notification will be permanently
+      removed from the notification table.
+    </p>
+
+    <div class="modal-buttons">
+
+      <button
+        class="cancel-btn"
+        onclick="closeDeleteModal()">
+
+        Cancel
+
+      </button>
+
+      <button
+        class="confirm-delete-btn"
+        id="confirmDeleteBtn"
+        onclick="confirmDelete()">
+
+        Delete
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let notificationToDelete = null;
+
+
+/* =========================
+   CHECK ADMIN
+========================= */
+
+async function checkAdmin() {
+
+  try {
+
+    const {
+      data: {
+        user
+      },
+      error: authError
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (
+      authError ||
+      !user
+    ) {
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+
+        .from("profiles")
+
+        .select("is_admin")
+
+        .eq(
+          "id",
+          user.id
+        )
+
+        .single();
+
+
+    if (
+      profileError ||
+      !profile
+    ) {
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    if (
+      profile.is_admin !== true
+    ) {
+
+      showAccessDenied();
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      "loadingScreen"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "adminApp"
+    ).style.display =
+      "block";
+
+
+    loadUsers();
+
+    loadNotifications();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showAccessDenied();
+
+  }
+
+}
+
+
+/* =========================
+   ACCESS DENIED
+========================= */
+
+function showAccessDenied() {
+
+  document.getElementById(
+    "loadingScreen"
+  ).innerHTML = `
+
+    <div style="
+      text-align:center;
+      padding:25px;
+    ">
+
+      <i
+        class="fa-solid fa-lock"
+        style="
+          font-size:40px;
+          color:#ff6873;
+          margin-bottom:15px;
+        "
+      ></i>
+
+      <h2 style="
+        font-size:20px;
+        margin-bottom:8px;
+      ">
+        Access Denied
+      </h2>
+
+      <p style="
+        color:#78818d;
+        font-size:12px;
+      ">
+        You do not have permission
+        to access this page.
+      </p>
+
+      <button
+        onclick="window.location.href='login.html'"
+        style="
+          margin-top:18px;
+          padding:12px 18px;
+          border-radius:10px;
+          background:#1595ff;
+          color:white;
+          font-weight:700;
+        "
+      >
+        Back to Login
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   LOAD USERS
+========================= */
+
+async function loadUsers() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+
+      .from("profiles")
+
+      .select(
+        "id, full_name, phone, is_admin"
+      )
+
+      .order(
+        "full_name",
+        {
+          ascending: true
+        }
+      );
+
+
+  const select =
+    document.getElementById(
+      "userSelect"
+    );
+
+
+  if (error) {
+
+    console.error(
+      "User loading error:",
+      error
+    );
+
+    select.innerHTML = `
+      <option value="">
+        Unable to load users
+      </option>
+    `;
+
+    return;
+
+  }
+
+
+  const normalUsers =
+    (data || []).filter(
+      user => user.is_admin !== true
+    );
+
+
+  select.innerHTML = `
+    <option value="">
+      Select a user
+    </option>
+  `;
+
+
+  normalUsers.forEach(user => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      user.id;
+
+    option.textContent =
+      (
+        user.full_name ||
+        "Unnamed User"
+      ) +
+      (
+        user.phone
+          ? " — " + user.phone
+          : ""
+      );
+
+    select.appendChild(
+      option
+    );
+
+  });
+
+}
+
+
+/* =========================
+   RECIPIENT
+========================= */
+
+function changeRecipient() {
+
+  const type =
+    document.getElementById(
+      "recipientType"
+    ).value;
+
+
+  const area =
+    document.getElementById(
+      "userSelectArea"
+    );
+
+
+  if (
+    type === "specific"
+  ) {
+
+    area.classList.add(
+      "show"
+    );
+
+  } else {
+
+    area.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   SEND
+========================= */
+
+async function sendNotification() {
+
+  const title =
+    document.getElementById(
+      "notificationTitle"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "notificationMessage"
+    ).value.trim();
+
+
+  const type =
+    document.getElementById(
+      "notificationType"
+    ).value;
+
+
+  const recipientType =
+    document.getElementById(
+      "recipientType"
+    ).value;
+
+
+  const selectedUser =
+    document.getElementById(
+      "userSelect"
+    ).value;
+
+
+  if (!title) {
+
+    showMessage(
+      "Please enter a notification title.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (!message) {
+
+    showMessage(
+      "Please enter a notification message.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    recipientType === "specific" &&
+    !selectedUser
+  ) {
+
+    showMessage(
+      "Please select a user.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "sendBtn"
+    );
+
+
+  button.disabled = true;
+
+  button.innerHTML = `
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    Sending...
+  `;
+
+
+  try {
+
+    let rows = [];
+
+
+    /* SPECIFIC USER */
+
+    if (
+      recipientType === "specific"
+    ) {
+
+      rows = [
+
+        {
+          user_id: selectedUser,
+          title: title,
+          message: message,
+          type: type,
+          is_read: false
+        }
+
+      ];
+
+    }
+
+
+    /* ALL USERS */
+
+    else {
+
+      const {
+        data: users,
+        error: usersError
+      } =
+        await supabaseClient
+
+          .from("profiles")
+
+          .select(
+            "id, is_admin"
+          );
+
+
+      if (usersError) {
+
+        throw usersError;
+
+      }
+
+
+      const normalUsers =
+        (users || []).filter(
+          user =>
+            user.is_admin !== true
+        );
+
+
+      if (!normalUsers.length) {
+
+        throw new Error(
+          "There are no normal users to notify."
+        );
+
+      }
+
+
+      rows =
+        normalUsers.map(
+          user => ({
+
+            user_id: user.id,
+
+            title: title,
+
+            message: message,
+
+            type: type,
+
+            is_read: false
+
+          })
+        );
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+
+        .from("notifications")
+
+        .insert(rows);
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    showMessage(
+      recipientType === "all"
+        ? "Notification sent successfully to all users."
+        : "Notification sent successfully.",
+      "success"
+    );
+
+
+    document.getElementById(
+      "notificationTitle"
+    ).value = "";
+
+
+    document.getElementById(
+      "notificationMessage"
+    ).value = "";
+
+
+    document.getElementById(
+      "notificationType"
+    ).value =
+      "announcement";
+
+
+    document.getElementById(
+      "userSelect"
+    ).value = "";
+
+
+    await loadNotifications();
+
+
+  } catch (error) {
+
+    console.error(
+      "Notification error:",
+      error
+    );
+
+
+    showMessage(
+      "Failed to send notification: " +
+      error.message,
+      "error"
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.innerHTML = `
+      <i class="fa-solid fa-paper-plane"></i>
+      Send Notification
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   LOAD NOTIFICATIONS
+========================= */
+
+async function loadNotifications() {
+
+  const container =
+    document.getElementById(
+      "notificationsList"
+    );
+
+
+  container.innerHTML = `
+
+    <div class="empty">
+
+      <i class="fa-solid fa-spinner fa-spin"></i>
+
+      Loading notifications...
+
+    </div>
+
+  `;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+
+      .from("notifications")
+
+      .select(
+        "id, user_id, title, message, type, is_read, created_at"
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      )
+
+      .limit(30);
+
+
+  if (error) {
+
+    console.error(
+      "Notification loading error:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <i class="fa-solid fa-triangle-exclamation"></i>
+
+        Unable to load notifications.
+
+        <br><br>
+
+        ${escapeHtml(error.message)}
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (
+    !data ||
+    !data.length
+  ) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <i class="fa-regular fa-bell"></i>
+
+        No notifications have been sent yet.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(notification => {
+
+    const item =
+      document.createElement(
+        "div"
+      );
+
+
+    item.className =
+      "notification-item";
+
+
+    const date =
+      notification.created_at
+
+        ? new Date(
+            notification.created_at
+          ).toLocaleString(
+            "en-NG",
+            {
+              dateStyle: "medium",
+              timeStyle: "short"
+            }
+          )
+
+        : "Unknown date";
+
+
+    item.innerHTML = `
+
+      <div class="notification-top">
+
+        <div class="notification-title">
+
+          ${escapeHtml(
+            notification.title ||
+            "Untitled"
+          )}
+
+        </div>
+
+        <div class="notification-type">
+
+          ${escapeHtml(
+            notification.type ||
+            "notification"
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div class="notification-message">
+
+        ${escapeHtml(
+          notification.message ||
+          ""
+        )}
+
+      </div>
+
+
+      <div class="notification-date">
+
+        <i class="fa-regular fa-clock"></i>
+
+        ${escapeHtml(date)}
+
+      </div>
+
+
+      <div class="notification-actions">
+
+        <button
+          class="delete-btn"
+          onclick="openDeleteModal('${notification.id}')">
+
+          <i class="fa-solid fa-trash"></i>
+
+          Delete
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(
+      item
+    );
+
+  });
+
+}
+
+
+/* =========================
+   OPEN DELETE MODAL
+========================= */
+
+function openDeleteModal(id) {
+
+  notificationToDelete =
+    id;
+
+
+  document.getElementById(
+    "deleteModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   CLOSE DELETE MODAL
+========================= */
+
+function closeDeleteModal() {
+
+  notificationToDelete =
+    null;
+
+
+  document.getElementById(
+    "deleteModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   DELETE NOTIFICATION
+========================= */
+
+async function confirmDelete() {
+  
+  if (!notificationToDelete) {
+    return;
+  }
+  
+  const button =
+    document.getElementById("confirmDeleteBtn");
+  
+  button.disabled = true;
+  
+  button.innerHTML = `
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    Deleting...
+  `;
+  
+  try {
+    
+    /*
+      First get the notification that
+      the admin selected.
+    */
+    
+    const {
+      data: notification,
+      error: findError
+    } =
+    await supabaseClient
+      
+      .from("notifications")
+      
+      .select(
+        "id, title, message, type, created_at"
+      )
+      
+      .eq(
+        "id",
+        notificationToDelete
+      )
+      
+      .single();
+    
+    
+    if (findError) {
+      throw findError;
+    }
+    
+    
+    if (!notification) {
+      throw new Error(
+        "Notification could not be found."
+      );
+    }
+    
+    
+    /*
+      Delete every copy of this notification.
+
+      This is important because when an admin
+      sends to ALL USERS, Supabase creates
+      one notification row for each user.
+    */
+    
+    const {
+      error: deleteError
+    } =
+    await supabaseClient
+      
+      .from("notifications")
+      
+      .delete()
+      
+      .eq(
+        "title",
+        notification.title
+      )
+      
+      .eq(
+        "message",
+        notification.message
+      )
+      
+      .eq(
+        "type",
+        notification.type
+      )
+      
+      .eq(
+        "created_at",
+        notification.created_at
+      );
+    
+    
+    if (deleteError) {
+      throw deleteError;
+    }
+    
+    
+    /*
+      Close confirmation popup.
+    */
+    
+    closeDeleteModal();
+    
+    
+    /*
+      Show success message.
+    */
+    
+    showMessage(
+      "Notification deleted successfully for all users.",
+      "success"
+    );
+    
+    
+    /*
+      Reload recent notifications.
+    */
+    
+    await loadNotifications();
+    
+    
+  } catch (error) {
+    
+    console.error(
+      "Delete notification error:",
+      error
+    );
+    
+    
+    closeDeleteModal();
+    
+    
+    showMessage(
+      "Failed to delete notification: " +
+      error.message,
+      "error"
+    );
+    
+  } finally {
+    
+    button.disabled = false;
+    
+    button.innerHTML = "Delete";
+    
+  }
+  
+}
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(
+  message,
+  type
+) {
+
+  const box =
+    document.getElementById(
+      "messageBox"
+    );
+
+
+  box.className =
+    type;
+
+
+  box.textContent =
+    message;
+
+
+  box.style.display =
+    "block";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+
+  setTimeout(() => {
+
+    box.style.display =
+      "none";
+
+  }, 6000);
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>
