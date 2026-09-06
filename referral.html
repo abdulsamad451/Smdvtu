@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Refer & Earn - SMDVTU</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f8fc;
+  color: #172033;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+.app {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  min-height: 100vh;
+  padding-bottom: 30px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.top-header {
+  height: 70px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  border-bottom: 1px solid #edf1f5;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 13px;
+  background: #f1f7ff;
+  color: #1595ff;
+  font-size: 17px;
+  cursor: pointer;
+  margin-right: 13px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  font-size: 11px;
+  color: #8993a4;
+  margin-top: 3px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+  padding: 18px 15px 30px;
+}
+
+/* =========================
+   MAIN EARN CARD
+========================= */
+
+.earn-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 25px 20px;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #1595ff 0%,
+    #087be0 100%
+  );
+  box-shadow:
+    0 12px 30px rgba(21,149,255,0.20);
+  margin-bottom: 16px;
+}
+
+.earn-card::before {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  right: -70px;
+  top: -70px;
+}
+
+.earn-card::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  left: -50px;
+  bottom: -50px;
+}
+
+.earn-content {
+  position: relative;
+  z-index: 2;
+}
+
+.earn-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.gift-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.reward-label {
+  font-size: 12px;
+  opacity: 0.88;
+  text-align: right;
+}
+
+.reward-amount {
+  font-size: 30px;
+  font-weight: 800;
+  margin-top: 3px;
+  text-align: right;
+}
+
+.earn-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+
+.earn-description {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.92;
+  max-width: 360px;
+}
+
+/* =========================
+   REFERRAL CODE CARD
+========================= */
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 15px;
+  border: 1px solid #edf1f5;
+  box-shadow: 0 5px 18px rgba(23,32,51,0.045);
+}
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.card-title-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #eef7ff;
+  color: #1595ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CODE */
+
+.code-box {
+  background: #f5f9fd;
+  border: 1px dashed #b9ddfb;
+  border-radius: 15px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.code-label {
+  font-size: 10px;
+  color: #8b96a7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.code-value {
+  color: #1595ff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  word-break: break-all;
+}
+
+/* LINK */
+
+.link-label {
+  font-size: 12px;
+  color: #747e8e;
+  margin-bottom: 7px;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-input {
+  flex: 1;
+  width: 100%;
+  height: 45px;
+  border: 1px solid #e2e7ed;
+  background: #fafbfd;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 11px;
+  color: #596477;
+  outline: none;
+}
+
+.copy-button {
+  height: 45px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 12px;
+  background: #1595ff;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.copy-button:active {
+  transform: scale(0.97);
+}
+
+/* SHARE */
+
+.share-button {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 13px;
+  background: #eaf6ff;
+  color: #087ee8;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 11px;
+}
+
+.share-button i {
+  margin-right: 7px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 17px;
+  padding: 16px 7px;
+  text-align: center;
+  border: 1px solid #edf1f5;
+  box-shadow: 0 4px 15px rgba(23,32,51,0.04);
+}
+
+.stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  margin: 0 auto 8px;
+  background: #eef7ff;
+  color: #1595ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 17px;
+  font-weight: 800;
+  color: #172033;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  color: #8b95a5;
+  font-size: 10px;
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps {
+  margin-top: 4px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.step:last-child {
+  border-bottom: none;
+  padding-bottom: 2px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eaf6ff;
+  color: #1595ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.step-info h3 {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.step-info p {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #8a94a3;
+}
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-list {
+  margin-top: 2px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-left {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.history-icon {
+  width: 39px;
+  height: 39px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eef7ff;
+  color: #1595ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.history-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.history-date {
+  font-size: 10px;
+  color: #9099a7;
+  margin-top: 4px;
+}
+
+.history-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.history-amount {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.history-amount.earned {
+  color: #16a05d;
+}
+
+.history-amount.pending {
+  color: #e19a16;
+}
+
+.history-status {
+  font-size: 9px;
+  margin-top: 4px;
+  color: #929baa;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 28px 10px;
+  color: #929baa;
+}
+
+.empty-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 10px;
+  border-radius: 15px;
+  background: #f1f6fb;
+  color: #9ba7b6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+
+.empty-state p {
+  font-size: 12px;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+  display: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  background: #eafaf1;
+  color: #16834d;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+  text-align: center;
+  padding: 25px 10px;
+  color: #929baa;
+  font-size: 12px;
+}
+
+.spinner {
+  width: 25px;
+  height: 25px;
+  border: 3px solid #e7f2fb;
+  border-top-color: #1595ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   SMALL DEVICES
+========================= */
+
+@media (max-width: 380px) {
+
+  .content {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .earn-card {
+    padding: 22px 17px;
+  }
+
+  .earn-title {
+    font-size: 20px;
+  }
+
+  .reward-amount {
+    font-size: 26px;
+  }
+
+  .stats {
+    gap: 7px;
+  }
+
+  .stat-value {
+    font-size: 15px;
+  }
+
+  .link-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .copy-button {
+    width: 100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+
+  <header class="top-header">
+
+    <button
+      class="back-button"
+      onclick="history.back()"
+      aria-label="Go back"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div>
+
+      <div class="header-title">
+        Refer & Earn
+      </div>
+
+      <div class="header-subtitle">
+        Earn rewards by inviting friends
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="content">
+
+
+    <!-- EARN CARD -->
+
+    <section class="earn-card">
+
+      <div class="earn-content">
+
+        <div class="earn-top">
+
+          <div class="gift-icon">
+            <i class="fa-solid fa-gift"></i>
+          </div>
+
+          <div>
+
+            <div class="reward-label">
+              Reward per referral
+            </div>
+
+            <div class="reward-amount">
+              ₦50
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="earn-title">
+          Invite friends. Earn money.
+        </div>
+
+        <div class="earn-description">
+          Share your SMDVTU referral link with
+          friends and earn ₦50 when a referred
+          user tops up and successfully purchases
+          a service.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- REFERRAL LINK -->
+
+    <section class="card">
+
+      <div class="card-heading">
+
+        <div class="card-title">
+          Your Referral Link
+        </div>
+
+        <div class="card-title-icon">
+          <i class="fa-solid fa-link"></i>
+        </div>
+
+      </div>
+
+
+      <div class="code-box">
+
+        <div class="code-label">
+          Referral Code
+        </div>
+
+        <div
+          class="code-value"
+          id="referralCode"
+        >
+          Loading...
+        </div>
+
+      </div>
+
+
+      <div class="link-label">
+        Share this link with your friends
+      </div>
+
+      <div class="link-container">
+
+        <input
+          type="text"
+          id="referralLink"
+          class="link-input"
+          readonly
+          placeholder="Loading referral link..."
+        >
+
+        <button
+          class="copy-button"
+          id="copyButton"
+          onclick="copyReferralLink()"
+        >
+          <i class="fa-solid fa-copy"></i>
+          Copy
+        </button>
+
+      </div>
+
+
+      <button
+        class="share-button"
+        onclick="shareReferralLink()"
+      >
+        <i class="fa-solid fa-share-nodes"></i>
+        Share Referral Link
+      </button>
+
+
+      <div
+        class="message"
+        id="message"
+      ></div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalReferrals"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          Total Referrals
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div
+          class="stat-value"
+          id="successfulReferrals"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          Successful
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-naira-sign"></i>
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalEarnings"
+        >
+          ₦0
+        </div>
+
+        <div class="stat-label">
+          Total Earned
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- HOW IT WORKS -->
+
+    <section class="card">
+
+      <div class="card-heading">
+
+        <div class="card-title">
+          How It Works
+        </div>
+
+        <div class="card-title-icon">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+
+      </div>
+
+
+      <div class="steps">
+
+
+        <div class="step">
+
+          <div class="step-number">
+            1
+          </div>
+
+          <div class="step-info">
+
+            <h3>
+              Share your link
+            </h3>
+
+            <p>
+              Copy your unique referral link
+              and send it to your friends.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            2
+          </div>
+
+          <div class="step-info">
+
+            <h3>
+              Friend registers
+            </h3>
+
+            <p>
+              Your friend opens your referral
+              link and creates an SMDVTU account.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            3
+          </div>
+
+          <div class="step-info">
+
+            <h3>
+              Friend tops up
+            </h3>
+
+            <p>
+              The referred user must successfully
+              fund their SMDVTU wallet.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            4
+          </div>
+
+          <div class="step-info">
+
+            <h3>
+              Friend buys a service
+            </h3>
+
+            <p>
+              They must successfully purchase
+              at least one service.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            5
+          </div>
+
+          <div class="step-info">
+
+            <h3>
+              You receive ₦50
+            </h3>
+
+            <p>
+              Once both requirements are completed,
+              your referral reward is paid.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- HISTORY -->
+
+    <section class="card">
+
+      <div class="card-heading">
+
+        <div class="card-title">
+          Referral History
+        </div>
+
+        <div class="card-title-icon">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+
+      </div>
+
+
+      <div
+        id="history"
+        class="loading"
+      >
+
+        <div class="spinner"></div>
+
+        Loading referral history...
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* ================================
+   SUPABASE
+================================ */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+let referralLink = "";
+
+
+/* ================================
+   LOAD PAGE
+================================ */
+
+async function loadReferralPage() {
+
+  try {
+
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if (
+      sessionError ||
+      !sessionData.session
+    ) {
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    const user =
+      sessionData.session.user;
+
+
+    /* ================================
+       GET PROFILE
+    ================================= */
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "id, referral_code"
+      )
+      .eq(
+        "id",
+        user.id
+      )
+      .maybeSingle();
+
+
+    if (profileError) {
+
+      console.error(
+        "Profile error:",
+        profileError
+      );
+
+      document.getElementById(
+        "referralCode"
+      ).innerText =
+        "Unable to load";
+
+      return;
+
+    }
+
+
+    if (
+      !profile ||
+      !profile.referral_code
+    ) {
+
+      document.getElementById(
+        "referralCode"
+      ).innerText =
+        "No code";
+
+      document.getElementById(
+        "referralLink"
+      ).value =
+        "";
+
+      return;
+
+    }
+
+
+    const myReferralCode =
+      profile.referral_code
+        .toString()
+        .trim()
+        .toUpperCase();
+
+
+    /* ================================
+       CREATE LIVE ONLINE LINK
+    ================================= */
+
+    referralLink =
+      window.location.origin +
+      "/register.html?ref=" +
+      encodeURIComponent(
+        myReferralCode
+      );
+
+
+    document.getElementById(
+      "referralCode"
+    ).innerText =
+      myReferralCode;
+
+
+    document.getElementById(
+      "referralLink"
+    ).value =
+      referralLink;
+
+
+    /* ================================
+       LOAD HISTORY
+    ================================= */
+
+    await loadReferralHistory(
+      user.id
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Referral page error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ================================
+   REFERRAL HISTORY
+================================ */
+
+async function loadReferralHistory(
+  userId
+) {
+
+  const history =
+    document.getElementById(
+      "history"
+    );
+
+
+  const {
+    data: referrals,
+    error
+  } =
+  await supabaseClient
+    .from("referrals")
+    .select(
+      "id, referred_id, has_topped_up, has_purchased, reward_paid, reward_amount, created_at"
+    )
+    .eq(
+      "referrer_id",
+      userId
+    )
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    console.error(
+      "Referral history error:",
+      error
+    );
+
+    history.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+        <p>
+          Unable to load referral history.
+        </p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  const list =
+    referrals || [];
+
+
+  /* ================================
+     CALCULATE STATS
+  ================================= */
+
+  const successful =
+    list.filter(
+      referral =>
+        referral.has_topped_up === true &&
+        referral.has_purchased === true &&
+        referral.reward_paid === true
+    );
+
+
+  const earnings =
+    successful.reduce(
+      (
+        total,
+        referral
+      ) =>
+        total +
+        Number(
+          referral.reward_amount || 0
+        ),
+      0
+    );
+
+
+  document.getElementById(
+    "totalReferrals"
+  ).innerText =
+    list.length;
+
+
+  document.getElementById(
+    "successfulReferrals"
+  ).innerText =
+    successful.length;
+
+
+  document.getElementById(
+    "totalEarnings"
+  ).innerText =
+    "₦" +
+    earnings.toLocaleString();
+
+
+  /* ================================
+     EMPTY HISTORY
+  ================================= */
+
+  if (!list.length) {
+
+    history.innerHTML = `
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+
+        <p>
+          You have not referred anyone yet.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /* ================================
+     BUILD HISTORY
+  ================================= */
+
+  let html = "";
+
+
+  list.forEach(
+    referral => {
+
+      const completed =
+        referral.has_topped_up === true &&
+        referral.has_purchased === true &&
+        referral.reward_paid === true;
+
+
+      const date =
+        referral.created_at
+          ? new Date(
+              referral.created_at
+            ).toLocaleDateString(
+              "en-NG",
+              {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+              }
+            )
+          : "";
+
+
+      if (completed) {
+
+        html += `
+
+          <div class="history-item">
+
+            <div class="history-left">
+
+              <div class="history-icon">
+                <i class="fa-solid fa-user-check"></i>
+              </div>
+
+              <div>
+
+                <div class="history-name">
+                  Successful Referral
+                </div>
+
+                <div class="history-date">
+                  ${date}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="history-right">
+
+              <div class="history-amount earned">
+                +₦${Number(
+                  referral.reward_amount || 50
+                ).toLocaleString()}
+              </div>
+
+              <div class="history-status">
+                Reward paid
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+      } else {
+
+        html += `
+
+          <div class="history-item">
+
+            <div class="history-left">
+
+              <div class="history-icon">
+                <i class="fa-solid fa-user-clock"></i>
+              </div>
+
+              <div>
+
+                <div class="history-name">
+                  Referral Pending
+                </div>
+
+                <div class="history-date">
+                  ${date}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="history-right">
+
+              <div class="history-amount pending">
+                ₦50
+              </div>
+
+              <div class="history-status">
+                Requirements pending
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+  );
+
+
+  history.innerHTML =
+    `
+      <div class="history-list">
+        ${html}
+      </div>
+    `;
+
+}
+
+
+/* ================================
+   COPY LINK
+================================ */
+
+async function copyReferralLink() {
+
+  if (!referralLink) {
+
+    showMessage(
+      "Your referral link is not available yet."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "copyButton"
+    );
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      referralLink
+    );
+
+
+    button.innerHTML =
+      '<i class="fa-solid fa-check"></i> Copied';
+
+
+    showMessage(
+      "Referral link copied successfully."
+    );
+
+
+    setTimeout(
+      function() {
+
+        button.innerHTML =
+          '<i class="fa-solid fa-copy"></i> Copy';
+
+      },
+      2000
+    );
+
+
+  } catch (error) {
+
+    const input =
+      document.getElementById(
+        "referralLink"
+      );
+
+
+    input.focus();
+    input.select();
+    input.setSelectionRange(
+      0,
+      99999
+    );
+
+
+    try {
+
+      document.execCommand(
+        "copy"
+      );
+
+      showMessage(
+        "Referral link copied successfully."
+      );
+
+    } catch (copyError) {
+
+      showMessage(
+        "Please copy the link manually."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* ================================
+   SHARE LINK
+================================ */
+
+async function shareReferralLink() {
+
+  if (!referralLink) {
+
+    showMessage(
+      "Your referral link is not available yet."
+    );
+
+    return;
+
+  }
+
+
+  const shareData = {
+
+    title:
+      "Join SMDVTU",
+
+    text:
+      "Join SMDVTU for affordable airtime, data and other services.",
+
+    url:
+      referralLink
+
+  };
+
+
+  try {
+
+    if (
+      navigator.share
+    ) {
+
+      await navigator.share(
+        shareData
+      );
+
+    } else {
+
+      await copyReferralLink();
+
+    }
+
+  } catch (error) {
+
+    if (
+      error.name !==
+      "AbortError"
+    ) {
+
+      await copyReferralLink();
+
+    }
+
+  }
+
+}
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+function showMessage(
+  text
+) {
+
+  const message =
+    document.getElementById(
+      "message"
+    );
+
+
+  message.innerText =
+    text;
+
+
+  message.style.display =
+    "block";
+
+
+  setTimeout(
+    function() {
+
+      message.style.display =
+        "none";
+
+    },
+    3000
+  );
+
+}
+
+
+/* ================================
+   START
+================================ */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadReferralPage();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
