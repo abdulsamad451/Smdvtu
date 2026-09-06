@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+  <div class="brand">
+    <div class="brand-icon">
+      <i class="fa-solid fa-wallet"></i>
+    </div>
+
+    <h1>MyVTU</h1>
+    <p>Power your everyday payments</p>
+  </div>
+
+
+  <div class="auth-card">
+
+    <h2>Create Account</h2>
+    <p class="subtitle">Create your account to get started.</p>
+
+
+    <form id="registerForm">
+
+      <label>Full Name</label>
+
+      <div class="input-box">
+        <i class="fa-regular fa-user"></i>
+
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Enter your full name"
+          required>
+      </div>
+
+
+      <label>Phone Number</label>
+
+      <div class="input-box">
+        <i class="fa-solid fa-phone"></i>
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="08012345678"
+          maxlength="11"
+          required>
+      </div>
+
+
+      <label>Email Address</label>
+
+      <div class="input-box">
+        <i class="fa-regular fa-envelope"></i>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="you@example.com"
+          required>
+      </div>
+
+
+      <label>Password</label>
+
+      <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a password"
+          minlength="6"
+          required>
+
+        <button type="button"
+                class="show-password"
+                onclick="togglePassword('password', this)">
+          <i class="fa-regular fa-eye"></i>
+        </button>
+      </div>
+
+
+      <!-- REFERRAL CODE -->
+
+      <label>
+        Referral Code
+        <span style="font-weight: normal; color: #777;">
+          (Optional)
+        </span>
+      </label>
+
+      <div class="input-box">
+        <i class="fa-solid fa-user-plus"></i>
+
+        <input
+          type="text"
+          id="referralCode"
+          placeholder="Enter referral code"
+          maxlength="30"
+          autocomplete="off">
+      </div>
+
+      <p style="
+        margin: -8px 0 15px;
+        font-size: 12px;
+        color: #777;
+      ">
+        Have a referral code? Enter it above to support the person who referred you.
+      </p>
+
+
+      <div id="registerMessage" class="message"></div>
+
+
+      <button type="submit" class="auth-button">
+        Create Account
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </form>
+
+
+    <p class="bottom-text">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </p>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+
+
+<script>
+/*
+  REFERRAL SYSTEM
+  ----------------
+  If someone opens:
+
+  register.html?ref=SMD12345678
+
+  the referral code is automatically placed
+  in the referral input and saved locally.
+*/
+
+(function () {
+
+  const referralInput = document.getElementById("referralCode");
+
+  if (!referralInput) return;
+
+  // Get referral code from URL
+  const params = new URLSearchParams(window.location.search);
+  const urlReferralCode = params.get("ref");
+
+  if (urlReferralCode) {
+
+    const cleanCode = urlReferralCode.trim().toUpperCase();
+
+    referralInput.value = cleanCode;
+
+    // Save referral code for auth.js/signup process
+    localStorage.setItem(
+      "myvtu_referral_code",
+      cleanCode
+    );
+
+  } else {
+
+    // If there is no URL code, use a previously saved code
+    const savedCode =
+      localStorage.getItem("myvtu_referral_code");
+
+    if (savedCode) {
+      referralInput.value = savedCode;
+    }
+  }
+
+
+  // If user manually changes the referral code,
+  // keep the saved value updated.
+  referralInput.addEventListener("input", function () {
+
+    const code = this.value.trim().toUpperCase();
+
+    this.value = code;
+
+    if (code) {
+      localStorage.setItem(
+        "myvtu_referral_code",
+        code
+      );
+    } else {
+      localStorage.removeItem(
+        "myvtu_referral_code"
+      );
+    }
+
+  });
+
+})();
+</script>
+
+</body>
+</html>
