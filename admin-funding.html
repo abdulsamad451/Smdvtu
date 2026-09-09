@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wallet Funding - SMDVTU Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0b0f14;
+  color: #fff;
+  min-height: 100vh;
+}
+
+button,
+textarea {
+  font-family: inherit;
+}
+
+.header {
+  height: 70px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #11161d;
+  border-bottom: 1px solid #202733;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.back-btn,
+.refresh-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #29313d;
+  background: #171d25;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.refresh-btn.loading i {
+  animation: spin .8s linear infinite;
+}
+
+.header-title h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title p {
+  color: #8993a1;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px 18px 60px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: #11161d;
+  border: 1px solid #202733;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #18231d;
+  color: #42d77d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.stat-label {
+  color: #8993a1;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title h2 {
+  font-size: 17px;
+}
+
+.section-title span {
+  font-size: 12px;
+  color: #8993a1;
+}
+
+.requests {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.request-card {
+  background: #11161d;
+  border: 1px solid #202733;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.request-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.customer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #202832;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.customer-info {
+  min-width: 0;
+}
+
+.customer-name {
+  font-size: 15px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.customer-phone {
+  color: #8993a1;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.status {
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #352b12;
+  color: #f4c84b;
+  white-space: nowrap;
+}
+
+.amount-box {
+  background: #0c1117;
+  border: 1px solid #202733;
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+
+.amount-label {
+  color: #8993a1;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.amount {
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.detail {
+  background: #171d25;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.detail-label {
+  color: #8993a1;
+  font-size: 10px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.detail-value {
+  font-size: 13px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.time {
+  color: #8993a1;
+  font-size: 11px;
+  margin-bottom: 16px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.action-btn {
+  height: 46px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  transition: .2s;
+}
+
+.action-btn:active {
+  transform: scale(.98);
+}
+
+.approve {
+  background: #20a85a;
+  border: 1px solid #20a85a;
+}
+
+.reject {
+  background: #242b34;
+  border: 1px solid #343d48;
+}
+
+.action-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: #11161d;
+  border: 1px solid #202733;
+  border-radius: 18px;
+  grid-column: 1 / -1;
+}
+
+.empty-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 15px;
+  border-radius: 18px;
+  background: #18231d;
+  color: #42d77d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.empty h3 {
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.empty p {
+  color: #8993a1;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: #8993a1;
+  grid-column: 1 / -1;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #29313d;
+  border-top-color: #42d77d;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+/* MODALS */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 430px;
+  background: #11161d;
+  border: 1px solid #29313d;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: #182d21;
+  color: #42d77d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.modal-icon.reject-icon {
+  background: #291719;
+  color: #ff6262;
+}
+
+.modal h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.modal p {
+  color: #8993a1;
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cancel-btn,
+.confirm-btn,
+.confirm-reject {
+  height: 46px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.cancel-btn {
+  background: #242b34;
+  color: #fff;
+}
+
+.confirm-btn {
+  background: #20a85a;
+  color: #fff;
+}
+
+.confirm-reject {
+  background: #d94a4a;
+  color: #fff;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  background: #0c1117;
+  border: 1px solid #29313d;
+  border-radius: 13px;
+  padding: 13px;
+  color: #fff;
+  outline: none;
+  font-size: 13px;
+}
+
+textarea:focus {
+  border-color: #42d77d;
+}
+
+/* RESULT */
+
+.result-modal {
+  width: 100%;
+  max-width: 400px;
+  background: #11161d;
+  border: 1px solid #29313d;
+  border-radius: 22px;
+  padding: 25px;
+  text-align: center;
+}
+
+.result-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.result-icon.success {
+  background: #182d21;
+  color: #42d77d;
+}
+
+.result-icon.error {
+  background: #30191b;
+  color: #ff6262;
+}
+
+.result-modal h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.result-modal p {
+  color: #8993a1;
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.result-close {
+  width: 100%;
+  height: 45px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 12px;
+  background: #242b34;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* TOAST */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translateX(-50%) translateY(100px);
+  background: #182019;
+  border: 1px solid #2b5139;
+  color: #fff;
+  padding: 13px 17px;
+  border-radius: 13px;
+  font-size: 13px;
+  z-index: 200;
+  opacity: 0;
+  transition: .3s ease;
+  max-width: calc(100% - 35px);
+  text-align: center;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+  background: #291719;
+  border-color: #633036;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width:700px) {
+  .requests {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width:450px) {
+  .container {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .header {
+    padding: 0 13px;
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .header-title h1 {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="header-left">
+
+    <button
+      type="button"
+      class="back-btn"
+      id="backButton"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+      <h1>Wallet Funding</h1>
+      <p>Bank transfer verification</p>
+    </div>
+
+  </div>
+
+  <button
+    type="button"
+    class="refresh-btn"
+    id="refreshButton"
+  >
+    <i class="fa-solid fa-rotate"></i>
+  </button>
+
+</header>
+
+
+<main class="container">
+
+  <section class="stats">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="fa-solid fa-clock"></i>
+      </div>
+
+      <div class="stat-label">
+        Pending Requests
+      </div>
+
+      <div
+        class="stat-value"
+        id="pendingCount"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="fa-solid fa-naira-sign"></i>
+      </div>
+
+      <div class="stat-label">
+        Pending Amount
+      </div>
+
+      <div
+        class="stat-value"
+        id="pendingAmount"
+      >
+        ₦0.00
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="section-title">
+
+    <h2>Funding Requests</h2>
+
+    <span id="requestLabel">
+      Pending
+    </span>
+
+  </div>
+
+
+  <section
+    id="requests"
+    class="requests"
+  >
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading requests...
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- APPROVE CONFIRMATION MODAL -->
+
+<div
+  class="modal-overlay"
+  id="approveModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-icon">
+
+      <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+    <h3>
+      Approve Funding Request
+    </h3>
+
+    <p>
+      Only approve this request after you have confirmed
+      that the customer's bank transfer was actually
+      received in the SMDVTU funding account.
+    </p>
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelApproveButton"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="confirm-btn"
+        id="confirmApproveButton"
+      >
+        Approve Funding
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- REJECT MODAL -->
+
+<div
+  class="modal-overlay"
+  id="rejectModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-icon reject-icon">
+
+      <i class="fa-solid fa-xmark"></i>
+
+    </div>
+
+    <h3>
+      Reject Funding Request
+    </h3>
+
+    <p>
+      Enter a reason for rejecting this bank transfer.
+      The customer will receive this reason in their notification.
+    </p>
+
+    <textarea
+      id="rejectReason"
+      placeholder="Example: Bank transfer could not be verified."
+    ></textarea>
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelRejectButton"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="confirm-reject"
+        id="confirmRejectButton"
+      >
+        Reject Request
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- RESULT MODAL -->
+
+<div
+  class="modal-overlay"
+  id="resultModal"
+>
+
+  <div class="result-modal">
+
+    <div
+      class="result-icon"
+      id="resultIcon"
+    >
+
+      <i id="resultIconElement"></i>
+
+    </div>
+
+    <h3 id="resultTitle">
+      Result
+    </h3>
+
+    <p id="resultMessage">
+      -
+    </p>
+
+    <button
+      type="button"
+      class="result-close"
+      id="resultCloseButton"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ==========================================
+   STATE
+========================================== */
+
+let selectedRequestId = null;
+
+
+/* ==========================================
+   DOM
+========================================== */
+
+const requestsContainer =
+  document.getElementById("requests");
+
+const pendingCount =
+  document.getElementById("pendingCount");
+
+const pendingAmount =
+  document.getElementById("pendingAmount");
+
+const refreshButton =
+  document.getElementById("refreshButton");
+
+const approveModal =
+  document.getElementById("approveModal");
+
+const rejectModal =
+  document.getElementById("rejectModal");
+
+const resultModal =
+  document.getElementById("resultModal");
+
+const rejectReason =
+  document.getElementById("rejectReason");
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function formatMoney(amount) {
+
+  return new Intl.NumberFormat(
+    "en-NG",
+    {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 2
+    }
+  ).format(Number(amount || 0));
+
+}
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function getInitials(name) {
+
+  if (!name) {
+    return "?";
+  }
+
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(word =>
+      word.charAt(0)
+    )
+    .join("")
+    .toUpperCase();
+
+}
+
+
+function formatDate(date) {
+
+  try {
+
+    return new Date(date).toLocaleString(
+      "en-NG",
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }
+    );
+
+  } catch {
+
+    return date || "";
+
+  }
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(
+  message,
+  error = false
+) {
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.toggle(
+    "error",
+    error
+  );
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 3500);
+
+}
+
+
+/* ==========================================
+   RESULT MODAL
+========================================== */
+
+function showResult(
+  title,
+  message,
+  success = true
+) {
+
+  const icon =
+    document.getElementById(
+      "resultIcon"
+    );
+
+  const iconElement =
+    document.getElementById(
+      "resultIconElement"
+    );
+
+  document.getElementById(
+    "resultTitle"
+  ).textContent = title;
+
+  document.getElementById(
+    "resultMessage"
+  ).textContent = message;
+
+  icon.classList.remove(
+    "success",
+    "error"
+  );
+
+  icon.classList.add(
+    success
+      ? "success"
+      : "error"
+  );
+
+  iconElement.className =
+    success
+      ? "fa-solid fa-check"
+      : "fa-solid fa-triangle-exclamation";
+
+  resultModal.classList.add(
+    "show"
+  );
+
+}
+
+
+function closeResult() {
+
+  resultModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* ==========================================
+   ADMIN CHECK
+========================================== */
+
+async function checkAdmin() {
+
+  const {
+    data: sessionData,
+    error: sessionError
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if (
+    sessionError ||
+    !sessionData ||
+    !sessionData.session
+  ) {
+
+    window.location.href =
+      "login.html";
+
+    return false;
+
+  }
+
+
+  const userId =
+    sessionData.session.user.id;
+
+
+  const {
+    data: profile,
+    error: profileError
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", userId)
+      .single();
+
+
+  if (
+    profileError ||
+    !profile ||
+    profile.is_admin !== true
+  ) {
+
+    showResult(
+      "Access Denied",
+      "You do not have permission to access the admin funding page.",
+      false
+    );
+
+    setTimeout(() => {
+
+      window.location.href =
+        "dashboard.html";
+
+    }, 1800);
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* ==========================================
+   LOAD REQUESTS
+========================================== */
+
+async function loadRequests() {
+
+  refreshButton.classList.add(
+    "loading"
+  );
+
+  requestsContainer.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading requests...
+    </div>
+  `;
+
+
+  try {
+
+    const {
+      data: requests,
+      error
+    } =
+      await supabaseClient
+        .from("wallet_funding_requests")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    updateStats(
+      requests || []
+    );
+
+
+    if (
+      !requests ||
+      requests.length === 0
+    ) {
+
+      showEmpty(
+        "No funding requests",
+        "There are currently no wallet funding requests."
+      );
+
+      return;
+
+    }
+
+
+    const userIds = [
+      ...new Set(
+        requests.map(
+          request =>
+            request.user_id
+        )
+      )
+    ];
+
+
+    let profiles = [];
+
+
+    if (userIds.length > 0) {
+
+      const {
+        data,
+        error: profilesError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(
+            "id, full_name, phone"
+          )
+          .in(
+            "id",
+            userIds
+          );
+
+
+      if (profilesError) {
+        throw profilesError;
+      }
+
+
+      profiles =
+        data || [];
+
+    }
+
+
+    const profileMap = {};
+
+
+    profiles.forEach(
+      profile => {
+
+        profileMap[
+          profile.id
+        ] = profile;
+
+      }
+    );
+
+
+    const enriched =
+      requests.map(
+        request => ({
+
+          ...request,
+
+          profile:
+            profileMap[
+              request.user_id
+            ] || {}
+
+        })
+      );
+
+
+    renderRequests(
+      enriched
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "LOAD REQUESTS ERROR:",
+      error
+    );
+
+
+    requestsContainer.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3>
+          Unable to load requests
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            error.message ||
+            "Something went wrong."
+          )}
+        </p>
+
+      </div>
+    `;
+
+
+    showToast(
+      error.message ||
+      "Failed to load requests.",
+      true
+    );
+
+  }
+
+  finally {
+
+    refreshButton.classList.remove(
+      "loading"
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   STATS
+========================================== */
+
+function updateStats(
+  requests
+) {
+
+  const pending =
+    requests.filter(
+      request =>
+        request.status === "pending"
+    );
+
+
+  const total =
+    pending.reduce(
+      (sum, request) =>
+        sum +
+        Number(
+          request.amount || 0
+        ),
+      0
+    );
+
+
+  pendingCount.textContent =
+    pending.length;
+
+  pendingAmount.textContent =
+    formatMoney(total);
+
+}
+
+
+/* ==========================================
+   EMPTY
+========================================== */
+
+function showEmpty(
+  title,
+  message
+) {
+
+  requestsContainer.innerHTML = `
+
+    <div class="empty">
+
+      <div class="empty-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <h3>
+        ${escapeHTML(title)}
+      </h3>
+
+      <p>
+        ${escapeHTML(message)}
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==========================================
+   RENDER REQUESTS
+========================================== */
+
+function renderRequests(
+  requests
+) {
+
+  const pending =
+    requests.filter(
+      request =>
+        request.status === "pending"
+    );
+
+
+  if (pending.length === 0) {
+
+    showEmpty(
+      "All caught up",
+      "There are no pending funding requests."
+    );
+
+    return;
+
+  }
+
+
+  requestsContainer.innerHTML =
+    pending.map(
+      request => {
+
+        const profile =
+          request.profile || {};
+
+
+        const customerName =
+          profile.full_name ||
+          "Unknown Customer";
+
+
+        const phone =
+          profile.phone ||
+          "No phone number";
+
+
+        const senderName =
+          request.sender_name ||
+          "Not provided";
+
+
+        return `
+
+          <article
+            class="request-card"
+            data-request-id="${escapeHTML(
+              request.id
+            )}"
+          >
+
+            <div class="request-top">
+
+              <div class="customer">
+
+                <div class="avatar">
+                  ${escapeHTML(
+                    getInitials(
+                      customerName
+                    )
+                  )}
+                </div>
+
+                <div class="customer-info">
+
+                  <div class="customer-name">
+                    ${escapeHTML(
+                      customerName
+                    )}
+                  </div>
+
+                  <div class="customer-phone">
+                    ${escapeHTML(
+                      phone
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="status">
+                PENDING
+              </div>
+
+            </div>
+
+
+            <div class="amount-box">
+
+              <div class="amount-label">
+                Requested Amount
+              </div>
+
+              <div class="amount">
+                ${formatMoney(
+                  request.amount
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="details">
+
+              <div class="detail">
+
+                <div class="detail-label">
+                  Customer Account
+                </div>
+
+                <div class="detail-value">
+                  ${escapeHTML(
+                    customerName
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="detail">
+
+                <div class="detail-label">
+                  Sender Name
+                </div>
+
+                <div class="detail-value">
+                  ${escapeHTML(
+                    senderName
+                  )}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="time">
+
+              <i class="fa-regular fa-clock"></i>
+
+              Submitted:
+              ${escapeHTML(
+                formatDate(
+                  request.created_at
+                )
+              )}
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                type="button"
+                class="action-btn approve"
+                data-action="approve"
+                data-request-id="${escapeHTML(
+                  request.id
+                )}"
+              >
+
+                <i class="fa-solid fa-check"></i>
+
+                Approve
+
+              </button>
+
+
+              <button
+                type="button"
+                class="action-btn reject"
+                data-action="reject"
+                data-request-id="${escapeHTML(
+                  request.id
+                )}"
+              >
+
+                <i class="fa-solid fa-xmark"></i>
+
+                Reject
+
+              </button>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* ==========================================
+   OPEN APPROVE MODAL
+========================================== */
+
+function openApproveModal(
+  requestId
+) {
+
+  if (!requestId) {
+
+    showResult(
+      "Approval Error",
+      "No funding request ID was found.",
+      false
+    );
+
+    return;
+
+  }
+
+
+  selectedRequestId =
+    requestId;
+
+
+  approveModal.classList.add(
+    "show"
+  );
+
+}
+
+
+/* ==========================================
+   CLOSE APPROVE MODAL
+========================================== */
+
+function closeApproveModal() {
+
+  selectedRequestId =
+    null;
+
+  approveModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* ==========================================
+   CONFIRM APPROVE
+========================================== */
+
+async function confirmApprove() {
+
+  if (!selectedRequestId) {
+
+    closeApproveModal();
+
+    showResult(
+      "Approval Error",
+      "No funding request was selected.",
+      false
+    );
+
+    return;
+
+  }
+
+
+  const requestId =
+    selectedRequestId;
+
+
+  const button =
+    document.getElementById(
+      "confirmApproveButton"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.innerHTML =
+    `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "approve_wallet_funding",
+        {
+          p_request_id:
+            requestId
+        }
+      );
+
+
+    console.log(
+      "APPROVE RPC RESULT:",
+      data,
+      error
+    );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      data &&
+      typeof data === "object" &&
+      data.success === false
+    ) {
+
+      throw new Error(
+        data.message ||
+        "Funding approval was not completed."
+      );
+
+    }
+
+
+    closeApproveModal();
+
+
+    showResult(
+      "Funding Approved",
+      "The customer's wallet has been credited successfully. The transaction and notification were also processed.",
+      true
+    );
+
+
+    await loadRequests();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "APPROVE ERROR:",
+      error
+    );
+
+
+    closeApproveModal();
+
+
+    showResult(
+      "Approval Failed",
+      error?.message ||
+      "The funding approval could not be completed.",
+      false
+    );
+
+  }
+
+  finally {
+
+    button.disabled =
+      false;
+
+    button.innerHTML =
+      `<i class="fa-solid fa-check"></i> Approve Funding`;
+
+  }
+
+}
+
+
+/* ==========================================
+   OPEN REJECT MODAL
+========================================== */
+
+function openRejectModal(
+  requestId
+) {
+
+  selectedRequestId =
+    requestId;
+
+  rejectReason.value =
+    "";
+
+  rejectModal.classList.add(
+    "show"
+  );
+
+}
+
+
+/* ==========================================
+   CLOSE REJECT MODAL
+========================================== */
+
+function closeRejectModal() {
+
+  selectedRequestId =
+    null;
+
+  rejectModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* ==========================================
+   CONFIRM REJECT
+========================================== */
+
+async function confirmReject() {
+
+  if (!selectedRequestId) {
+    return;
+  }
+
+
+  const reason =
+    rejectReason.value.trim();
+
+
+  if (!reason) {
+
+    showToast(
+      "Please enter a rejection reason.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "confirmRejectButton"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.innerHTML =
+    `<i class="fa-solid fa-spinner fa-spin"></i> Rejecting...`;
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "reject_wallet_funding",
+        {
+          p_request_id:
+            selectedRequestId,
+
+          p_admin_note:
+            reason
+        }
+      );
+
+
+    console.log(
+      "REJECT RPC RESULT:",
+      data,
+      error
+    );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    closeRejectModal();
+
+
+    showToast(
+      "Funding request rejected successfully."
+    );
+
+
+    await loadRequests();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "REJECT ERROR:",
+      error
+    );
+
+
+    closeRejectModal();
+
+
+    showResult(
+      "Rejection Failed",
+      error?.message ||
+      "Failed to reject the funding request.",
+      false
+    );
+
+  }
+
+  finally {
+
+    button.disabled =
+      false;
+
+    button.innerHTML =
+      "Reject Request";
+
+  }
+
+}
+
+
+/* ==========================================
+   REQUEST BUTTON EVENT DELEGATION
+========================================== */
+
+/*
+   IMPORTANT:
+   The buttons are created dynamically by
+   renderRequests().
+
+   Instead of attaching individual
+   listeners after rendering, we listen
+   directly on the requests container.
+*/
+
+requestsContainer.addEventListener(
+  "click",
+  function(event) {
+
+    const button =
+      event.target.closest(
+        "button[data-action]"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const action =
+      button.dataset.action;
+
+
+    const requestId =
+      button.dataset.requestId;
+
+
+    if (action === "approve") {
+
+      openApproveModal(
+        requestId
+      );
+
+      return;
+
+    }
+
+
+    if (action === "reject") {
+
+      openRejectModal(
+        requestId
+      );
+
+      return;
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   PAGE EVENTS
+========================================== */
+
+document
+  .getElementById("backButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "admin.html";
+
+    }
+  );
+
+
+refreshButton.addEventListener(
+  "click",
+  loadRequests
+);
+
+
+/* APPROVE */
+
+document
+  .getElementById(
+    "cancelApproveButton"
+  )
+  .addEventListener(
+    "click",
+    closeApproveModal
+  );
+
+
+document
+  .getElementById(
+    "confirmApproveButton"
+  )
+  .addEventListener(
+    "click",
+    confirmApprove
+  );
+
+
+/* REJECT */
+
+document
+  .getElementById(
+    "cancelRejectButton"
+  )
+  .addEventListener(
+    "click",
+    closeRejectModal
+  );
+
+
+document
+  .getElementById(
+    "confirmRejectButton"
+  )
+  .addEventListener(
+    "click",
+    confirmReject
+  );
+
+
+/* RESULT */
+
+document
+  .getElementById(
+    "resultCloseButton"
+  )
+  .addEventListener(
+    "click",
+    closeResult
+  );
+
+
+/* ==========================================
+   CLOSE MODALS OUTSIDE
+========================================== */
+
+approveModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      approveModal
+    ) {
+
+      closeApproveModal();
+
+    }
+
+  }
+);
+
+
+rejectModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      rejectModal
+    ) {
+
+      closeRejectModal();
+
+    }
+
+  }
+);
+
+
+resultModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      resultModal
+    ) {
+
+      closeResult();
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+async function init() {
+
+  const isAdmin =
+    await checkAdmin();
+
+
+  if (!isAdmin) {
+    return;
+  }
+
+
+  await loadRequests();
+
+}
+
+
+init();
+
+</script>
+
+</body>
+</html>
