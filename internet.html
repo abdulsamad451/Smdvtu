@@ -1,0 +1,4870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Internet Data - SMDVTU</title>
+
+<script>
+(function () {
+  const theme =
+    localStorage.getItem("myvtu_theme") || "system";
+
+  const systemDark =
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" && systemDark);
+
+  document.documentElement.classList.toggle("dark-theme", isDark);
+  document.documentElement.classList.toggle("light-theme", !isDark);
+})();
+</script>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+/* =====================================================
+   BASE
+===================================================== */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#070b11;
+  --surface:#0d131c;
+  --surface2:#111923;
+  --surface3:#151f2b;
+  --border:#1e2a38;
+  --blue:#1595ff;
+  --blue2:#087de0;
+  --text:#f4f7fb;
+  --muted:#84909e;
+  --green:#27d17f;
+  --red:#ff5c6c;
+  --yellow:#ffc857;
+}
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(21,149,255,.13),
+      transparent 35%
+    ),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding-bottom:110px;
+  transition:
+    background .2s ease,
+    color .2s ease;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  border:0;
+  outline:0;
+  cursor:pointer;
+}
+
+.page{
+  width:100%;
+  max-width:560px;
+  margin:auto;
+  padding:16px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.back-btn,
+.history-btn{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.back-btn:active,
+.history-btn:active{
+  transform:scale(.94);
+}
+
+.header-title{
+  font-size:19px;
+  font-weight:750;
+  letter-spacing:-.3px;
+}
+
+.header-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+
+/* =====================================================
+   BALANCE
+===================================================== */
+
+.balance-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+  padding:21px;
+  margin-bottom:18px;
+  background:
+    linear-gradient(
+      135deg,
+      #118be9 0%,
+      #086fc9 52%,
+      #0759a5 100%
+    );
+  box-shadow:0 15px 40px rgba(0,110,220,.18);
+}
+
+.balance-card:before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:-70px;
+  top:-90px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+}
+
+.balance-card:after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  left:-60px;
+  bottom:-75px;
+  border-radius:50%;
+  background:rgba(255,255,255,.07);
+}
+
+.balance-label{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:rgba(255,255,255,.75);
+  font-size:12px;
+}
+
+.balance-label i{
+  font-size:11px;
+}
+
+.balance-value{
+  position:relative;
+  z-index:1;
+  font-size:29px;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin-top:6px;
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section{
+  margin-top:20px;
+}
+
+.section-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin-bottom:11px;
+}
+
+.section-title{
+  font-size:14px;
+  font-weight:750;
+}
+
+.section-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.section-count{
+  color:var(--blue);
+  font-size:11px;
+  font-weight:700;
+}
+
+
+/* =====================================================
+   PHONE
+===================================================== */
+
+.phone-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  transition:.2s;
+}
+
+.phone-box:focus-within{
+  border-color:rgba(21,149,255,.65);
+  box-shadow:0 0 0 3px rgba(21,149,255,.08);
+}
+
+.phone-icon{
+  width:40px;
+  height:40px;
+  flex:none;
+  border-radius:13px;
+  background:rgba(21,149,255,.12);
+  color:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.phone-content{
+  flex:1;
+}
+
+.phone-label{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:3px;
+}
+
+.phone-input{
+  width:100%;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:var(--text);
+  font-size:15px;
+  font-weight:650;
+}
+
+.phone-input::placeholder{
+  color:#4d5865;
+}
+
+
+/* =====================================================
+   BENEFICIARIES
+===================================================== */
+
+.beneficiary-section{
+  margin-top:12px;
+}
+
+.beneficiary-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:9px;
+}
+
+.beneficiary-title{
+  font-size:12px;
+  font-weight:750;
+}
+
+.beneficiary-count{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.beneficiary-list{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:2px 1px 5px;
+  scrollbar-width:none;
+}
+
+.beneficiary-list::-webkit-scrollbar{
+  display:none;
+}
+
+.beneficiary-card{
+  position:relative;
+  flex:none;
+  width:145px;
+  padding:11px;
+  border-radius:17px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  text-align:left;
+  transition:.2s;
+}
+
+.beneficiary-card:active{
+  transform:scale(.97);
+}
+
+.beneficiary-avatar{
+  width:35px;
+  height:35px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(21,149,255,.12);
+  color:var(--blue);
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.beneficiary-name{
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-right:18px;
+}
+
+.beneficiary-phone{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.beneficiary-delete{
+  position:absolute;
+  top:9px;
+  right:9px;
+  width:24px;
+  height:24px;
+  border-radius:8px;
+  background:rgba(255,92,108,.08);
+  color:var(--red);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  z-index:2;
+}
+
+.save-beneficiary-btn{
+  width:100%;
+  height:42px;
+  margin-top:8px;
+  border-radius:13px;
+  background:rgba(21,149,255,.08);
+  border:1px dashed rgba(21,149,255,.3);
+  color:var(--blue);
+  font-size:11px;
+  font-weight:750;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+
+.save-beneficiary-btn:active{
+  transform:scale(.985);
+}
+
+.no-beneficiary{
+  width:100%;
+  padding:13px;
+  border-radius:15px;
+  background:var(--surface);
+  border:1px dashed var(--border);
+  color:var(--muted);
+  font-size:10px;
+  text-align:center;
+}
+
+
+/* =====================================================
+   NETWORKS
+===================================================== */
+
+.network-scroll{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.network{
+  position:relative;
+  min-height:88px;
+  padding:10px 7px;
+  border-radius:18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  transition:.22s;
+}
+
+.network:active{
+  transform:scale(.97);
+}
+
+.network.active{
+  border-color:var(--blue);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(21,149,255,.16),
+      rgba(21,149,255,.04)
+    );
+  box-shadow:
+    0 7px 20px rgba(21,149,255,.08);
+}
+
+.network-check{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  background:var(--blue);
+  color:white;
+  font-size:8px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.network.active .network-check{
+  display:flex;
+}
+
+.network-logo{
+  width:40px;
+  height:40px;
+  margin:0 auto 7px;
+  border-radius:12px;
+  background:#ffffff;
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:5px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+
+.network-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.network-name{
+  font-size:11px;
+  font-weight:700;
+}
+
+
+/* =====================================================
+   DATA TYPES
+===================================================== */
+
+.type-scroll{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:2px 1px 5px;
+  scrollbar-width:none;
+}
+
+.type-scroll::-webkit-scrollbar{
+  display:none;
+}
+
+.type-btn,
+.data-type{
+  flex:none;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:10px 13px;
+  border-radius:13px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:#9da8b5;
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+  transition:.2s;
+}
+
+.type-btn i,
+.data-type i{
+  font-size:11px;
+}
+
+.type-btn.active,
+.data-type.active{
+  color:white;
+  background:var(--blue);
+  border-color:var(--blue);
+  box-shadow:0 6px 18px rgba(21,149,255,.16);
+}
+
+
+/* =====================================================
+   PLANS
+===================================================== */
+
+.plans{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.plan{
+  position:relative;
+  display:grid;
+  grid-template-columns:46px 1fr auto;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  min-height:78px;
+  padding:12px;
+  text-align:left;
+  color:var(--text);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:19px;
+  transition:.2s;
+}
+
+.plan:active{
+  transform:scale(.985);
+}
+
+.plan.selected{
+  border-color:rgba(21,149,255,.85);
+  background:
+    linear-gradient(
+      100deg,
+      rgba(21,149,255,.13),
+      rgba(21,149,255,.035)
+    );
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.2),
+    inset 0 0 0 1px rgba(21,149,255,.06);
+}
+
+.plan-icon,
+.data-icon{
+  width:46px;
+  height:46px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    linear-gradient(
+      145deg,
+      #182534,
+      #101923
+    );
+  border:1px solid #263546;
+  color:#66baff;
+  font-size:17px;
+}
+
+.plan.selected .plan-icon,
+.plan.selected .data-icon{
+  background:rgba(21,149,255,.15);
+  border-color:rgba(21,149,255,.35);
+  color:var(--blue);
+}
+
+.plan-main{
+  min-width:0;
+}
+
+.plan-name{
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:-.2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.plan-meta{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+.meta-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 7px;
+  border-radius:7px;
+  background:var(--surface3);
+  color:#8e9aa8;
+  font-size:9px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.meta-chip i{
+  font-size:8px;
+}
+
+.plan-side{
+  text-align:right;
+  min-width:76px;
+}
+
+.plan-price{
+  font-size:15px;
+  font-weight:850;
+  color:var(--text);
+  white-space:nowrap;
+}
+
+.select-circle,
+.check{
+  width:20px;
+  height:20px;
+  margin:7px 0 0 auto;
+  border-radius:50%;
+  border:1.5px solid #3a4756;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:8px;
+}
+
+.plan.selected .select-circle,
+.plan.selected .check{
+  border-color:var(--blue);
+  background:var(--blue);
+}
+
+
+/* =====================================================
+   LOADING / EMPTY / ERROR
+===================================================== */
+
+.empty-plans{
+  padding:35px 15px;
+  text-align:center;
+  border:1px dashed #263343;
+  border-radius:18px;
+  background:rgba(13,19,28,.6);
+}
+
+.empty-icon{
+  width:48px;
+  height:48px;
+  margin:0 auto 10px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--surface2);
+  color:#657282;
+}
+
+.empty-title{
+  font-size:13px;
+  font-weight:750;
+}
+
+.empty-text{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+.loading{
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.spinner{
+  width:28px;
+  height:28px;
+  margin:0 auto 12px;
+  border:3px solid #263442;
+  border-top-color:var(--blue);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+.error{
+  padding:35px 15px;
+  text-align:center;
+  border:1px dashed rgba(255,92,108,.3);
+  border-radius:18px;
+  background:rgba(255,92,108,.04);
+  color:var(--red);
+  font-size:12px;
+  line-height:1.6;
+}
+
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.notice{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:13px;
+  margin-top:18px;
+  background:rgba(255,200,87,.055);
+  border:1px solid rgba(255,200,87,.12);
+  border-radius:15px;
+  color:#9d9278;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.notice i{
+  color:var(--yellow);
+  margin-top:2px;
+}
+
+
+/* =====================================================
+   BOTTOM BUY BUTTON
+===================================================== */
+
+.bottom-bar{
+  position:fixed;
+  z-index:50;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:
+    12px
+    16px
+    calc(12px + env(safe-area-inset-bottom));
+  background:
+    linear-gradient(
+      to top,
+      rgba(7,11,17,1) 70%,
+      rgba(7,11,17,.88)
+    );
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,.05);
+}
+
+.buy-wrap{
+  max-width:560px;
+  margin:auto;
+}
+
+.buy-button{
+  width:100%;
+  height:55px;
+  border-radius:17px;
+  color:white;
+  background:
+    linear-gradient(
+      135deg,
+      #159cff,
+      #087bd8
+    );
+  font-size:14px;
+  font-weight:800;
+  box-shadow:
+    0 9px 25px rgba(21,149,255,.2);
+  transition:.2s;
+}
+
+.buy-button:active{
+  transform:scale(.985);
+}
+
+.buy-button:disabled{
+  background:#1b2530;
+  color:#667280;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(7px);
+  opacity:0;
+  visibility:hidden;
+  transition:.22s ease;
+}
+
+.popup-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+
+.popup{
+  width:100%;
+  max-width:390px;
+  padding:25px 20px 20px;
+  border-radius:25px;
+  background:#101720;
+  border:1px solid #263342;
+  box-shadow:0 25px 70px rgba(0,0,0,.55);
+  text-align:center;
+  transform:translateY(12px) scale(.97);
+  transition:.22s ease;
+}
+
+.popup-overlay.show .popup{
+  transform:translateY(0) scale(1);
+}
+
+.popup-icon{
+  width:58px;
+  height:58px;
+  margin:0 auto 14px;
+  border-radius:19px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(21,149,255,.12);
+  color:var(--blue);
+  font-size:21px;
+}
+
+.popup.success .popup-icon{
+  background:rgba(39,209,127,.11);
+  color:var(--green);
+}
+
+.popup.error .popup-icon{
+  background:rgba(255,92,108,.11);
+  color:var(--red);
+}
+
+.popup.pending .popup-icon{
+  background:rgba(255,200,87,.11);
+  color:var(--yellow);
+}
+
+.popup.processing .popup-icon{
+  background:rgba(21,149,255,.12);
+  color:var(--blue);
+}
+
+.popup.pin .popup-icon{
+  background:rgba(21,149,255,.12);
+  color:var(--blue);
+}
+
+.popup-title,
+.pin-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.popup-message,
+.pin-subtitle{
+  color:#929eac;
+  font-size:12px;
+  line-height:1.55;
+  margin-top:7px;
+}
+
+.popup-details{
+  margin-top:15px;
+  text-align:left;
+  border-radius:15px;
+  background:#0b1118;
+  border:1px solid #1d2936;
+  overflow:hidden;
+}
+
+.detail-row,
+.popup-detail{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:10px 12px;
+  border-bottom:1px solid #1b2631;
+  font-size:11px;
+}
+
+.detail-row:last-child,
+.popup-detail:last-child{
+  border-bottom:0;
+}
+
+.detail-row span:first-child,
+.popup-detail span:first-child{
+  color:#687584;
+}
+
+.detail-row span:last-child,
+.popup-detail span:last-child{
+  color:#e4ebf2;
+  font-weight:700;
+  text-align:right;
+}
+
+.popup-btn,
+.popup-button{
+  width:100%;
+  height:48px;
+  margin-top:15px;
+  border-radius:14px;
+  background:var(--blue);
+  color:white;
+  font-size:13px;
+  font-weight:800;
+}
+
+.popup.processing .popup-button{
+  display:none;
+}
+
+
+/* =====================================================
+   PIN
+===================================================== */
+
+.pin-input{
+  width:100%;
+  height:55px;
+  margin-top:17px;
+  border-radius:15px;
+  border:1px solid #263342;
+  background:#0a1017;
+  color:white;
+  outline:none;
+  text-align:center;
+  letter-spacing:9px;
+  font-size:20px;
+  font-weight:800;
+}
+
+.pin-input:focus{
+  border-color:var(--blue);
+}
+
+.pin-input::placeholder{
+  color:#4d5865;
+}
+
+.pin-error{
+  min-height:18px;
+  color:var(--red);
+  font-size:11px;
+  margin-top:8px;
+}
+
+.pin-button{
+  width:100%;
+  height:48px;
+  margin-top:8px;
+  border-radius:14px;
+  background:var(--blue);
+  color:white;
+  font-size:13px;
+  font-weight:800;
+}
+
+.pin-button:disabled{
+  opacity:.5;
+}
+
+.pin-cancel{
+  width:100%;
+  border:0;
+  background:none;
+  color:#777f8a;
+  padding:12px 5px 2px;
+  font-size:13px;
+}
+
+
+/* =====================================================
+   PROCESSING
+===================================================== */
+
+.processing-spinner,
+.processing-loader{
+  width:42px;
+  height:42px;
+  margin:5px auto 17px;
+  border-radius:50%;
+  border:3px solid #263442;
+  border-top-color:var(--blue);
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   LIGHT THEME
+===================================================== */
+
+html.light-theme{
+  color-scheme:light;
+}
+
+html.light-theme body{
+  --bg:#f5f7fa;
+  --surface:#ffffff;
+  --surface2:#ffffff;
+  --surface3:#eef2f6;
+  --border:#dfe5ec;
+  --text:#111318;
+  --muted:#687382;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(21,149,255,.10),
+      transparent 35%
+    ),
+    var(--bg);
+
+  color:var(--text);
+}
+
+html.light-theme .back-btn,
+html.light-theme .history-btn,
+html.light-theme .phone-box,
+html.light-theme .network,
+html.light-theme .type-btn,
+html.light-theme .data-type,
+html.light-theme .plan,
+html.light-theme .beneficiary-card,
+html.light-theme .no-beneficiary{
+  background:var(--surface);
+  border-color:var(--border);
+  color:var(--text);
+}
+
+html.light-theme .phone-input{
+  color:var(--text);
+}
+
+html.light-theme .phone-input::placeholder{
+  color:#9aa4b0;
+}
+
+html.light-theme .network.active{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(21,149,255,.12),
+      rgba(21,149,255,.03)
+    );
+}
+
+html.light-theme .type-btn,
+html.light-theme .data-type{
+  color:#687382;
+}
+
+html.light-theme .type-btn.active,
+html.light-theme .data-type.active{
+  color:white;
+}
+
+html.light-theme .plan.selected{
+  background:
+    linear-gradient(
+      100deg,
+      rgba(21,149,255,.10),
+      rgba(21,149,255,.025)
+    );
+}
+
+html.light-theme .plan-icon,
+html.light-theme .data-icon{
+  background:#eef4f9;
+  border-color:#d9e3ec;
+  color:#1595ff;
+}
+
+html.light-theme .meta-chip{
+  background:#eef2f6;
+  color:#687382;
+}
+
+html.light-theme .plan-price{
+  color:var(--text);
+}
+
+html.light-theme .select-circle,
+html.light-theme .check{
+  border-color:#aeb8c4;
+  color:#111318;
+}
+
+html.light-theme .empty-plans{
+  background:rgba(255,255,255,.7);
+  border-color:#d6dee7;
+}
+
+html.light-theme .empty-icon{
+  background:#eef2f6;
+  color:#7b8795;
+}
+
+html.light-theme .popup{
+  background:#ffffff;
+  border-color:#dfe5ec;
+}
+
+html.light-theme .popup-message,
+html.light-theme .pin-subtitle{
+  color:#687382;
+}
+
+html.light-theme .popup-details{
+  background:#f5f7fa;
+  border-color:#dfe5ec;
+}
+
+html.light-theme .detail-row,
+html.light-theme .popup-detail{
+  border-bottom-color:#e2e7ed;
+}
+
+html.light-theme .detail-row span:first-child,
+html.light-theme .popup-detail span:first-child{
+  color:#7b8795;
+}
+
+html.light-theme .detail-row span:last-child,
+html.light-theme .popup-detail span:last-child{
+  color:#20252c;
+}
+
+html.light-theme .pin-input{
+  background:#f5f7fa;
+  border-color:#dfe5ec;
+  color:#111318;
+}
+
+html.light-theme .processing-spinner,
+html.light-theme .processing-loader{
+  border-color:#dce3ea;
+  border-top-color:var(--blue);
+}
+
+html.light-theme .bottom-bar{
+  background:
+    linear-gradient(
+      to top,
+      rgba(245,247,250,1) 70%,
+      rgba(245,247,250,.90)
+    );
+
+  border-top-color:#dfe5ec;
+}
+
+html.light-theme .buy-button:disabled{
+  background:#e1e6ec;
+  color:#8a95a2;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:380px){
+
+  .page{
+    padding:13px;
+  }
+
+  .network{
+    min-height:82px;
+  }
+
+  .network-logo{
+    width:35px;
+    height:35px;
+    padding:4px;
+  }
+
+  .plan{
+    grid-template-columns:42px 1fr auto;
+    gap:9px;
+  }
+
+  .plan-icon,
+  .data-icon{
+    width:42px;
+    height:42px;
+  }
+
+  .plan-price{
+    font-size:14px;
+  }
+
+  .beneficiary-card{
+    width:135px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="header-left">
+
+      <button
+        class="back-btn"
+        onclick="goBackToDashboard()"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div>
+
+        <div class="header-title">
+          Internet Data
+        </div>
+
+        <div class="header-sub">
+          Choose a plan that works for you
+        </div>
+
+      </div>
+
+    </div>
+
+    <button
+      class="history-btn"
+      onclick="location.href='transaction-history.html'"
+    >
+      <i class="fa-solid fa-clock-rotate-left"></i>
+    </button>
+
+  </header>
+
+
+  <!-- BALANCE -->
+
+  <section class="balance-card">
+
+    <div class="balance-label">
+
+      <i class="fa-solid fa-wallet"></i>
+
+      Wallet balance
+
+    </div>
+
+    <div
+      class="balance-value"
+      id="currentBalance"
+    >
+      ₦0.00
+    </div>
+
+  </section>
+
+
+  <!-- PHONE -->
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="section-title">
+          Recipient number
+        </div>
+
+        <div class="section-subtitle">
+          Enter the number to receive the data
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="phone-box">
+
+      <div class="phone-icon">
+
+        <i class="fa-solid fa-mobile-screen-button"></i>
+
+      </div>
+
+
+      <div class="phone-content">
+
+        <label
+          class="phone-label"
+          for="phone"
+        >
+          Nigerian phone number
+        </label>
+
+        <input
+          id="phone"
+          class="phone-input"
+          type="tel"
+          inputmode="numeric"
+          maxlength="11"
+          placeholder="08012345678"
+          autocomplete="tel"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- BENEFICIARIES -->
+
+    <div class="beneficiary-section">
+
+      <div class="beneficiary-head">
+
+        <div class="beneficiary-title">
+          Saved Beneficiaries
+        </div>
+
+        <div
+          class="beneficiary-count"
+          id="beneficiaryCount"
+        >
+          0 saved
+        </div>
+
+      </div>
+
+
+      <div
+        class="beneficiary-list"
+        id="beneficiaryList"
+      >
+
+        <div class="no-beneficiary">
+          Loading saved beneficiaries...
+        </div>
+
+      </div>
+
+
+      <button
+        class="save-beneficiary-btn"
+        id="saveBeneficiaryButton"
+        onclick="saveCurrentBeneficiary()"
+      >
+
+        <i class="fa-solid fa-user-plus"></i>
+
+        Save this number as beneficiary
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- NETWORK -->
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="section-title">
+          Select network
+        </div>
+
+        <div class="section-subtitle">
+          Choose your mobile network
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="network-scroll">
+
+      <button
+        class="network active"
+        data-network="MTN"
+        onclick="selectNetwork(this)"
+      >
+
+        <span class="network-check">
+          <i class="fa-solid fa-check"></i>
+        </span>
+
+        <div class="network-logo">
+
+          <img
+            src="images/mtn.png"
+            alt="MTN"
+          >
+
+        </div>
+
+        <div class="network-name">
+          MTN
+        </div>
+
+      </button>
+
+
+      <button
+        class="network"
+        data-network="AIRTEL"
+        onclick="selectNetwork(this)"
+      >
+
+        <span class="network-check">
+          <i class="fa-solid fa-check"></i>
+        </span>
+
+        <div class="network-logo">
+
+          <img
+            src="images/airtel.png"
+            alt="Airtel"
+          >
+
+        </div>
+
+        <div class="network-name">
+          Airtel
+        </div>
+
+      </button>
+
+
+      <button
+        class="network"
+        data-network="GLO"
+        onclick="selectNetwork(this)"
+      >
+
+        <span class="network-check">
+          <i class="fa-solid fa-check"></i>
+        </span>
+
+        <div class="network-logo">
+
+          <img
+            src="images/glo.png"
+            alt="Glo"
+          >
+
+        </div>
+
+        <div class="network-name">
+          Glo
+        </div>
+
+      </button>
+
+
+      <button
+        class="network"
+        data-network="9MOBILE"
+        onclick="selectNetwork(this)"
+      >
+
+        <span class="network-check">
+          <i class="fa-solid fa-check"></i>
+        </span>
+
+        <div class="network-logo">
+
+          <img
+            src="images/9mobile.png"
+            alt="9mobile"
+          >
+
+        </div>
+
+        <div class="network-name">
+          9mobile
+        </div>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- DATA TYPE -->
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="section-title">
+          Data category
+        </div>
+
+        <div class="section-subtitle">
+          Filter available plans
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="type-scroll"
+      id="dataTypes"
+    >
+
+      <button
+        class="data-type active"
+        data-type="ALL"
+        onclick="selectDataType(this)"
+      >
+
+        <i class="fa-solid fa-layer-group"></i>
+
+        <span>
+          All
+        </span>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PLANS -->
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="section-title">
+          Available plans
+        </div>
+
+        <div class="section-subtitle">
+          Select one plan to continue
+        </div>
+
+      </div>
+
+
+      <div
+        class="section-count"
+        id="planCount"
+      >
+        0 plans
+      </div>
+
+    </div>
+
+
+    <div
+      class="plans"
+      id="plans"
+    >
+
+      <div class="empty-plans">
+
+        <div class="empty-icon">
+
+          <i class="fa-solid fa-spinner fa-spin"></i>
+
+        </div>
+
+        <div class="empty-title">
+          Loading plans
+        </div>
+
+        <div class="empty-text">
+          Please wait while we load available data plans.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NOTICE -->
+
+  <div class="notice">
+
+    <i class="fa-solid fa-circle-info"></i>
+
+    <div>
+
+      Make sure the phone number is correct before purchasing.
+      Data purchases sent to the wrong number may not be reversible.
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- BOTTOM BUY BUTTON -->
+
+<div class="bottom-bar">
+
+  <div class="buy-wrap">
+
+    <button
+      id="continueButton"
+      class="buy-button"
+      disabled
+      onclick="buyData()"
+    >
+      Select a data plan
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================
+     MAIN POPUP
+==================================================== -->
+
+<div
+  class="popup-overlay"
+  id="popupOverlay"
+  onclick="closePopupFromOutside(event)"
+>
+
+  <div
+    class="popup"
+    id="popupBox"
+  >
+
+    <div
+      class="popup-icon"
+      id="popupIcon"
+    >
+      <i id="popupIconSymbol"></i>
+    </div>
+
+
+    <div
+      class="popup-title"
+      id="popupTitle"
+    >
+      Notification
+    </div>
+
+
+    <div
+      class="popup-message"
+      id="popupMessage"
+    ></div>
+
+
+    <!-- PIN AREA -->
+
+    <div
+      id="pinArea"
+      style="display:none"
+    >
+
+      <div class="pin-title">
+        Enter purchase PIN
+      </div>
+
+
+      <div class="pin-subtitle">
+        Enter your 4-digit PIN to authorize this purchase.
+      </div>
+
+
+      <input
+        id="purchasePin"
+        class="pin-input"
+        type="password"
+        inputmode="numeric"
+        maxlength="4"
+        autocomplete="off"
+        placeholder="••••"
+      >
+
+
+      <div
+        id="pinError"
+        class="pin-error"
+      ></div>
+
+
+      <button
+        class="pin-button"
+        id="verifyPinButton"
+        onclick="verifyPurchasePin()"
+      >
+        Verify PIN
+      </button>
+
+
+      <button
+        class="pin-cancel"
+        onclick="closePopup()"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+
+    <!-- NORMAL DETAILS -->
+
+    <div
+      class="popup-details"
+      id="popupDetails"
+      style="display:none"
+    ></div>
+
+
+    <button
+      class="popup-button"
+      id="popupButton"
+      onclick="closePopup()"
+    >
+      Continue
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================
+     BENEFICIARY NAME POPUP
+==================================================== -->
+
+<div
+  class="popup-overlay"
+  id="beneficiaryNameOverlay"
+>
+
+  <div class="popup">
+
+    <div class="popup-icon">
+      <i class="fa-solid fa-user-plus"></i>
+    </div>
+
+
+    <div class="popup-title">
+      Save Beneficiary
+    </div>
+
+
+    <div class="popup-message">
+      Give this phone number a name so you can easily use it again.
+    </div>
+
+
+    <input
+      id="beneficiaryNameInput"
+      class="pin-input"
+      type="text"
+      maxlength="40"
+      autocomplete="off"
+      placeholder="e.g. My Number"
+      style="letter-spacing:0;text-align:left;padding:0 15px;font-size:14px;"
+    >
+
+
+    <div
+      id="beneficiaryNameError"
+      class="pin-error"
+    ></div>
+
+
+    <button
+      class="pin-button"
+      id="saveBeneficiaryConfirm"
+    >
+      Save Beneficiary
+    </button>
+
+
+    <button
+      class="pin-cancel"
+      onclick="closeBeneficiaryNamePopup()"
+    >
+      Cancel
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================
+     DELETE BENEFICIARY POPUP
+==================================================== -->
+
+<div
+  class="popup-overlay"
+  id="deleteBeneficiaryOverlay"
+>
+
+  <div class="popup">
+
+    <div
+      class="popup-icon"
+      style="background:rgba(255,92,108,.11);color:var(--red);"
+    >
+      <i class="fa-solid fa-trash"></i>
+    </div>
+
+
+    <div class="popup-title">
+      Delete Beneficiary?
+    </div>
+
+
+    <div
+      class="popup-message"
+      id="deleteBeneficiaryMessage"
+    >
+      Are you sure you want to delete this beneficiary?
+    </div>
+
+
+    <button
+      class="pin-button"
+      id="deleteBeneficiaryConfirm"
+      style="background:var(--red);"
+    >
+      Delete Beneficiary
+    </button>
+
+
+    <button
+      class="pin-cancel"
+      onclick="closeDeleteBeneficiaryPopup()"
+    >
+      Cancel
+    </button>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let selectedNetwork = "MTN";
+
+let allPlans = [];
+
+let selectedDataType = "ALL";
+
+let selectedPlan = null;
+
+let purchaseProcessing = false;
+
+let pinVerificationProcessing = false;
+
+let currentUserId = null;
+
+let beneficiaryPhoneToSave = null;
+
+let beneficiaryIdToDelete = null;
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   ESCAPE JS
+===================================================== */
+
+function escapeJS(value){
+
+  return String(value ?? "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,'\\"')
+    .replace(/\r/g,"\\r")
+    .replace(/\n/g,"\\n");
+
+}
+
+
+/* =====================================================
+   BENEFICIARY INITIAL
+===================================================== */
+
+function getInitial(name){
+
+  const text =
+    String(name ?? "").trim();
+
+  return text
+    ? text.charAt(0).toUpperCase()
+    : "?";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function goBackToDashboard(){
+
+  location.href =
+    "dashboard.html";
+
+}
+
+
+/* =====================================================
+   LOAD USER
+===================================================== */
+
+async function loadUser(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+  await supabaseClient.auth.getSession();
+
+
+  if(!session){
+
+    location.href="login.html";
+
+    return;
+
+  }
+
+
+  currentUserId =
+    session.user.id;
+
+
+  const {
+    data:profile,
+    error
+  } =
+  await supabaseClient
+  .from("profiles")
+  .select("balance")
+  .eq("id",session.user.id)
+  .single();
+
+
+  if(error){
+
+    console.error(error);
+
+  }else{
+
+    document.getElementById(
+      "currentBalance"
+    ).innerText =
+    "₦"+
+    Number(
+      profile.balance || 0
+    ).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2
+      }
+    );
+
+  }
+
+
+  await loadBeneficiaries();
+
+  loadPlans();
+
+}
+
+
+/* =====================================================
+   LOAD BENEFICIARIES
+===================================================== */
+
+async function loadBeneficiaries(){
+
+  const list =
+    document.getElementById(
+      "beneficiaryList"
+    );
+
+  const count =
+    document.getElementById(
+      "beneficiaryCount"
+    );
+
+
+  if(!currentUserId){
+
+    return;
+
+  }
+
+
+  list.innerHTML = `
+    <div class="no-beneficiary">
+      Loading saved beneficiaries...
+    </div>
+  `;
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from("favourite_beneficiaries")
+    .select(
+      "id,user_id,name,phone,created_at"
+    )
+    .eq(
+      "user_id",
+      currentUserId
+    )
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
+
+
+  if(error){
+
+    console.error(
+      "loadBeneficiaries:",
+      error
+    );
+
+
+    count.innerText =
+      "0 saved";
+
+
+    list.innerHTML = `
+      <div class="no-beneficiary">
+        Unable to load beneficiaries.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  renderBeneficiaries(
+    data || []
+  );
+
+}
+
+
+/* =====================================================
+   RENDER BENEFICIARIES
+===================================================== */
+
+function renderBeneficiaries(beneficiaries){
+
+  const list =
+    document.getElementById(
+      "beneficiaryList"
+    );
+
+  const count =
+    document.getElementById(
+      "beneficiaryCount"
+    );
+
+
+  count.innerText =
+    beneficiaries.length +
+    (
+      beneficiaries.length === 1
+        ? " saved"
+        : " saved"
+    );
+
+
+  if(!beneficiaries.length){
+
+    list.innerHTML = `
+      <div class="no-beneficiary">
+        No saved beneficiaries yet.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    beneficiaries.map(
+      beneficiary => `
+
+        <div
+          class="beneficiary-card"
+          onclick="selectBeneficiary('${escapeJS(beneficiary.phone)}')"
+        >
+
+          <div class="beneficiary-avatar">
+
+            ${escapeHTML(
+              getInitial(
+                beneficiary.name
+              )
+            )}
+
+          </div>
+
+
+          <div class="beneficiary-name">
+
+            ${escapeHTML(
+              beneficiary.name
+            )}
+
+          </div>
+
+
+          <div class="beneficiary-phone">
+
+            ${escapeHTML(
+              beneficiary.phone
+            )}
+
+          </div>
+
+
+          <button
+            class="beneficiary-delete"
+            onclick="event.stopPropagation(); deleteBeneficiary('${escapeJS(beneficiary.id)}','${escapeJS(beneficiary.name)}')"
+            aria-label="Delete beneficiary"
+          >
+
+            <i class="fa-solid fa-trash"></i>
+
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =====================================================
+   SELECT BENEFICIARY
+===================================================== */
+
+function selectBeneficiary(phone){
+
+  const input =
+    document.getElementById(
+      "phone"
+    );
+
+
+  input.value =
+    String(phone || "")
+    .replace(
+      /\D/g,
+      ""
+    )
+    .slice(
+      0,
+      11
+    );
+
+
+  input.focus();
+
+
+  input.dispatchEvent(
+    new Event(
+      "input",
+      {
+        bubbles:true
+      }
+    )
+  );
+
+}
+
+
+/* =====================================================
+   SAVE CURRENT BENEFICIARY
+===================================================== */
+
+function saveCurrentBeneficiary(){
+
+  if(!currentUserId){
+
+    showPopup(
+      "error",
+      "Not Logged In",
+      "Please login again before saving a beneficiary."
+    );
+
+    return;
+
+  }
+
+
+  const phone =
+    document.getElementById(
+      "phone"
+    )
+    .value
+    .trim();
+
+
+  if(!/^0\d{10}$/.test(phone)){
+
+    showPopup(
+      "error",
+      "Invalid Number",
+      "Enter a valid Nigerian phone number first."
+    );
+
+    return;
+
+  }
+
+
+  beneficiaryPhoneToSave =
+    phone;
+
+
+  const overlay =
+    document.getElementById(
+      "beneficiaryNameOverlay"
+    );
+
+
+  const input =
+    document.getElementById(
+      "beneficiaryNameInput"
+    );
+
+
+  const error =
+    document.getElementById(
+      "beneficiaryNameError"
+    );
+
+
+  input.value =
+    "";
+
+  error.innerText =
+    "";
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    ()=>{
+      input.focus();
+    },
+    250
+  );
+
+}
+
+
+/* =====================================================
+   CLOSE NAME POPUP
+===================================================== */
+
+function closeBeneficiaryNamePopup(){
+
+  document
+    .getElementById(
+      "beneficiaryNameOverlay"
+    )
+    .classList.remove(
+      "show"
+    );
+
+
+  document.getElementById(
+    "beneficiaryNameInput"
+  ).value="";
+
+
+  document.getElementById(
+    "beneficiaryNameError"
+  ).innerText="";
+
+
+  beneficiaryPhoneToSave =
+    null;
+
+}
+
+
+/* =====================================================
+   CONFIRM SAVE BENEFICIARY
+===================================================== */
+
+async function confirmSaveBeneficiary(){
+
+  const input =
+    document.getElementById(
+      "beneficiaryNameInput"
+    );
+
+  const errorBox =
+    document.getElementById(
+      "beneficiaryNameError"
+    );
+
+  const button =
+    document.getElementById(
+      "saveBeneficiaryConfirm"
+    );
+
+
+  const name =
+    input.value.trim();
+
+
+  if(!beneficiaryPhoneToSave){
+
+    errorBox.innerText =
+      "Phone number is missing.";
+
+    return;
+
+  }
+
+
+  if(name.length < 2){
+
+    errorBox.innerText =
+      "Please enter a beneficiary name.";
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  if(name.length > 40){
+
+    errorBox.innerText =
+      "Name must not exceed 40 characters.";
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  if(!currentUserId){
+
+    errorBox.innerText =
+      "Your session has expired. Please login again.";
+
+    return;
+
+  }
+
+
+  button.disabled =
+    true;
+
+  button.innerText =
+    "Saving...";
+
+  errorBox.innerText =
+    "";
+
+
+  try{
+
+    /* CHECK DUPLICATE */
+
+    const {
+      data:existing,
+      error:duplicateError
+    } =
+    await supabaseClient
+      .from("favourite_beneficiaries")
+      .select("id")
+      .eq(
+        "user_id",
+        currentUserId
+      )
+      .eq(
+        "phone",
+        beneficiaryPhoneToSave
+      )
+      .maybeSingle();
+
+
+    if(duplicateError){
+
+      throw duplicateError;
+
+    }
+
+
+    if(existing){
+
+      closeBeneficiaryNamePopup();
+
+
+      showPopup(
+        "error",
+        "Already Saved",
+        "This phone number is already in your saved beneficiaries."
+      );
+
+      return;
+
+    }
+
+
+    /* INSERT */
+
+    const {
+      error:insertError
+    } =
+    await supabaseClient
+      .from("favourite_beneficiaries")
+      .insert({
+
+        user_id:
+          currentUserId,
+
+        name:
+          name,
+
+        phone:
+          beneficiaryPhoneToSave
+
+      });
+
+
+    if(insertError){
+
+      throw insertError;
+
+    }
+
+
+    closeBeneficiaryNamePopup();
+
+
+    await loadBeneficiaries();
+
+
+    showPopup(
+      "success",
+      "Beneficiary Saved",
+      "The phone number has been saved successfully."
+    );
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "confirmSaveBeneficiary:",
+      error
+    );
+
+
+    errorBox.innerText =
+      error?.message ||
+      error?.details ||
+      error?.hint ||
+      "Something went wrong while saving the beneficiary.";
+
+  }
+
+  finally{
+
+    button.disabled =
+      false;
+
+    button.innerText =
+      "Save Beneficiary";
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE BENEFICIARY
+===================================================== */
+
+function deleteBeneficiary(
+  id,
+  name
+){
+
+  if(!currentUserId){
+
+    showPopup(
+      "error",
+      "Not Logged In",
+      "Please login again."
+    );
+
+    return;
+
+  }
+
+
+  beneficiaryIdToDelete =
+    id;
+
+
+  document.getElementById(
+    "deleteBeneficiaryMessage"
+  ).innerText =
+    `Are you sure you want to delete "${name}"?`;
+
+
+  document
+    .getElementById(
+      "deleteBeneficiaryOverlay"
+    )
+    .classList.add(
+      "show"
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE DELETE POPUP
+===================================================== */
+
+function closeDeleteBeneficiaryPopup(){
+
+  document
+    .getElementById(
+      "deleteBeneficiaryOverlay"
+    )
+    .classList.remove(
+      "show"
+    );
+
+
+  beneficiaryIdToDelete =
+    null;
+
+}
+
+
+/* =====================================================
+   CONFIRM DELETE BENEFICIARY
+===================================================== */
+
+async function confirmDeleteBeneficiary(){
+
+  const button =
+    document.getElementById(
+      "deleteBeneficiaryConfirm"
+    );
+
+
+  if(!beneficiaryIdToDelete){
+
+    return;
+
+  }
+
+
+  button.disabled =
+    true;
+
+  button.innerText =
+    "Deleting...";
+
+
+  try{
+
+    const {
+      error
+    } =
+    await supabaseClient
+      .from("favourite_beneficiaries")
+      .delete()
+      .eq(
+        "id",
+        beneficiaryIdToDelete
+      )
+      .eq(
+        "user_id",
+        currentUserId
+      );
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    closeDeleteBeneficiaryPopup();
+
+
+    await loadBeneficiaries();
+
+
+    showPopup(
+      "success",
+      "Beneficiary Deleted",
+      "The beneficiary has been removed successfully."
+    );
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "confirmDeleteBeneficiary:",
+      error
+    );
+
+
+    closeDeleteBeneficiaryPopup();
+
+
+    showPopup(
+      "error",
+      "Delete Failed",
+      error?.message ||
+      error?.details ||
+      error?.hint ||
+      "Something went wrong while deleting the beneficiary."
+    );
+
+  }
+
+  finally{
+
+    button.disabled =
+      false;
+
+    button.innerText =
+      "Delete Beneficiary";
+
+  }
+
+}
+
+
+/* =====================================================
+   NETWORK
+===================================================== */
+
+function selectNetwork(button){
+
+  if(purchaseProcessing){
+    return;
+  }
+
+
+  document
+  .querySelectorAll(".network")
+  .forEach(
+    item =>
+      item.classList.remove("active")
+  );
+
+
+  button.classList.add("active");
+
+
+  selectedNetwork =
+    button.dataset.network;
+
+
+  selectedPlan=null;
+
+  selectedDataType="ALL";
+
+
+  const buy =
+    document.getElementById(
+      "continueButton"
+    );
+
+
+  buy.disabled=true;
+
+  buy.innerText=
+    "Select a data plan";
+
+
+  loadPlans();
+
+}
+
+
+/* =====================================================
+   SERVICE ID
+===================================================== */
+
+function getServiceID(network){
+
+  const services={
+
+    MTN:"mtn-data",
+
+    AIRTEL:"airtel-data",
+
+    GLO:"glo-data",
+
+    "9MOBILE":"etisalat-data"
+
+  };
+
+
+  return services[network];
+
+}
+
+
+/* =====================================================
+   LOAD PLANS
+===================================================== */
+
+async function loadPlans(){
+
+  const container =
+    document.getElementById("plans");
+
+
+  container.innerHTML=`
+
+    <div class="empty-plans">
+
+      <div class="empty-icon">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+      </div>
+
+      <div class="empty-title">
+        Loading plans
+      </div>
+
+      <div class="empty-text">
+        Fetching ${escapeHTML(selectedNetwork)} data plans...
+      </div>
+
+    </div>
+
+  `;
+
+
+  try{
+
+    const {
+      data:{
+        session
+      }
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+      location.href="login.html";
+
+      return;
+
+    }
+
+
+    const response =
+      await fetch(
+
+        `${SUPABASE_URL}/functions/v1/get-data-plans?network=${encodeURIComponent(selectedNetwork)}`,
+
+        {
+
+          method:"GET",
+
+          headers:{
+
+            "Authorization":
+            `Bearer ${session.access_token}`,
+
+            "apikey":
+            SUPABASE_KEY,
+
+            "Content-Type":
+            "application/json"
+
+          }
+
+        }
+
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.message ||
+        "Unable to load plans."
+      );
+
+    }
+
+
+    displayPlans(
+      data.plans || []
+    );
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+
+    container.innerHTML=`
+
+      <div class="error">
+
+        Unable to load data plans.<br>
+
+        Please try again.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   DISPLAY PLANS
+===================================================== */
+
+function displayPlans(plans){
+
+  allPlans =
+    Array.isArray(plans) ?
+    plans :
+    [];
+
+  buildDataTypes();
+
+  renderFilteredPlans();
+
+}
+
+
+/* =====================================================
+   NORMALIZE TYPE
+===================================================== */
+
+function normalizeType(plan){
+
+  const possibleTypes = [
+
+    plan.type,
+    plan.plan_type,
+    plan.planType,
+    plan.category,
+    plan.category_name,
+    plan.family,
+    plan.family_name,
+    plan.product_type
+
+  ];
+
+
+  for(const value of possibleTypes){
+
+    if(
+      value !== undefined &&
+      value !== null &&
+      String(value).trim() !== ""
+    ){
+
+      return normalizeTypeName(value);
+
+    }
+
+  }
+
+
+  return detectTypeFromName(
+    plan.name
+  );
+
+}
+
+
+/* =====================================================
+   NORMALIZE TYPE NAME
+===================================================== */
+
+function normalizeTypeName(value){
+
+  const text =
+    String(value)
+    .trim()
+    .toUpperCase();
+
+
+  if(text.includes("SME")){
+    return "SME";
+  }
+
+
+  if(text.includes("GIFT")){
+    return "GIFTING";
+  }
+
+
+  if(
+    text === "CG" ||
+    text.includes("CORPORATE GIFT")
+  ){
+
+    return "CG";
+
+  }
+
+
+  if(
+    text === "DG" ||
+    text.includes("DATA GIFT")
+  ){
+
+    return "DG";
+
+  }
+
+
+  if(text.includes("CORPORATE")){
+    return "CORPORATE";
+  }
+
+
+  return text;
+
+}
+
+
+/* =====================================================
+   DETECT TYPE FROM NAME
+===================================================== */
+
+function detectTypeFromName(name){
+
+  const text =
+    String(name || "")
+    .toUpperCase();
+
+
+  if(text.includes("SME")){
+    return "SME";
+  }
+
+
+  if(
+    text.includes("GIFT") ||
+    text.includes("GIFTING")
+  ){
+
+    return "GIFTING";
+
+  }
+
+
+  if(text.includes("CORPORATE GIFT")){
+    return "CG";
+  }
+
+
+  if(text.includes("DATA GIFT")){
+    return "DG";
+  }
+
+
+  if(text.includes("CORPORATE")){
+    return "CORPORATE";
+  }
+
+
+  return "OTHER";
+
+}
+
+
+/* =====================================================
+   DATA TYPE ICON
+===================================================== */
+
+function getDataTypeIcon(type){
+
+  switch(type){
+
+    case "SME":
+      return "fa-solid fa-users";
+
+    case "GIFTING":
+      return "fa-solid fa-gift";
+
+    case "CORPORATE":
+      return "fa-solid fa-building";
+
+    case "CG":
+      return "fa-solid fa-building-circle-check";
+
+    case "DG":
+      return "fa-solid fa-hand-holding-heart";
+
+    case "OTHER":
+      return "fa-solid fa-box";
+
+    default:
+      return "fa-solid fa-layer-group";
+
+  }
+
+}
+
+
+/* =====================================================
+   BUILD DATA TYPES
+===================================================== */
+
+function buildDataTypes(){
+
+  const container =
+    document.getElementById(
+      "dataTypes"
+    );
+
+
+  container.innerHTML="";
+
+
+  const types = [
+
+    "ALL",
+
+    ...new Set(
+      allPlans.map(
+        plan =>
+          normalizeType(plan)
+      )
+    )
+
+  ];
+
+
+  types.forEach(type=>{
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "data-type" +
+      (
+        type === selectedDataType
+          ? " active"
+          : ""
+      );
+
+
+    button.dataset.type =
+      type;
+
+
+    const icon =
+      getDataTypeIcon(type);
+
+
+    button.innerHTML=`
+
+      <i class="${icon}"></i>
+
+      <span>
+        ${escapeHTML(
+          type === "ALL"
+            ? "All"
+            : type
+        )}
+      </span>
+
+    `;
+
+
+    button.onclick=()=>{
+
+      selectDataType(button);
+
+    };
+
+
+    container.appendChild(
+      button
+    );
+
+  });
+
+}
+
+
+/* =====================================================
+   SELECT DATA TYPE
+===================================================== */
+
+function selectDataType(button){
+
+  if(purchaseProcessing){
+    return;
+  }
+
+
+  document
+    .querySelectorAll(".data-type")
+    .forEach(item=>{
+
+      item.classList.remove("active");
+
+    });
+
+
+  button.classList.add("active");
+
+
+  selectedDataType =
+    button.dataset.type;
+
+
+  selectedPlan=null;
+
+
+  const buy =
+    document.getElementById(
+      "continueButton"
+    );
+
+
+  buy.disabled=true;
+
+  buy.innerText=
+    "Select a data plan";
+
+
+  renderFilteredPlans();
+
+}
+
+
+/* =====================================================
+   EXTRACT DATA SIZE
+===================================================== */
+
+function extractDataSize(name){
+
+  const text =
+    String(name || "");
+
+
+  const match =
+    text.match(
+      /(\d+(?:\.\d+)?)\s*(GB|MB|TB)/i
+    );
+
+
+  if(!match){
+    return null;
+  }
+
+
+  return `${match[1]} ${match[2].toUpperCase()}`;
+
+}
+
+
+/* =====================================================
+   EXTRACT VALIDITY
+===================================================== */
+
+function extractValidity(plan){
+
+  const direct =
+    plan.validity ||
+    plan.duration ||
+    plan.validity_period ||
+    plan.expiry;
+
+
+  if(direct){
+    return String(direct);
+  }
+
+
+  const text =
+    String(plan.name || "");
+
+
+  const match =
+    text.match(
+      /(\d+)\s*(day|days|week|weeks|month|months)/i
+    );
+
+
+  if(match){
+
+    return `${match[1]} ${match[2]}`;
+
+  }
+
+
+  return "Validity varies";
+
+}
+
+
+/* =====================================================
+   RENDER FILTERED PLANS
+===================================================== */
+
+function renderFilteredPlans(){
+
+  const container =
+    document.getElementById(
+      "plans"
+    );
+
+
+  container.innerHTML="";
+
+
+  let filtered =
+    allPlans.filter(plan=>{
+
+      const amount =
+        Number(
+          plan.variation_amount
+        );
+
+
+      return(
+        Number.isFinite(amount) &&
+        amount > 0 &&
+        amount <= 20000
+      );
+
+    });
+
+
+  if(selectedDataType !== "ALL"){
+
+    filtered =
+      filtered.filter(plan=>{
+
+        return(
+          normalizeType(plan) ===
+          selectedDataType
+        );
+
+      });
+
+  }
+
+
+  document.getElementById(
+    "planCount"
+  ).innerText =
+    filtered.length +
+    (
+      filtered.length === 1
+        ? " plan"
+        : " plans"
+    );
+
+
+  if(!filtered.length){
+
+    container.innerHTML=`
+
+      <div class="empty-plans">
+
+        <div class="empty-icon">
+
+          <i class="fa-solid fa-box-open"></i>
+
+        </div>
+
+        <div class="empty-title">
+          No plans available
+        </div>
+
+        <div class="empty-text">
+          Try another data category or network.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  filtered.forEach(plan=>{
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "plan";
+
+
+    const amount =
+      Number(
+        plan.variation_amount
+      );
+
+
+    const type =
+      normalizeType(plan);
+
+
+    const dataSize =
+      extractDataSize(
+        plan.name
+      ) ||
+      plan.name ||
+      "Data Plan";
+
+
+    const validity =
+      extractValidity(plan);
+
+
+    button.innerHTML=`
+
+      <div class="plan-icon">
+
+        <i class="fa-solid fa-database"></i>
+
+      </div>
+
+
+      <div class="plan-main">
+
+        <div class="plan-name">
+
+          ${escapeHTML(dataSize)}
+
+        </div>
+
+
+        <div class="plan-meta">
+
+          <span class="meta-chip">
+
+            <i class="${getDataTypeIcon(type)}"></i>
+
+            ${escapeHTML(type)}
+
+          </span>
+
+
+          <span class="meta-chip">
+
+            <i class="fa-regular fa-clock"></i>
+
+            ${escapeHTML(validity)}
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="plan-side">
+
+        <div class="plan-price">
+
+          ₦${amount.toLocaleString("en-NG")}
+
+        </div>
+
+
+        <div class="select-circle">
+
+          <i class="fa-solid fa-check"></i>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    button.onclick=()=>{
+
+      if(purchaseProcessing){
+        return;
+      }
+
+
+      document
+        .querySelectorAll(".plan")
+        .forEach(item=>{
+
+          item.classList.remove("selected");
+
+        });
+
+
+      button.classList.add("selected");
+
+
+      selectedPlan =
+        plan;
+
+
+      const buy =
+        document.getElementById(
+          "continueButton"
+        );
+
+
+      buy.disabled=false;
+
+
+      buy.innerText =
+        "Buy Data • ₦" +
+        amount.toLocaleString("en-NG");
+
+    };
+
+
+    container.appendChild(
+      button
+    );
+
+  });
+
+}
+
+
+/* =====================================================
+   SHOW NORMAL POPUP
+===================================================== */
+
+function showPopup(
+  type,
+  title,
+  message,
+  details={}
+){
+
+  const overlay =
+    document.getElementById(
+      "popupOverlay"
+    );
+
+
+  const box =
+    document.getElementById(
+      "popupBox"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "popupIconSymbol"
+    );
+
+
+  const popupTitle =
+    document.getElementById(
+      "popupTitle"
+    );
+
+
+  const popupMessage =
+    document.getElementById(
+      "popupMessage"
+    );
+
+
+  const popupDetails =
+    document.getElementById(
+      "popupDetails"
+    );
+
+
+  const popupButton =
+    document.getElementById(
+      "popupButton"
+    );
+
+
+  const pinArea =
+    document.getElementById(
+      "pinArea"
+    );
+
+
+  box.className =
+    "popup " + type;
+
+
+  pinArea.style.display =
+    "none";
+
+
+  popupButton.style.display =
+    "block";
+
+
+  if(type==="success"){
+
+    icon.className =
+      "fa-solid fa-circle-check";
+
+  }
+
+  else if(type==="pending"){
+
+    icon.className =
+      "fa-solid fa-clock";
+
+  }
+
+  else{
+
+    icon.className =
+      "fa-solid fa-circle-xmark";
+
+  }
+
+
+  popupTitle.innerText =
+    title;
+
+
+  popupMessage.innerText =
+    message;
+
+
+  const keys =
+    Object.keys(details);
+
+
+  if(keys.length){
+
+    popupDetails.style.display =
+      "block";
+
+
+    popupDetails.innerHTML =
+      keys.map(key=>`
+
+        <div class="popup-detail">
+
+          <span>
+            ${escapeHTML(key)}
+          </span>
+
+          <span>
+            ${escapeHTML(details[key])}
+          </span>
+
+        </div>
+
+      `).join("");
+
+  }
+
+  else{
+
+    popupDetails.style.display =
+      "none";
+
+    popupDetails.innerHTML =
+      "";
+
+  }
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+}
+
+
+/* =====================================================
+   SHOW PIN POPUP
+===================================================== */
+
+function showPinPopup(){
+
+  const overlay =
+    document.getElementById(
+      "popupOverlay"
+    );
+
+
+  const box =
+    document.getElementById(
+      "popupBox"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "popupIconSymbol"
+    );
+
+
+  const title =
+    document.getElementById(
+      "popupTitle"
+    );
+
+
+  const message =
+    document.getElementById(
+      "popupMessage"
+    );
+
+
+  const details =
+    document.getElementById(
+      "popupDetails"
+    );
+
+
+  const button =
+    document.getElementById(
+      "popupButton"
+    );
+
+
+  const pinArea =
+    document.getElementById(
+      "pinArea"
+    );
+
+
+  const pinInput =
+    document.getElementById(
+      "purchasePin"
+    );
+
+
+  const pinError =
+    document.getElementById(
+      "pinError"
+    );
+
+
+  box.className =
+    "popup pin";
+
+
+  icon.className =
+    "fa-solid fa-lock";
+
+
+  title.innerText =
+    "Confirm purchase";
+
+
+  message.innerText =
+    "Enter your 4-digit PIN to authorize this data purchase.";
+
+
+  details.style.display =
+    "none";
+
+
+  button.style.display =
+    "none";
+
+
+  pinArea.style.display =
+    "block";
+
+
+  pinInput.value =
+    "";
+
+
+  pinError.innerText =
+    "";
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+
+  setTimeout(()=>{
+
+    pinInput.focus();
+
+  },250);
+
+}
+
+
+/* =====================================================
+   VERIFY PURCHASE PIN
+===================================================== */
+
+async function verifyPurchasePin(){
+
+  if(pinVerificationProcessing){
+    return;
+  }
+
+
+  const pinInput =
+    document.getElementById(
+      "purchasePin"
+    );
+
+
+  const pinError =
+    document.getElementById(
+      "pinError"
+    );
+
+
+  const verifyButton =
+    document.getElementById(
+      "verifyPinButton"
+    );
+
+
+  const pin =
+    pinInput.value.trim();
+
+
+  if(!/^\d{4}$/.test(pin)){
+
+    pinError.innerText =
+      "Please enter your 4-digit PIN.";
+
+    pinInput.focus();
+
+    return;
+
+  }
+
+
+  pinVerificationProcessing =
+    true;
+
+
+  verifyButton.disabled =
+    true;
+
+
+  verifyButton.innerText =
+    "Verifying...";
+
+
+  pinError.innerText =
+    "";
+
+
+  try{
+
+    const {
+      data:{
+        session
+      }
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+      location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .functions
+      .invoke(
+        "manage-pin",
+        {
+          body:{
+            action:"verify",
+            pin:pin
+          }
+        }
+      );
+
+
+    console.log(
+      "manage-pin response:",
+      data
+    );
+
+
+    if(error){
+
+      console.error(
+        "manage-pin error:",
+        error
+      );
+
+
+      pinError.innerText =
+        error.message ||
+        "PIN verification failed.";
+
+      return;
+
+    }
+
+
+    if(!data?.success){
+
+      pinError.innerText =
+        data?.message ||
+        "Incorrect PIN.";
+
+      pinInput.value =
+        "";
+
+      pinInput.focus();
+
+      return;
+
+    }
+
+
+    closePopup();
+
+    await processDataPurchase();
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    pinError.innerText =
+      "PIN verification failed. Please try again.";
+
+  }
+
+  finally{
+
+    pinVerificationProcessing =
+      false;
+
+    verifyButton.disabled =
+      false;
+
+    verifyButton.innerText =
+      "Verify PIN";
+
+  }
+
+}
+
+
+/* =====================================================
+   BUY DATA
+===================================================== */
+
+async function buyData(){
+
+  if(purchaseProcessing){
+    return;
+  }
+
+
+  const phone =
+    document.getElementById(
+      "phone"
+    )
+    .value
+    .trim();
+
+
+  if(!/^0\d{10}$/.test(phone)){
+
+    showPopup(
+      "error",
+      "Invalid Number",
+      "Please enter a valid Nigerian phone number."
+    );
+
+    return;
+
+  }
+
+
+  if(!selectedPlan){
+
+    showPopup(
+      "error",
+      "No Plan Selected",
+      "Please select a data plan before continuing."
+    );
+
+    return;
+
+  }
+
+
+  showPinPopup();
+
+}
+
+
+/* =====================================================
+   PROCESS DATA PURCHASE
+===================================================== */
+
+async function processDataPurchase(){
+
+  if(purchaseProcessing){
+    return;
+  }
+
+
+  const phone =
+    document.getElementById(
+      "phone"
+    )
+    .value
+    .trim();
+
+
+  if(!selectedPlan){
+
+    showPopup(
+      "error",
+      "No Plan Selected",
+      "Please select a data plan."
+    );
+
+    return;
+
+  }
+
+
+  const amount =
+    Number(
+      selectedPlan.variation_amount
+    );
+
+
+  const serviceId =
+    String(
+      selectedPlan.service_id || ""
+    ).trim();
+
+
+  const planCode =
+    String(
+      selectedPlan.code ||
+      selectedPlan.variation_code ||
+      ""
+    ).trim();
+
+
+  console.log(
+    "===== DATA PURCHASE ====="
+  );
+
+  console.log(
+    "Network:",
+    selectedNetwork
+  );
+
+  console.log(
+    "Phone:",
+    phone
+  );
+
+  console.log(
+    "Amount:",
+    amount
+  );
+
+  console.log(
+    "Service ID:",
+    serviceId
+  );
+
+  console.log(
+    "Plan Code:",
+    planCode
+  );
+
+  console.log(
+    "Selected Plan:",
+    selectedPlan
+  );
+
+  console.log(
+    "========================="
+  );
+
+
+  if(!serviceId){
+
+    showPopup(
+      "error",
+      "Missing Service ID",
+      "This data plan does not have a VTUGATE service ID."
+    );
+
+    return;
+
+  }
+
+
+  if(!planCode){
+
+    showPopup(
+      "error",
+      "Missing Plan Code",
+      "This data plan does not have a VTUGATE plan code."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "continueButton"
+    );
+
+
+  purchaseProcessing =
+    true;
+
+
+  button.disabled =
+    true;
+
+
+  showProcessingPopup();
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .functions
+      .invoke(
+        "buy-data",
+        {
+          body:{
+
+            network:
+              selectedNetwork,
+
+            phone:
+              phone,
+
+            amount:
+              amount,
+
+            service_id:
+              selectedPlan.service_id,
+
+            plan_code:
+              selectedPlan.code
+
+          }
+        }
+      );
+
+
+    console.log(
+      "buy-data response:",
+      data
+    );
+
+
+    console.log(
+      "buy-data error:",
+      error
+    );
+
+
+    if(error){
+
+      console.error(
+        "Function error:",
+        error
+      );
+
+
+      purchaseProcessing =
+        false;
+
+
+      showPopup(
+        "error",
+        "Purchase Failed",
+        "We could not process your data purchase.",
+        {
+          "Reason":
+            error.message ||
+            "Server error"
+        }
+      );
+
+
+      return;
+
+    }
+
+
+    if(data?.pending){
+
+      purchaseProcessing =
+        false;
+
+
+      showPopup(
+        "pending",
+        "Purchase Pending",
+        "Your data purchase is still being processed.",
+        {
+
+          "Network":
+            selectedNetwork,
+
+          "Phone":
+            phone,
+
+          "Amount":
+            "₦" +
+            amount.toLocaleString(
+              "en-NG"
+            ),
+
+          "Request ID":
+            data.requestId ||
+            "Processing"
+
+        }
+      );
+
+
+      return;
+
+    }
+
+
+    if(!data?.success){
+
+      purchaseProcessing =
+        false;
+
+
+      showPopup(
+        "error",
+        "Purchase Failed",
+        data?.message ||
+        "Your data purchase could not be completed.",
+        {
+
+          "Network":
+            selectedNetwork,
+
+          "Phone":
+            phone,
+
+          "Amount":
+            "₦" +
+            amount.toLocaleString(
+              "en-NG"
+            )
+
+        }
+      );
+
+
+      return;
+
+    }
+
+
+    purchaseProcessing =
+      false;
+
+
+    showPopup(
+      "success",
+      "Data Purchase Successful",
+      "Your data bundle has been processed successfully.",
+      {
+
+        "Network":
+          selectedNetwork,
+
+        "Phone":
+          phone,
+
+        "Plan":
+          selectedPlan.name,
+
+        "Amount":
+          "₦" +
+          amount.toLocaleString(
+            "en-NG"
+          )
+
+      }
+    );
+
+
+    setTimeout(
+      ()=>{
+        loadUser();
+      },
+      300
+    );
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "buy-data error:",
+      error
+    );
+
+
+    purchaseProcessing =
+      false;
+
+
+    showPopup(
+      "error",
+      "Something Went Wrong",
+      error?.message ||
+      "We could not complete the purchase. Please try again."
+    );
+
+  }
+
+  finally{
+
+    button.disabled =
+      false;
+
+
+    button.innerText =
+      selectedPlan
+      ?
+      "Buy Data • ₦" +
+      Number(
+        selectedPlan.variation_amount
+      ).toLocaleString(
+        "en-NG"
+      )
+      :
+      "Select a data plan";
+
+  }
+
+}
+
+
+/* =====================================================
+   PROCESSING POPUP
+===================================================== */
+
+function showProcessingPopup(){
+
+  const overlay =
+    document.getElementById(
+      "popupOverlay"
+    );
+
+
+  const box =
+    document.getElementById(
+      "popupBox"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "popupIconSymbol"
+    );
+
+
+  const title =
+    document.getElementById(
+      "popupTitle"
+    );
+
+
+  const message =
+    document.getElementById(
+      "popupMessage"
+    );
+
+
+  const details =
+    document.getElementById(
+      "popupDetails"
+    );
+
+
+  const button =
+    document.getElementById(
+      "popupButton"
+    );
+
+
+  const pinArea =
+    document.getElementById(
+      "pinArea"
+    );
+
+
+  box.className =
+    "popup processing";
+
+
+  icon.className =
+    "processing-spinner";
+
+
+  title.innerText =
+    "Processing Data Purchase";
+
+
+  message.innerText =
+    "Please wait while we process your data. Do not close this page.";
+
+
+  details.style.display =
+    "none";
+
+
+  pinArea.style.display =
+    "none";
+
+
+  button.style.display =
+    "none";
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+}
+
+
+/* =====================================================
+   CLOSE POPUP
+===================================================== */
+
+function closePopup(){
+
+  if(purchaseProcessing){
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "popupOverlay"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE POPUP OUTSIDE
+===================================================== */
+
+function closePopupFromOutside(event){
+
+  if(
+    event.target.id ===
+    "popupOverlay" &&
+    !purchaseProcessing
+  ){
+
+    closePopup();
+
+  }
+
+}
+
+
+/* =====================================================
+   DOM READY
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+
+    const pin =
+      document.getElementById(
+        "purchasePin"
+      );
+
+
+    if(pin){
+
+      pin.addEventListener(
+        "input",
+        ()=>{
+
+          pin.value =
+            pin.value
+            .replace(/\D/g,"")
+            .slice(0,4);
+
+        }
+      );
+
+
+      pin.addEventListener(
+        "keydown",
+        event=>{
+
+          if(
+            event.key ===
+            "Enter"
+          ){
+
+            verifyPurchasePin();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    const phone =
+      document.getElementById(
+        "phone"
+      );
+
+
+    if(phone){
+
+      phone.addEventListener(
+        "input",
+        ()=>{
+
+          phone.value =
+            phone.value
+            .replace(/\D/g,"")
+            .slice(0,11);
+
+        }
+      );
+
+    }
+
+
+    /* SAVE BENEFICIARY */
+
+    const saveButton =
+      document.getElementById(
+        "saveBeneficiaryConfirm"
+      );
+
+
+    if(saveButton){
+
+      saveButton.addEventListener(
+        "click",
+        confirmSaveBeneficiary
+      );
+
+    }
+
+
+    /* BENEFICIARY NAME ENTER */
+
+    const beneficiaryNameInput =
+      document.getElementById(
+        "beneficiaryNameInput"
+      );
+
+
+    if(beneficiaryNameInput){
+
+      beneficiaryNameInput.addEventListener(
+        "keydown",
+        event=>{
+
+          if(
+            event.key ===
+            "Enter"
+          ){
+
+            confirmSaveBeneficiary();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* DELETE BENEFICIARY */
+
+    const deleteButton =
+      document.getElementById(
+        "deleteBeneficiaryConfirm"
+      );
+
+
+    if(deleteButton){
+
+      deleteButton.addEventListener(
+        "click",
+        confirmDeleteBeneficiary
+      );
+
+    }
+
+
+    /* CLOSE NAME POPUP OUTSIDE */
+
+    const nameOverlay =
+      document.getElementById(
+        "beneficiaryNameOverlay"
+      );
+
+
+    if(nameOverlay){
+
+      nameOverlay.addEventListener(
+        "click",
+        event=>{
+
+          if(
+            event.target ===
+            nameOverlay
+          ){
+
+            closeBeneficiaryNamePopup();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* CLOSE DELETE POPUP OUTSIDE */
+
+    const deleteOverlay =
+      document.getElementById(
+        "deleteBeneficiaryOverlay"
+      );
+
+
+    if(deleteOverlay){
+
+      deleteOverlay.addEventListener(
+        "click",
+        event=>{
+
+          if(
+            event.target ===
+            deleteOverlay
+          ){
+
+            closeDeleteBeneficiaryPopup();
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SYSTEM THEME CHANGES
+===================================================== */
+
+const systemThemeQuery =
+  window.matchMedia(
+    "(prefers-color-scheme: dark)"
+  );
+
+
+systemThemeQuery.addEventListener(
+  "change",
+  function(){
+
+    const savedTheme =
+      localStorage.getItem(
+        "myvtu_theme"
+      ) || "system";
+
+
+    if(
+      savedTheme ===
+      "system"
+    ){
+
+      const isDark =
+        systemThemeQuery.matches;
+
+
+      document.documentElement.classList.toggle(
+        "dark-theme",
+        isDark
+      );
+
+
+      document.documentElement.classList.toggle(
+        "light-theme",
+        !isDark
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadUser();
+
+</script>
+
+</body>
+</html>

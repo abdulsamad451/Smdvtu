@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+(function () {
+  const theme =
+    localStorage.getItem("myvtu_theme") || "system";
+
+  const isDark =
+    theme === "dark" ||
+    (
+      theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+
+  document.documentElement.classList.toggle(
+    "dark-theme",
+    isDark
+  );
+
+  document.documentElement.classList.toggle(
+    "light-theme",
+    !isDark
+  );
+})();
+</script>
+
+<title>Fund Wallet - SMDVTU</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+/* ================================
+   RESET
+================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0b0d10;
+  --text: #ffffff;
+  --secondary: #9299a5;
+
+  --card: #15181d;
+  --card2: #1b1f25;
+
+  --border: #282d35;
+
+  --primary: #168fe5;
+  --primary-dark: #0876c5;
+
+  --success: #32c779;
+  --danger: #ff6565;
+}
+
+html.light-theme {
+
+  color-scheme: light;
+
+  --bg: #f5f7fa;
+  --text: #111318;
+  --secondary: #697382;
+
+  --card: #ffffff;
+  --card2: #f5f7fa;
+
+  --border: #e1e5eb;
+
+  --primary: #168fe5;
+  --primary-dark: #0876c5;
+
+  --success: #1fa866;
+  --danger: #e34d4d;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ================================
+   MAIN PAGE
+================================ */
+
+.page {
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+
+  margin: auto;
+
+  padding:
+    24px
+    20px
+    40px;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.top {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
+}
+
+.back {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    var(--card);
+
+  color:
+    var(--text);
+
+  font-size: 17px;
+
+  cursor: pointer;
+}
+
+.back:active {
+  transform: scale(.94);
+}
+
+.top h1 {
+  font-size: 24px;
+  font-weight: 750;
+}
+
+/* ================================
+   BALANCE CARD
+================================ */
+
+.balance-card {
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #087bc9,
+      #168fe5
+    );
+
+  border-radius: 28px;
+
+  padding: 26px;
+
+  margin-bottom: 30px;
+
+  box-shadow:
+    0 15px 35px
+    rgba(22,143,229,.18);
+}
+
+.balance-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 160px;
+  height: 160px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.08);
+
+  right: -70px;
+  top: -70px;
+}
+
+.balance-label {
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size: 14px;
+
+  margin-bottom: 8px;
+}
+
+.balance-card h2 {
+
+  position: relative;
+  z-index: 1;
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+  letter-spacing: -.5px;
+}
+
+/* ================================
+   MESSAGE
+================================ */
+
+.message {
+
+  display: none;
+
+  padding: 15px;
+
+  border-radius: 15px;
+
+  margin-bottom: 20px;
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+
+  border-color:
+    rgba(255,101,101,.35);
+
+  color:
+    var(--danger);
+}
+
+.message.success {
+
+  border-color:
+    rgba(50,199,121,.35);
+
+  color:
+    var(--success);
+}
+
+.message.info {
+
+  border-color:
+    rgba(22,143,229,.35);
+
+  color:
+    #55b9ff;
+}
+
+/* ================================
+   LABEL
+================================ */
+
+.label {
+
+  display: block;
+
+  color:
+    var(--secondary);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  margin-bottom: 10px;
+}
+
+/* ================================
+   AMOUNT
+================================ */
+
+.amount-box {
+
+  display: flex;
+
+  align-items: center;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 20px;
+
+  padding:
+    5px 18px;
+
+  transition:
+    border .2s ease;
+}
+
+.amount-box:focus-within {
+
+  border-color:
+    var(--primary);
+}
+
+.amount-box span {
+
+  color:
+    var(--primary);
+
+  font-size: 23px;
+
+  font-weight: 700;
+}
+
+.amount-box input {
+
+  width: 100%;
+
+  background:
+    transparent;
+
+  border: none;
+
+  outline: none;
+
+  color:
+    var(--text);
+
+  font-size: 27px;
+
+  font-weight: 700;
+
+  padding:
+    16px 10px;
+}
+
+.amount-box input::placeholder {
+  color: var(--secondary);
+}
+
+/* ================================
+   QUICK AMOUNTS
+================================ */
+
+.quick-title {
+
+  color:
+    var(--secondary);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  margin:
+    20px 0 12px;
+}
+
+.quick {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 9px;
+}
+
+.quick button {
+
+  padding:
+    13px 5px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    var(--card);
+
+  color:
+    var(--text);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    .2s ease;
+}
+
+.quick button:active {
+
+  transform:
+    scale(.96);
+
+  background:
+    var(--primary);
+
+  color:
+    white;
+}
+
+/* ================================
+   CONTINUE BUTTON
+================================ */
+
+.continue {
+
+  width: 100%;
+
+  margin-top: 28px;
+
+  padding:
+    18px;
+
+  border: none;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color:
+    white;
+
+  font-size: 16px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px
+    rgba(22,143,229,.20);
+
+  transition:
+    .2s ease;
+}
+
+.continue:active {
+
+  transform:
+    scale(.98);
+}
+
+.continue:disabled {
+
+  opacity: .65;
+
+  cursor:
+    not-allowed;
+}
+
+/* ================================
+   NOTICE
+================================ */
+
+.notice {
+
+  margin-top: 20px;
+
+  padding: 16px;
+
+  border-radius: 17px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  color:
+    var(--secondary);
+
+  font-size: 12px;
+
+  line-height: 1.55;
+}
+
+.notice i {
+
+  color:
+    var(--primary);
+
+  margin-right: 5px;
+}
+
+.notice strong {
+  color: var(--text);
+}
+
+/* ================================
+   CHECKOUT PAGE
+================================ */
+
+.checkout-page {
+
+  display: none;
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  background:
+    var(--bg);
+}
+
+.checkout-page.show {
+  display: block;
+}
+
+.checkout-inner {
+
+  width: 100%;
+
+  max-width: 520px;
+
+  margin: auto;
+
+  padding:
+    20px
+    20px
+    45px;
+}
+
+/* ================================
+   CHECKOUT HEADER
+================================ */
+
+.checkout-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 25px;
+}
+
+.checkout-back {
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 13px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  color:
+    var(--text);
+
+  cursor: pointer;
+}
+
+.checkout-header-text h2 {
+
+  font-size: 20px;
+
+  font-weight: 750;
+}
+
+.checkout-header-text p {
+
+  color:
+    var(--secondary);
+
+  font-size: 12px;
+
+  margin-top: 3px;
+}
+
+/* ================================
+   SECURE BAR
+================================ */
+
+.secure-bar {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 11px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(50,199,121,.08);
+
+  color:
+    var(--success);
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  margin-bottom: 18px;
+}
+
+/* ================================
+   PAYMENT AMOUNT
+================================ */
+
+.payment-amount {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  text-align: center;
+
+  margin-bottom: 18px;
+
+  box-shadow:
+    0 12px 30px
+    rgba(22,143,229,.17);
+}
+
+.payment-amount p {
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size: 13px;
+
+  margin-bottom: 7px;
+}
+
+.payment-amount h1 {
+
+  color: white;
+
+  font-size: 36px;
+
+  font-weight: 850;
+}
+
+/* ================================
+   BANK CARD
+================================ */
+
+.bank-payment-card {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  margin-bottom: 18px;
+}
+
+.bank-heading {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 19px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.bank-logo {
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size: 18px;
+}
+
+.bank-heading h3 {
+
+  font-size: 16px;
+}
+
+.bank-heading p {
+
+  color:
+    var(--secondary);
+
+  font-size: 11px;
+
+  margin-top: 3px;
+}
+
+.bank-content {
+
+  padding:
+    4px 19px 18px;
+}
+
+.detail {
+
+  padding:
+    15px 0;
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.detail:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+
+  color:
+    var(--secondary);
+
+  font-size: 10px;
+
+  font-weight: 650;
+
+  letter-spacing: .5px;
+
+  margin-bottom: 6px;
+}
+
+.detail-value {
+
+  font-size: 16px;
+
+  font-weight: 750;
+}
+
+.account-line {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.copy-button {
+
+  flex-shrink: 0;
+
+  border: none;
+
+  border-radius: 10px;
+
+  padding:
+    9px 11px;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* ================================
+   SENDER NAME
+================================ */
+
+.sender-card {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 22px;
+
+  padding: 19px;
+
+  margin-bottom: 18px;
+}
+
+.sender-card h3 {
+
+  font-size: 15px;
+
+  margin-bottom: 5px;
+}
+
+.sender-card p {
+
+  color:
+    var(--secondary);
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+  margin-bottom: 15px;
+}
+
+.sender-input {
+
+  width: 100%;
+
+  padding:
+    16px;
+
+  border-radius: 15px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    var(--card2);
+
+  color:
+    var(--text);
+
+  outline: none;
+
+  font-size: 15px;
+}
+
+.sender-input:focus {
+
+  border-color:
+    var(--primary);
+}
+
+.sender-input::placeholder {
+
+  color:
+    var(--secondary);
+}
+
+/* ================================
+   PAYMENT INSTRUCTION
+================================ */
+
+.instructions {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 20px;
+
+  padding: 18px;
+
+  margin-bottom: 18px;
+}
+
+.instructions h3 {
+
+  font-size: 14px;
+
+  margin-bottom: 12px;
+}
+
+.instruction {
+
+  display: flex;
+
+  gap: 11px;
+
+  margin-bottom: 12px;
+}
+
+.instruction:last-child {
+  margin-bottom: 0;
+}
+
+.step {
+
+  width: 24px;
+  height: 24px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.instruction span {
+
+  color:
+    var(--secondary);
+
+  font-size: 12px;
+
+  line-height: 1.45;
+}
+
+/* ================================
+   CONFIRM BUTTON
+================================ */
+
+.confirm-payment {
+
+  width: 100%;
+
+  padding:
+    18px;
+
+  border: none;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px
+    rgba(22,143,229,.18);
+}
+
+.confirm-payment:disabled {
+
+  opacity: .6;
+
+  cursor:
+    not-allowed;
+}
+
+/* ================================
+   LOADING OVERLAY
+================================ */
+
+.loading-screen {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    var(--bg);
+}
+
+.loading-screen.show {
+  display: flex;
+}
+
+.loading-content {
+
+  text-align: center;
+
+  width: 85%;
+}
+
+.big-spinner {
+
+  width: 48px;
+  height: 48px;
+
+  margin:
+    0 auto 18px;
+
+  border:
+    4px solid
+    rgba(22,143,229,.15);
+
+  border-top-color:
+    var(--primary);
+
+  border-radius: 50%;
+
+  animation:
+    spin .75s linear infinite;
+}
+
+.loading-content h3 {
+
+  font-size: 17px;
+
+  margin-bottom: 7px;
+}
+
+.loading-content p {
+
+  color:
+    var(--secondary);
+
+  font-size: 12px;
+}
+
+.small-spinner {
+
+  display: inline-block;
+
+  width: 17px;
+  height: 17px;
+
+  border:
+    2px solid
+    rgba(255,255,255,.35);
+
+  border-top-color:
+    white;
+
+  border-radius: 50%;
+
+  animation:
+    spin .7s linear infinite;
+
+  vertical-align: middle;
+
+  margin-right: 7px;
+}
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 380px) {
+
+  .page,
+  .checkout-inner {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .quick button {
+    font-size: 12px;
+  }
+
+  .payment-amount h1 {
+    font-size: 32px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     FUND WALLET PAGE
+================================================== -->
+
+<div
+  class="page"
+  id="fundPage"
+>
+
+  <!-- HEADER -->
+
+  <div class="top">
+
+    <button
+      type="button"
+      class="back"
+      onclick="goToDashboard()"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <h1>
+      Fund Wallet
+    </h1>
+
+  </div>
+
+  <!-- BALANCE -->
+
+  <div class="balance-card">
+
+    <p class="balance-label">
+      Current Balance
+    </p>
+
+    <h2 id="currentBalance">
+      ₦0.00
+    </h2>
+
+  </div>
+
+  <!-- MESSAGE -->
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+  <!-- AMOUNT -->
+
+  <label class="label">
+    Enter funding amount
+  </label>
+
+  <div class="amount-box">
+
+    <span>
+      ₦
+    </span>
+
+    <input
+      id="amount"
+      type="number"
+      inputmode="numeric"
+      placeholder="0"
+      min="100"
+      max="1000000"
+    >
+
+  </div>
+
+  <!-- QUICK AMOUNTS -->
+
+  <p class="quick-title">
+    Quick amount
+  </p>
+
+  <div class="quick">
+
+    <button
+      type="button"
+      onclick="setAmount(500)"
+    >
+      ₦500
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(1000)"
+    >
+      ₦1,000
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(5000)"
+    >
+      ₦5,000
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(10000)"
+    >
+      ₦10,000
+    </button>
+
+  </div>
+
+  <!-- CONTINUE -->
+
+  <button
+    type="button"
+    class="continue"
+    id="continueButton"
+    onclick="continueFunding()"
+  >
+    Continue
+  </button>
+
+  <!-- NOTICE -->
+
+  <div class="notice">
+
+    <i class="fa-solid fa-shield-halved"></i>
+
+    <strong>
+      Secure funding:
+    </strong>
+
+    Your wallet will only be credited after
+    SMDVTU administration verifies your
+    bank transfer.
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     LOADING SCREEN
+================================================== -->
+
+<div
+  class="loading-screen"
+  id="loadingScreen"
+>
+
+  <div class="loading-content">
+
+    <div class="big-spinner"></div>
+
+    <h3>
+      Preparing secure payment
+    </h3>
+
+    <p>
+      Please wait while we prepare your
+      bank transfer details...
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     BANK CHECKOUT PAGE
+================================================== -->
+
+<div
+  class="checkout-page"
+  id="checkoutPage"
+>
+
+  <div class="checkout-inner">
+
+    <!-- HEADER -->
+
+    <div class="checkout-header">
+
+      <button
+        type="button"
+        class="checkout-back"
+        onclick="backToAmount()"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+
+      <div class="checkout-header-text">
+
+        <h2>
+          Bank Transfer
+        </h2>
+
+        <p>
+          Complete your wallet funding
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- SECURE -->
+
+    <div class="secure-bar">
+
+      <i class="fa-solid fa-lock"></i>
+
+      Secure payment instructions
+
+    </div>
+
+
+    <!-- AMOUNT -->
+
+    <div class="payment-amount">
+
+      <p>
+        Amount to pay
+      </p>
+
+      <h1 id="checkoutAmount">
+        ₦0.00
+      </h1>
+
+    </div>
+
+
+    <!-- BANK DETAILS -->
+
+    <div class="bank-payment-card">
+
+      <div class="bank-heading">
+
+        <div class="bank-logo">
+
+          <i
+            class="fa-solid fa-building-columns"
+          ></i>
+
+        </div>
+
+        <div>
+
+          <h3>
+            Bank Transfer Details
+          </h3>
+
+          <p>
+            Transfer the exact amount shown above
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="bank-content">
+
+        <div class="detail">
+
+          <div class="detail-label">
+            BANK
+          </div>
+
+          <div class="detail-value">
+            Kuda MFB
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-label">
+            ACCOUNT NAME
+          </div>
+
+          <div class="detail-value">
+            IBRAHIM SAMAD ADEKOLA ABDUL
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-label">
+            ACCOUNT NUMBER
+          </div>
+
+          <div class="account-line">
+
+            <div class="detail-value">
+              2085214369
+            </div>
+
+            <button
+              type="button"
+              class="copy-button"
+              onclick="copyAccountNumber()"
+            >
+              <i class="fa-regular fa-copy"></i>
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SENDER NAME -->
+
+    <div class="sender-card">
+
+      <h3>
+        Sender Name
+      </h3>
+
+      <p>
+        Enter the name used on the bank account
+        you are transferring from.
+      </p>
+
+      <input
+        id="senderName"
+        class="sender-input"
+        type="text"
+        maxlength="100"
+        placeholder="e.g. Ibrahim Samad"
+        autocomplete="name"
+      >
+
+    </div>
+
+
+    <!-- INSTRUCTIONS -->
+
+    <div class="instructions">
+
+      <h3>
+        How to complete your payment
+      </h3>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          1
+        </div>
+
+        <span>
+          Open your banking app and transfer
+          the exact amount shown above.
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          2
+        </div>
+
+        <span>
+          Send the money to the Kuda account
+          displayed above.
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          3
+        </div>
+
+        <span>
+          Enter the sender name and tap
+          "I've Made the Transfer".
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          4
+        </div>
+
+        <span>
+          Your request will be reviewed by
+          SMDVTU administration before your
+          wallet is credited.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- CONFIRM -->
+
+    <button
+      type="button"
+      class="confirm-payment"
+      id="confirmButton"
+      onclick="submitFundingRequest()"
+    >
+      I've Made the Transfer
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     SUPABASE
+================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ==========================================
+   GLOBAL AMOUNT
+========================================== */
+
+let selectedAmount = 0;
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+function goToDashboard() {
+
+  window.location.href =
+    "dashboard.html";
+
+}
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+function showMessage(
+  text,
+  type = "info"
+) {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  box.innerText =
+    text;
+
+  box.className =
+    "message show " +
+    type;
+
+}
+
+
+function clearMessage() {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  box.innerText =
+    "";
+
+  box.className =
+    "message";
+
+}
+
+
+/* ==========================================
+   FORMAT MONEY
+========================================== */
+
+function formatMoney(amount) {
+
+  return "₦" +
+    Number(amount || 0).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+/* ==========================================
+   LOAD BALANCE
+========================================== */
+
+async function loadBalance() {
+
+  try {
+
+    const {
+      data: {
+        session
+      },
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (
+      error ||
+      !session
+    ) {
+
+      showMessage(
+        "Please log in again.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("balance")
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+
+    if (
+      profileError ||
+      !profile
+    ) {
+
+      console.error(
+        profileError
+      );
+
+      showMessage(
+        "Unable to load your wallet balance.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    document.getElementById(
+      "currentBalance"
+    ).innerText =
+      formatMoney(
+        profile.balance
+      );
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Unable to load your wallet balance.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   QUICK AMOUNT
+========================================== */
+
+function setAmount(amount) {
+
+  document.getElementById(
+    "amount"
+  ).value =
+    amount;
+
+  clearMessage();
+
+}
+
+
+/* ==========================================
+   CONTINUE
+========================================== */
+
+async function continueFunding() {
+
+  clearMessage();
+
+
+  const button =
+    document.getElementById(
+      "continueButton"
+    );
+
+
+  const amount =
+    Number(
+      document.getElementById(
+        "amount"
+      ).value
+    );
+
+
+  /* VALIDATE */
+
+  if (
+    !Number.isFinite(amount) ||
+    amount < 100
+  ) {
+
+    showMessage(
+      "Enter an amount of at least ₦100.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    amount > 1000000
+  ) {
+
+    showMessage(
+      "Maximum funding amount is ₦1,000,000.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  selectedAmount =
+    amount;
+
+
+  /* BUTTON LOADING */
+
+  button.disabled =
+    true;
+
+  button.innerHTML =
+    '<span class="small-spinner"></span>Preparing...';
+
+
+  /* SHOW LOADING SCREEN */
+
+  const loadingScreen =
+    document.getElementById(
+      "loadingScreen"
+    );
+
+  loadingScreen.classList.add(
+    "show"
+  );
+
+
+  /*
+     Small transition so the
+     checkout feels like a
+     real payment flow.
+  */
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        "fundPage"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "checkoutAmount"
+      ).innerText =
+        formatMoney(
+          selectedAmount
+        );
+
+
+      loadingScreen.classList.remove(
+        "show"
+      );
+
+
+      document.getElementById(
+        "checkoutPage"
+      ).classList.add(
+        "show"
+      );
+
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "Continue";
+
+    },
+    1200
+  );
+
+}
+
+
+/* ==========================================
+   BACK TO AMOUNT
+========================================== */
+
+function backToAmount() {
+
+  document.getElementById(
+    "checkoutPage"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "fundPage"
+  ).style.display =
+    "block";
+
+}
+
+
+/* ==========================================
+   COPY ACCOUNT NUMBER
+========================================== */
+
+async function copyAccountNumber() {
+
+  const number =
+    "2085214369";
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      number
+    );
+
+
+    const button =
+      document.querySelector(
+        ".copy-button"
+      );
+
+
+    const oldText =
+      button.innerHTML;
+
+
+    button.innerHTML =
+      '<i class="fa-solid fa-check"></i> Copied';
+
+
+    setTimeout(
+      function() {
+
+        button.innerHTML =
+          oldText;
+
+      },
+      1800
+    );
+
+
+  } catch (error) {
+
+    alert(
+      "Unable to copy account number."
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   SUBMIT FUNDING REQUEST
+========================================== */
+
+async function submitFundingRequest() {
+
+  const senderInput =
+    document.getElementById(
+      "senderName"
+    );
+
+
+  const senderName =
+    senderInput.value.trim();
+
+
+  if (
+    !senderName
+  ) {
+
+    senderInput.focus();
+
+    alert(
+      "Please enter the sender name."
+    );
+
+    return;
+  }
+
+
+  if (
+    senderName.length < 3
+  ) {
+
+    senderInput.focus();
+
+    alert(
+      "Please enter a valid sender name."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "confirmButton"
+    );
+
+
+  button.disabled =
+    true;
+
+  button.innerHTML =
+    '<span class="small-spinner"></span>Submitting...';
+
+
+  try {
+
+    /* GET SESSION */
+
+    const {
+      data: {
+        session
+      },
+      error: sessionError
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (
+      sessionError ||
+      !session
+    ) {
+
+      alert(
+        "Your login session has expired. Please log in again."
+      );
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "I've Made the Transfer";
+
+      return;
+    }
+
+
+    /*
+       CHECK EXISTING PENDING
+       REQUEST WITH SAME SENDER
+       NAME AND AMOUNT
+    */
+
+    const {
+      data: existing,
+      error: existingError
+    } =
+      await supabaseClient
+        .from(
+          "wallet_funding_requests"
+        )
+        .select("id")
+        .eq(
+          "user_id",
+          session.user.id
+        )
+        .eq(
+          "sender_name",
+          senderName
+        )
+        .eq(
+          "amount",
+          selectedAmount
+        )
+        .eq(
+          "status",
+          "pending"
+        )
+        .limit(1);
+
+
+    if (
+      existingError
+    ) {
+
+      console.error(
+        existingError
+      );
+
+      alert(
+        "Unable to check previous funding requests."
+      );
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "I've Made the Transfer";
+
+      return;
+    }
+
+
+    if (
+      existing &&
+      existing.length > 0
+    ) {
+
+      alert(
+        "A similar funding request is already pending. Please wait for verification."
+      );
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "I've Made the Transfer";
+
+      return;
+    }
+
+
+    /*
+       CREATE FUNDING REQUEST
+    */
+
+    const {
+      data: request,
+      error: insertError
+    } =
+      await supabaseClient
+        .from(
+          "wallet_funding_requests"
+        )
+        .insert({
+
+          user_id:
+            session.user.id,
+
+          amount:
+            selectedAmount,
+
+          sender_name:
+            senderName,
+
+          status:
+            "pending"
+
+        })
+        .select("id")
+        .single();
+
+
+    if (
+      insertError
+    ) {
+
+      console.error(
+        "Funding request error:",
+        insertError
+      );
+
+      alert(
+        insertError.message ||
+        "Unable to submit funding request."
+      );
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "I've Made the Transfer";
+
+      return;
+    }
+
+
+    console.log(
+      "Funding request created:",
+      request
+    );
+
+
+    /*
+       SUCCESS
+    */
+
+    alert(
+      "Funding request submitted successfully. Your wallet will be credited after your bank transfer is verified."
+    );
+
+
+    window.location.href =
+      "dashboard.html";
+
+
+  } catch (error) {
+
+    console.error(
+      "Funding error:",
+      error
+    );
+
+    alert(
+      error?.message ||
+      "Something went wrong. Please try again."
+    );
+
+
+    button.disabled =
+      false;
+
+    button.innerText =
+      "I've Made the Transfer";
+
+  }
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadBalance();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
