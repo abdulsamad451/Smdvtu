@@ -1,0 +1,4683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<script>
+(function () {
+
+  const theme =
+    localStorage.getItem("myvtu_theme") || "system";
+
+  const isDark =
+    theme === "dark" ||
+    (
+      theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+
+  document.documentElement.classList.toggle(
+    "dark-theme",
+    isDark
+  );
+
+  document.documentElement.classList.toggle(
+    "light-theme",
+    !isDark
+  );
+
+})();
+</script>
+
+<title>Fund Wallet - MyVTU</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+/* ==================================================
+   RESET
+================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+:root {
+
+  color-scheme: dark;
+
+  --bg: #0b0d10;
+  --text: #ffffff;
+  --secondary: #9299a5;
+
+  --card: #15181d;
+  --card2: #1b1f25;
+
+  --border: #282d35;
+
+  --primary: #168fe5;
+  --primary-dark: #0876c5;
+
+  --success: #32c779;
+  --danger: #ff6565;
+  --warning: #e5a629;
+
+}
+
+html.light-theme {
+
+  color-scheme: light;
+
+  --bg: #f5f7fa;
+  --text: #111318;
+  --secondary: #697382;
+
+  --card: #ffffff;
+  --card2: #f5f7fa;
+
+  --border: #e1e5eb;
+
+  --primary: #168fe5;
+  --primary-dark: #0876c5;
+
+  --success: #1fa866;
+  --danger: #e34d4d;
+
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+
+  background: var(--bg);
+  color: var(--text);
+
+}
+
+
+/* ==================================================
+   MAIN PAGE
+================================================== */
+
+.page {
+
+  width: 100%;
+  max-width: 520px;
+
+  min-height: 100vh;
+
+  margin: auto;
+
+  padding: 24px 20px 40px;
+
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.top {
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
+
+}
+
+.back {
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  border: 1px solid var(--border);
+
+  background: var(--card);
+
+  color: var(--text);
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+}
+
+.back:active {
+
+  transform: scale(.94);
+
+}
+
+.top h1 {
+
+  font-size: 24px;
+
+  font-weight: 750;
+
+}
+
+
+/* ==================================================
+   BALANCE
+================================================== */
+
+.balance-card {
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #087bc9,
+      #168fe5
+    );
+
+  border-radius: 28px;
+
+  padding: 26px;
+
+  margin-bottom: 25px;
+
+  box-shadow:
+    0 15px 35px
+    rgba(22,143,229,.18);
+
+}
+
+.balance-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 160px;
+  height: 160px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.08);
+
+  right: -70px;
+  top: -70px;
+
+}
+
+.balance-label {
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size: 14px;
+
+  margin-bottom: 8px;
+
+}
+
+.balance-card h2 {
+
+  position: relative;
+
+  z-index: 1;
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+}
+
+
+/* ==================================================
+   MESSAGE
+================================================== */
+
+.message {
+
+  display: none;
+
+  padding: 15px;
+
+  border-radius: 15px;
+
+  margin-bottom: 20px;
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+  background: var(--card);
+
+  border: 1px solid var(--border);
+
+}
+
+.message.show {
+
+  display: block;
+
+}
+
+.message.error {
+
+  border-color:
+    rgba(255,101,101,.35);
+
+  color:
+    var(--danger);
+
+}
+
+.message.success {
+
+  border-color:
+    rgba(50,199,121,.35);
+
+  color:
+    var(--success);
+
+}
+
+.message.info {
+
+  border-color:
+    rgba(22,143,229,.35);
+
+  color:
+    #55b9ff;
+
+}
+
+
+/* ==================================================
+   LABEL
+================================================== */
+
+.label {
+
+  display: block;
+
+  color:
+    var(--secondary);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  margin-bottom: 10px;
+
+}
+
+
+/* ==================================================
+   AMOUNT
+================================================== */
+
+.amount-box {
+
+  display: flex;
+
+  align-items: center;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    20px;
+
+  padding:
+    5px 18px;
+
+}
+
+.amount-box:focus-within {
+
+  border-color:
+    var(--primary);
+
+}
+
+.amount-box span {
+
+  color:
+    var(--primary);
+
+  font-size:
+    23px;
+
+  font-weight:
+    700;
+
+}
+
+.amount-box input {
+
+  width:
+    100%;
+
+  background:
+    transparent;
+
+  border:
+    none;
+
+  outline:
+    none;
+
+  color:
+    var(--text);
+
+  font-size:
+    27px;
+
+  font-weight:
+    700;
+
+  padding:
+    16px 10px;
+
+}
+
+
+/* ==================================================
+   QUICK AMOUNTS
+================================================== */
+
+.quick-title {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    13px;
+
+  font-weight:
+    600;
+
+  margin:
+    20px 0 12px;
+
+}
+
+.quick {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap:
+    9px;
+
+}
+
+.quick button {
+
+  padding:
+    13px 5px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    14px;
+
+  background:
+    var(--card);
+
+  color:
+    var(--text);
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+
+}
+
+.quick button:active {
+
+  transform:
+    scale(.96);
+
+  background:
+    var(--primary);
+
+  color:
+    white;
+
+}
+
+
+/* ==================================================
+   CONTINUE
+================================================== */
+
+.continue {
+
+  width:
+    100%;
+
+  margin-top:
+    28px;
+
+  padding:
+    18px;
+
+  border:
+    none;
+
+  border-radius:
+    19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color:
+    white;
+
+  font-size:
+    16px;
+
+  font-weight:
+    750;
+
+  cursor:
+    pointer;
+
+}
+
+.continue:disabled {
+
+  opacity:
+    .65;
+
+}
+
+
+/* ==================================================
+   NOTICE
+================================================== */
+
+.notice {
+
+  margin-top:
+    20px;
+
+  padding:
+    16px;
+
+  border-radius:
+    17px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.55;
+
+}
+
+.notice i {
+
+  color:
+    var(--primary);
+
+  margin-right:
+    5px;
+
+}
+
+.notice strong {
+
+  color:
+    var(--text);
+
+}
+
+
+/* ==================================================
+   PAYMENT METHOD PAGE
+================================================== */
+
+.method-page {
+
+  display:
+    none;
+
+  width:
+    100%;
+
+  min-height:
+    100vh;
+
+  background:
+    var(--bg);
+
+}
+
+.method-page.show {
+
+  display:
+    block;
+
+}
+
+.method-inner {
+
+  width:
+    100%;
+
+  max-width:
+    520px;
+
+  margin:
+    auto;
+
+  padding:
+    20px 20px 45px;
+
+}
+
+.method-header {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  margin-bottom:
+    25px;
+
+}
+
+.method-back {
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border-radius:
+    13px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  color:
+    var(--text);
+
+  cursor:
+    pointer;
+
+}
+
+.method-header h2 {
+
+  font-size:
+    21px;
+
+  font-weight:
+    750;
+
+}
+
+.method-header p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  margin-top:
+    4px;
+
+}
+
+
+/* ==================================================
+   SELECTED AMOUNT
+================================================== */
+
+.selected-amount {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  border-radius:
+    23px;
+
+  padding:
+    22px;
+
+  text-align:
+    center;
+
+  margin-bottom:
+    18px;
+
+}
+
+.selected-amount p {
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size:
+    13px;
+
+  margin-bottom:
+    6px;
+
+}
+
+.selected-amount h1 {
+
+  color:
+    white;
+
+  font-size:
+    34px;
+
+  font-weight:
+    850;
+
+}
+
+
+/* ==================================================
+   METHOD MESSAGE
+================================================== */
+
+.method-message {
+
+  display:
+    none;
+
+  padding:
+    13px 15px;
+
+  margin-bottom:
+    18px;
+
+  border-radius:
+    15px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.45;
+
+}
+
+.method-message.show {
+
+  display:
+    block;
+
+}
+
+.method-message.error {
+
+  color:
+    var(--danger);
+
+  border-color:
+    rgba(255,101,101,.35);
+
+}
+
+.method-message.success {
+
+  color:
+    var(--success);
+
+  border-color:
+    rgba(50,199,121,.35);
+
+}
+
+.method-message.info {
+
+  color:
+    #55b9ff;
+
+  border-color:
+    rgba(22,143,229,.35);
+
+}
+
+
+/* ==================================================
+   METHOD CARD
+================================================== */
+
+.method-card {
+
+  width:
+    100%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    15px;
+
+  padding:
+    19px;
+
+  margin-bottom:
+    15px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    22px;
+
+  color:
+    var(--text);
+
+  text-align:
+    left;
+
+  cursor:
+    pointer;
+
+}
+
+.method-card:active {
+
+  transform:
+    scale(.98);
+
+}
+
+.method-card:hover {
+
+  border-color:
+    var(--primary);
+
+}
+
+.method-card:disabled {
+
+  opacity:
+    .7;
+
+  cursor:
+    not-allowed;
+
+}
+
+.method-icon {
+
+  width:
+    52px;
+
+  height:
+    52px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    16px;
+
+  font-size:
+    22px;
+
+}
+
+.wittypay-icon {
+
+  background:
+    rgba(219,24,125,.13);
+
+  color:
+    #e51c85;
+
+}
+
+.manual-icon {
+
+  background:
+    rgba(22,143,229,.13);
+
+  color:
+    var(--primary);
+
+}
+
+.method-info {
+
+  flex:
+    1;
+
+}
+
+.method-info h3 {
+
+  font-size:
+    16px;
+
+  margin-bottom:
+    5px;
+
+}
+
+.method-info p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.4;
+
+}
+
+.method-tag {
+
+  display:
+    inline-block;
+
+  margin-top:
+    7px;
+
+  padding:
+    4px 8px;
+
+  border-radius:
+    7px;
+
+  font-size:
+    10px;
+
+  font-weight:
+    700;
+
+}
+
+.instant-tag {
+
+  color:
+    #e51c85;
+
+  background:
+    rgba(219,24,125,.10);
+
+}
+
+.manual-tag {
+
+  color:
+    var(--primary);
+
+  background:
+    rgba(22,143,229,.10);
+
+}
+
+.method-arrow {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    14px;
+
+}
+
+
+/* ==================================================
+   SECURITY
+================================================== */
+
+.method-security {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+
+  margin-top:
+    25px;
+
+  padding:
+    15px;
+
+  border-radius:
+    15px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.45;
+
+}
+
+.method-security i {
+
+  color:
+    var(--success);
+
+}
+
+
+/* ==================================================
+   MANUAL CHECKOUT
+================================================== */
+
+.checkout-page {
+
+  display:
+    none;
+
+  width:
+    100%;
+
+  min-height:
+    100vh;
+
+  background:
+    var(--bg);
+
+}
+
+.checkout-page.show {
+
+  display:
+    block;
+
+}
+
+.checkout-inner {
+
+  width:
+    100%;
+
+  max-width:
+    520px;
+
+  margin:
+    auto;
+
+  padding:
+    20px 20px 45px;
+
+}
+
+.checkout-header {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  margin-bottom:
+    25px;
+
+}
+
+.checkout-back {
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border-radius:
+    13px;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  color:
+    var(--text);
+
+  cursor:
+    pointer;
+
+}
+
+.checkout-header-text h2 {
+
+  font-size:
+    20px;
+
+  font-weight:
+    750;
+
+}
+
+.checkout-header-text p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  margin-top:
+    3px;
+
+}
+
+.secure-bar {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    11px;
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(50,199,121,.08);
+
+  color:
+    var(--success);
+
+  font-size:
+    12px;
+
+  font-weight:
+    650;
+
+  margin-bottom:
+    18px;
+
+}
+
+.payment-amount {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  border-radius:
+    24px;
+
+  padding:
+    24px;
+
+  text-align:
+    center;
+
+  margin-bottom:
+    18px;
+
+}
+
+.payment-amount p {
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size:
+    13px;
+
+  margin-bottom:
+    7px;
+
+}
+
+.payment-amount h1 {
+
+  color:
+    white;
+
+  font-size:
+    36px;
+
+  font-weight:
+    850;
+
+}
+
+
+/* ==================================================
+   BANK CARD
+================================================== */
+
+.bank-payment-card {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    24px;
+
+  overflow:
+    hidden;
+
+  margin-bottom:
+    18px;
+
+}
+
+.bank-heading {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+
+  padding:
+    19px;
+
+  border-bottom:
+    1px solid var(--border);
+
+}
+
+.bank-logo {
+
+  width:
+    44px;
+
+  height:
+    44px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size:
+    18px;
+
+}
+
+.bank-heading h3 {
+
+  font-size:
+    16px;
+
+}
+
+.bank-heading p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    11px;
+
+  margin-top:
+    3px;
+
+}
+
+.bank-content {
+
+  padding:
+    4px 19px 18px;
+
+}
+
+.detail {
+
+  padding:
+    15px 0;
+
+  border-bottom:
+    1px solid var(--border);
+
+}
+
+.detail:last-child {
+
+  border-bottom:
+    none;
+
+}
+
+.detail-label {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    10px;
+
+  font-weight:
+    650;
+
+  letter-spacing:
+    .5px;
+
+  margin-bottom:
+    6px;
+
+}
+
+.detail-value {
+
+  font-size:
+    16px;
+
+  font-weight:
+    750;
+
+}
+
+.account-line {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
+
+}
+
+.copy-button {
+
+  flex-shrink:
+    0;
+
+  border:
+    none;
+
+  border-radius:
+    10px;
+
+  padding:
+    9px 11px;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+
+}
+
+
+/* ==================================================
+   SENDER
+================================================== */
+
+.sender-card {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    22px;
+
+  padding:
+    19px;
+
+  margin-bottom:
+    18px;
+
+}
+
+.sender-card h3 {
+
+  font-size:
+    15px;
+
+  margin-bottom:
+    5px;
+
+}
+
+.sender-card p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.45;
+
+  margin-bottom:
+    15px;
+
+}
+
+.sender-input {
+
+  width:
+    100%;
+
+  padding:
+    16px;
+
+  border-radius:
+    15px;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    var(--card2);
+
+  color:
+    var(--text);
+
+  outline:
+    none;
+
+  font-size:
+    15px;
+
+}
+
+.sender-input:focus {
+
+  border-color:
+    var(--primary);
+
+}
+
+
+/* ==================================================
+   INSTRUCTIONS
+================================================== */
+
+.instructions {
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    20px;
+
+  padding:
+    18px;
+
+  margin-bottom:
+    18px;
+
+}
+
+.instructions h3 {
+
+  font-size:
+    14px;
+
+  margin-bottom:
+    12px;
+
+}
+
+.instruction {
+
+  display:
+    flex;
+
+  gap:
+    11px;
+
+  margin-bottom:
+    12px;
+
+}
+
+.instruction:last-child {
+
+  margin-bottom:
+    0;
+
+}
+
+.step {
+
+  width:
+    24px;
+
+  height:
+    24px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+
+}
+
+.instruction span {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.45;
+
+}
+
+
+/* ==================================================
+   CONFIRM
+================================================== */
+
+.confirm-payment {
+
+  width:
+    100%;
+
+  padding:
+    18px;
+
+  border:
+    none;
+
+  border-radius:
+    19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color:
+    white;
+
+  font-size:
+    16px;
+
+  font-weight:
+    750;
+
+  cursor:
+    pointer;
+
+}
+
+.confirm-payment:disabled {
+
+  opacity:
+    .6;
+
+}
+
+
+/* ==================================================
+   LOADING
+================================================== */
+
+.loading-screen {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    9999;
+
+  display:
+    none;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    var(--bg);
+
+}
+
+.loading-screen.show {
+
+  display:
+    flex;
+
+}
+
+.loading-content {
+
+  text-align:
+    center;
+
+  width:
+    85%;
+
+}
+
+.big-spinner {
+
+  width:
+    48px;
+
+  height:
+    48px;
+
+  margin:
+    0 auto 18px;
+
+  border:
+    4px solid rgba(22,143,229,.15);
+
+  border-top-color:
+    var(--primary);
+
+  border-radius:
+    50%;
+
+  animation:
+    spin .75s linear infinite;
+
+}
+
+.loading-content h3 {
+
+  font-size:
+    17px;
+
+  margin-bottom:
+    7px;
+
+}
+
+.loading-content p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    12px;
+
+}
+
+
+/* ==================================================
+   PAYMENT STATUS
+================================================== */
+
+.payment-status-screen {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    10000;
+
+  display:
+    none;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    var(--bg);
+
+  padding:
+    25px;
+
+}
+
+.payment-status-screen.show {
+
+  display:
+    flex;
+
+}
+
+.payment-status-content {
+
+  width:
+    100%;
+
+  max-width:
+    380px;
+
+  text-align:
+    center;
+
+  background:
+    var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    28px;
+
+  padding:
+    35px 25px;
+
+}
+
+.status-icon {
+
+  width:
+    75px;
+
+  height:
+    75px;
+
+  margin:
+    0 auto 22px;
+
+  border-radius:
+    50%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    rgba(22,143,229,.12);
+
+  color:
+    var(--primary);
+
+  font-size:
+    30px;
+
+}
+
+.status-icon.success {
+
+  background:
+    rgba(50,199,121,.13);
+
+  color:
+    var(--success);
+
+}
+
+.status-icon.rejected {
+
+  background:
+    rgba(255,101,101,.13);
+
+  color:
+    var(--danger);
+
+}
+
+.status-spinner {
+
+  width:
+    35px;
+
+  height:
+    35px;
+
+  border:
+    3px solid rgba(22,143,229,.18);
+
+  border-top-color:
+    var(--primary);
+
+  border-radius:
+    50%;
+
+  animation:
+    spin .75s linear infinite;
+
+}
+
+.payment-status-content h2 {
+
+  font-size:
+    21px;
+
+  margin-bottom:
+    12px;
+
+}
+
+.payment-status-content p {
+
+  color:
+    var(--secondary);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.65;
+
+}
+
+.status-warning {
+
+  margin-top:
+    18px;
+
+  padding:
+    12px;
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(255,180,0,.08);
+
+  color:
+    #d99b00;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.5;
+
+}
+
+.status-dashboard-button {
+
+  display:
+    none;
+
+  width:
+    100%;
+
+  margin-top:
+    23px;
+
+  padding:
+    15px;
+
+  border:
+    none;
+
+  border-radius:
+    15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color:
+    white;
+
+  font-size:
+    14px;
+
+  font-weight:
+    750;
+
+  cursor:
+    pointer;
+
+}
+
+
+/* ==================================================
+   SPINNER
+================================================== */
+
+.small-spinner {
+
+  display:
+    inline-block;
+
+  width:
+    17px;
+
+  height:
+    17px;
+
+  border:
+    2px solid rgba(255,255,255,.35);
+
+  border-top-color:
+    white;
+
+  border-radius:
+    50%;
+
+  animation:
+    spin .7s linear infinite;
+
+  vertical-align:
+    middle;
+
+  margin-right:
+    7px;
+
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 380px) {
+
+  .page,
+  .method-inner,
+  .checkout-inner {
+
+    padding-left:
+      15px;
+
+    padding-right:
+      15px;
+
+  }
+
+  .quick button {
+
+    font-size:
+      12px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     FUND PAGE
+================================================== -->
+
+<div
+  class="page"
+  id="fundPage"
+>
+
+  <div class="top">
+
+    <button
+      type="button"
+      class="back"
+      onclick="goToDashboard()"
+    >
+
+      <i class="fa-solid fa-arrow-left"></i>
+
+    </button>
+
+    <h1>
+      Fund Wallet
+    </h1>
+
+  </div>
+
+
+  <div class="balance-card">
+
+    <p class="balance-label">
+      Current Balance
+    </p>
+
+    <h2 id="currentBalance">
+      ₦0.00
+    </h2>
+
+  </div>
+
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+
+  <label class="label">
+    Enter funding amount
+  </label>
+
+
+  <div class="amount-box">
+
+    <span>₦</span>
+
+    <input
+      id="amount"
+      type="number"
+      inputmode="numeric"
+      placeholder="0"
+      min="100"
+      max="1000000"
+    >
+
+  </div>
+
+
+  <p class="quick-title">
+    Quick amount
+  </p>
+
+
+  <div class="quick">
+
+    <button
+      type="button"
+      onclick="setAmount(500)"
+    >
+      ₦500
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(1000)"
+    >
+      ₦1,000
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(5000)"
+    >
+      ₦5,000
+    </button>
+
+    <button
+      type="button"
+      onclick="setAmount(10000)"
+    >
+      ₦10,000
+    </button>
+
+  </div>
+
+
+  <button
+    type="button"
+    class="continue"
+    id="continueButton"
+    onclick="continueFunding()"
+  >
+    Continue
+  </button>
+
+
+  <div class="notice">
+
+    <i class="fa-solid fa-shield-halved"></i>
+
+    <strong>Secure funding:</strong>
+
+    Choose between instant Wittypay checkout
+    or manual bank transfer with admin approval.
+
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     PAYMENT METHOD PAGE
+================================================== -->
+
+<div
+  class="method-page"
+  id="methodPage"
+>
+
+  <div class="method-inner">
+
+    <div class="method-header">
+
+      <button
+        type="button"
+        class="method-back"
+        onclick="backToAmount()"
+      >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+      </button>
+
+      <div>
+
+        <h2>
+          Payment Method
+        </h2>
+
+        <p>
+          Choose how you want to fund your wallet
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="selected-amount">
+
+      <p>
+        Amount to fund
+      </p>
+
+      <h1 id="methodAmount">
+        ₦0.00
+      </h1>
+
+    </div>
+
+
+    <div
+      id="methodMessage"
+      class="method-message"
+    ></div>
+
+
+    <!-- WITTYPAY -->
+
+    <button
+      type="button"
+      class="method-card"
+      id="wittypayButton"
+      onclick="payWithWittypay()"
+    >
+
+      <div class="method-icon wittypay-icon">
+
+        <i class="fa-solid fa-bolt"></i>
+
+      </div>
+
+      <div class="method-info">
+
+        <h3>
+          Pay with Wittypay
+        </h3>
+
+        <p>
+          Fast checkout using the available
+          Wittypay payment methods.
+        </p>
+
+        <span class="method-tag instant-tag">
+          INSTANT PAYMENT
+        </span>
+
+      </div>
+
+      <i
+        class="fa-solid fa-chevron-right method-arrow"
+      ></i>
+
+    </button>
+
+
+    <!-- MANUAL -->
+
+    <button
+      type="button"
+      class="method-card"
+      onclick="openManualCheckout()"
+    >
+
+      <div class="method-icon manual-icon">
+
+        <i class="fa-solid fa-building-columns"></i>
+
+      </div>
+
+      <div class="method-info">
+
+        <h3>
+          Manual Bank Transfer
+        </h3>
+
+        <p>
+          Transfer to our bank account and
+          wait for admin approval.
+        </p>
+
+        <span class="method-tag manual-tag">
+          ADMIN APPROVAL
+        </span>
+
+      </div>
+
+      <i
+        class="fa-solid fa-chevron-right method-arrow"
+      ></i>
+
+    </button>
+
+
+    <div class="method-security">
+
+      <i class="fa-solid fa-lock"></i>
+
+      <span>
+        Your payment is processed securely.
+        No NIN or BVN is required for this
+        wallet funding checkout.
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     LOADING
+================================================== -->
+
+<div
+  class="loading-screen"
+  id="loadingScreen"
+>
+
+  <div class="loading-content">
+
+    <div class="big-spinner"></div>
+
+    <h3>
+      Preparing payment
+    </h3>
+
+    <p>
+      Please wait while we prepare your
+      payment options...
+    </p>
+
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     MANUAL BANK CHECKOUT
+================================================== -->
+
+<div
+  class="checkout-page"
+  id="checkoutPage"
+>
+
+  <div class="checkout-inner">
+
+    <div class="checkout-header">
+
+      <button
+        type="button"
+        class="checkout-back"
+        onclick="backToMethods()"
+      >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+      </button>
+
+      <div class="checkout-header-text">
+
+        <h2>
+          Bank Transfer
+        </h2>
+
+        <p>
+          Complete your wallet funding
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="secure-bar">
+
+      <i class="fa-solid fa-lock"></i>
+
+      Secure payment instructions
+
+    </div>
+
+
+    <div class="payment-amount">
+
+      <p>
+        Amount to pay
+      </p>
+
+      <h1 id="checkoutAmount">
+        ₦0.00
+      </h1>
+
+    </div>
+
+
+    <div class="bank-payment-card">
+
+      <div class="bank-heading">
+
+        <div class="bank-logo">
+
+          <i class="fa-solid fa-building-columns"></i>
+
+        </div>
+
+        <div>
+
+          <h3>
+            Bank Transfer Details
+          </h3>
+
+          <p>
+            Transfer the exact amount shown above
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="bank-content">
+
+        <div class="detail">
+
+          <div class="detail-label">
+            BANK
+          </div>
+
+          <div class="detail-value">
+            Kuda MFB
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-label">
+            ACCOUNT NAME
+          </div>
+
+          <div class="detail-value">
+            IBRAHIM SAMAD ADEKOLA ABDUL
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-label">
+            ACCOUNT NUMBER
+          </div>
+
+          <div class="account-line">
+
+            <div class="detail-value">
+              2085214369
+            </div>
+
+            <button
+              type="button"
+              class="copy-button"
+              onclick="copyAccountNumber()"
+            >
+
+              <i class="fa-regular fa-copy"></i>
+
+              Copy
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="sender-card">
+
+      <h3>
+        Sender Name
+      </h3>
+
+      <p>
+        Enter the name used on the bank account
+        you are transferring from.
+      </p>
+
+      <input
+        id="senderName"
+        class="sender-input"
+        type="text"
+        maxlength="100"
+        placeholder="e.g. Ibrahim Samad"
+        autocomplete="name"
+      >
+
+    </div>
+
+
+    <div class="instructions">
+
+      <h3>
+        How to complete your payment
+      </h3>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          1
+        </div>
+
+        <span>
+          Open your banking app and transfer
+          the exact amount shown above.
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          2
+        </div>
+
+        <span>
+          Send the money to the Kuda account
+          displayed above.
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          3
+        </div>
+
+        <span>
+          Enter the sender name and tap
+          "I've Made the Transfer".
+        </span>
+
+      </div>
+
+
+      <div class="instruction">
+
+        <div class="step">
+          4
+        </div>
+
+        <span>
+          Your request will be reviewed by
+          MyVTU administration before your
+          wallet is credited.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="confirm-payment"
+      id="confirmButton"
+      onclick="submitFundingRequest()"
+    >
+      I've Made the Transfer
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     PAYMENT STATUS
+================================================== -->
+
+<div
+  class="payment-status-screen"
+  id="paymentStatusScreen"
+>
+
+  <div class="payment-status-content">
+
+    <div
+      class="status-icon"
+      id="statusIcon"
+    >
+
+      <div class="status-spinner"></div>
+
+    </div>
+
+
+    <h2 id="statusTitle">
+      Processing Payment
+    </h2>
+
+
+    <p id="statusMessage">
+      Please wait while we process your payment.
+    </p>
+
+
+    <div
+      class="status-warning"
+      id="statusWarning"
+    >
+      Please do not close this page.
+    </div>
+
+
+    <button
+      type="button"
+      class="status-dashboard-button"
+      id="statusDashboardButton"
+      onclick="goToDashboard()"
+    >
+      Return to Dashboard
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     SUPABASE
+================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* ==================================================
+   SUPABASE CONFIG
+================================================== */
+
+const SUPABASE_URL =
+  "https://gthosvtitmymsrbynmuq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_YJ8SqAQQt9Fk3QtOlHUFZg_Q0ZC2fFT";
+
+
+/* ==================================================
+   CREATE SUPABASE CLIENT
+================================================== */
+
+let supabaseClient = null;
+
+if (
+  window.supabase &&
+  typeof window.supabase.createClient === "function"
+) {
+
+  supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+}
+
+
+/* ==================================================
+   EDGE FUNCTION
+================================================== */
+
+const WITTYPAY_FUNCTION_URL =
+  SUPABASE_URL +
+  "/functions/v1/wittypay-payment";
+
+
+/* ==================================================
+   GLOBALS
+================================================== */
+
+let selectedAmount = 0;
+
+let currentFundingRequestId = null;
+
+let fundingStatusChecker = null;
+
+
+/* ==================================================
+   HELPERS
+================================================== */
+
+function formatMoney(amount) {
+
+  return "₦" +
+    Number(amount || 0).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+function showMessage(
+  text,
+  type = "info"
+) {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  if (!box) return;
+
+  box.innerText =
+    text;
+
+  box.className =
+    "message show " + type;
+
+}
+
+
+function clearMessage() {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  if (!box) return;
+
+  box.innerText =
+    "";
+
+  box.className =
+    "message";
+
+}
+
+
+function showMethodMessage(
+  text,
+  type = "info"
+) {
+
+  const box =
+    document.getElementById(
+      "methodMessage"
+    );
+
+  if (!box) return;
+
+  box.innerText =
+    text;
+
+  box.className =
+    "method-message show " + type;
+
+}
+
+
+function clearMethodMessage() {
+
+  const box =
+    document.getElementById(
+      "methodMessage"
+    );
+
+  if (!box) return;
+
+  box.innerText =
+    "";
+
+  box.className =
+    "method-message";
+
+}
+
+
+/* ==================================================
+   DASHBOARD
+================================================== */
+
+function goToDashboard() {
+
+  stopFundingStatusChecker();
+
+  window.location.href =
+    "dashboard.html";
+
+}
+
+
+/* ==================================================
+   LOAD BALANCE
+================================================== */
+
+async function loadBalance() {
+
+  try {
+
+    if (!supabaseClient) {
+
+      throw new Error(
+        "Supabase could not be loaded."
+      );
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    const session =
+      data?.session;
+
+
+    if (!session) {
+
+      showMessage(
+        "Please login again.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("balance")
+        .eq(
+          "id",
+          session.user.id
+        )
+        .maybeSingle();
+
+
+    if (profileError) {
+
+      console.error(
+        "Profile error:",
+        profileError
+      );
+
+      showMessage(
+        "Unable to load your wallet balance.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (profile) {
+
+      document.getElementById(
+        "currentBalance"
+      ).innerText =
+        formatMoney(
+          profile.balance
+        );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Balance error:",
+      error
+    );
+
+    showMessage(
+      "Unable to load your wallet. Please refresh the page.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   QUICK AMOUNT
+================================================== */
+
+function setAmount(amount) {
+
+  document.getElementById(
+    "amount"
+  ).value =
+    amount;
+
+  clearMessage();
+
+}
+
+
+/* ==================================================
+   CONTINUE
+================================================== */
+
+function continueFunding() {
+
+  clearMessage();
+
+  const input =
+    document.getElementById(
+      "amount"
+    );
+
+  const button =
+    document.getElementById(
+      "continueButton"
+    );
+
+  const amount =
+    Number(
+      input.value
+    );
+
+
+  if (
+    !Number.isFinite(amount) ||
+    amount < 100
+  ) {
+
+    showMessage(
+      "Enter an amount of at least ₦100.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    amount > 1000000
+  ) {
+
+    showMessage(
+      "Maximum funding amount is ₦1,000,000.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  selectedAmount =
+    amount;
+
+
+  button.disabled =
+    true;
+
+
+  button.innerHTML =
+    '<span class="small-spinner"></span>Preparing...';
+
+
+  document.getElementById(
+    "loadingScreen"
+  ).classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    function () {
+
+      document.getElementById(
+        "fundPage"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "methodAmount"
+      ).innerText =
+        formatMoney(
+          selectedAmount
+        );
+
+
+      clearMethodMessage();
+
+
+      document.getElementById(
+        "loadingScreen"
+      ).classList.remove(
+        "show"
+      );
+
+
+      document.getElementById(
+        "methodPage"
+      ).classList.add(
+        "show"
+      );
+
+
+      button.disabled =
+        false;
+
+
+      button.innerText =
+        "Continue";
+
+    },
+    500
+  );
+
+}
+
+
+/* ==================================================
+   BACK TO AMOUNT
+================================================== */
+
+function backToAmount() {
+
+  document.getElementById(
+    "methodPage"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "fundPage"
+  ).style.display =
+    "block";
+
+}
+
+
+/* ==================================================
+   MANUAL CHECKOUT
+================================================== */
+
+function openManualCheckout() {
+
+  document.getElementById(
+    "methodPage"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "checkoutAmount"
+  ).innerText =
+    formatMoney(
+      selectedAmount
+    );
+
+
+  document.getElementById(
+    "checkoutPage"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* ==================================================
+   BACK TO METHODS
+================================================== */
+
+function backToMethods() {
+
+  document.getElementById(
+    "checkoutPage"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "methodPage"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* ==================================================
+   WITTYPAY BUTTON
+================================================== */
+
+function resetWittypayButton() {
+
+  const button =
+    document.getElementById(
+      "wittypayButton"
+    );
+
+  if (!button) return;
+
+
+  button.disabled =
+    false;
+
+
+  button.innerHTML = `
+
+    <div class="method-icon wittypay-icon">
+
+      <i class="fa-solid fa-bolt"></i>
+
+    </div>
+
+    <div class="method-info">
+
+      <h3>
+        Pay with Wittypay
+      </h3>
+
+      <p>
+        Fast checkout using the available
+        Wittypay payment methods.
+      </p>
+
+      <span class="method-tag instant-tag">
+        INSTANT PAYMENT
+      </span>
+
+    </div>
+
+    <i class="fa-solid fa-chevron-right method-arrow"></i>
+
+  `;
+
+}
+
+
+/* ==================================================
+   WITTYPAY PAYMENT
+================================================== */
+
+async function payWithWittypay() {
+
+  clearMethodMessage();
+
+
+  if (!supabaseClient) {
+
+    showMethodMessage(
+      "Supabase could not be loaded. Please refresh the page.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !selectedAmount ||
+    Number(selectedAmount) < 100
+  ) {
+
+    showMethodMessage(
+      "Please select a valid amount.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "wittypayButton"
+    );
+
+
+  try {
+
+    /* ==========================================
+       GET USER SESSION
+    ========================================== */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    const session =
+      data?.session;
+
+
+    if (
+      !session ||
+      !session.user ||
+      !session.access_token
+    ) {
+
+      showMethodMessage(
+        "Your login session has expired. Please login again.",
+        "error"
+      );
+
+      setTimeout(
+        function () {
+
+          window.location.href =
+            "login.html";
+
+        },
+        1200
+      );
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       REFERENCE
+    ========================================== */
+
+    const reference =
+      "MYVTU_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
+
+
+    /* ==========================================
+       BUTTON LOADING
+    ========================================== */
+
+    button.disabled =
+      true;
+
+
+    button.innerHTML = `
+
+      <div class="method-icon wittypay-icon">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+      </div>
+
+      <div class="method-info">
+
+        <h3>
+          Connecting to Wittypay...
+        </h3>
+
+        <p>
+          Please wait while your payment is prepared.
+        </p>
+
+      </div>
+
+    `;
+
+
+    /* ==========================================
+       CUSTOMER
+    ========================================== */
+
+    const customerName =
+      session.user.user_metadata?.full_name ||
+      session.user.user_metadata?.name ||
+      "MyVTU Customer";
+
+
+    const customerEmail =
+      session.user.email ||
+      "";
+
+
+    /* ==========================================
+       CALLBACK URL
+    ========================================== */
+
+    const callbackUrl =
+      new URL(
+        "fund-wallet.html",
+        window.location.href
+      ).href;
+
+
+    /* ==========================================
+       SEND TO EDGE FUNCTION
+    ========================================== */
+
+    const response =
+      await fetch(
+        WITTYPAY_FUNCTION_URL,
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              session.access_token
+
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "initialize",
+
+              amount:
+                Number(
+                  selectedAmount
+                ),
+
+              reference:
+                reference,
+
+              user_id:
+                session.user.id,
+
+              customer_name:
+                customerName,
+
+              customer_email:
+                customerEmail,
+
+              callback_url:
+                callbackUrl
+
+            })
+
+        }
+      );
+
+
+    /* ==========================================
+       SERVER RESPONSE
+    ========================================== */
+
+    const responseText =
+      await response.text();
+
+
+    console.log(
+      "Wittypay server status:",
+      response.status
+    );
+
+
+    console.log(
+      "Wittypay server response:",
+      responseText
+    );
+
+
+    let result;
+
+
+    try {
+
+      result =
+        JSON.parse(
+          responseText
+        );
+
+    } catch {
+
+      throw new Error(
+        "The payment server returned an invalid response."
+      );
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        result?.error ||
+        result?.message ||
+        "Wittypay payment initialization failed."
+      );
+
+    }
+
+
+    if (
+      result?.success !== true
+    ) {
+
+      throw new Error(
+        result?.error ||
+        result?.message ||
+        "Wittypay could not create the payment."
+      );
+
+    }
+
+
+    /* ==========================================
+       CHECKOUT URL
+    ========================================== */
+
+    const checkoutUrl =
+
+      result?.checkout_url ||
+
+      result?.data?.checkout_url ||
+
+      result?.data?.data?.checkout_url ||
+
+      result?.data?.url ||
+
+      result?.url;
+
+
+    if (
+      !checkoutUrl ||
+      typeof checkoutUrl !== "string"
+    ) {
+
+      console.error(
+        "Complete Edge Function response:",
+        result
+      );
+
+      throw new Error(
+        "Wittypay did not return a checkout link."
+      );
+
+    }
+
+
+    /* ==========================================
+       SAVE PAYMENT DETAILS
+    ========================================== */
+
+    sessionStorage.setItem(
+      "wittypay_reference",
+      reference
+    );
+
+
+    sessionStorage.setItem(
+      "wittypay_amount",
+      String(
+        selectedAmount
+      )
+    );
+
+
+    sessionStorage.setItem(
+      "wittypay_user_id",
+      session.user.id
+    );
+
+
+    /* ==========================================
+       REDIRECT
+    ========================================== */
+
+    window.location.href =
+      checkoutUrl;
+
+  } catch (error) {
+
+    console.error(
+      "Wittypay error:",
+      error
+    );
+
+
+    showMethodMessage(
+      error?.message ||
+      "Unable to connect to Wittypay. Please try again.",
+      "error"
+    );
+
+
+    resetWittypayButton();
+
+  }
+
+}
+
+
+/* ==================================================
+   HANDLE WITTYPAY RETURN
+================================================== */
+
+async function handleWittypayReturn() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const payment =
+    params.get(
+      "payment"
+    );
+
+
+  const referenceFromUrl =
+    params.get(
+      "reference"
+    ) ||
+    params.get(
+      "ref"
+    ) ||
+    params.get(
+      "trx"
+    );
+
+
+  const savedReference =
+    sessionStorage.getItem(
+      "wittypay_reference"
+    );
+
+
+  const savedAmount =
+    Number(
+      sessionStorage.getItem(
+        "wittypay_amount"
+      ) || 0
+    );
+
+
+  const reference =
+    referenceFromUrl ||
+    savedReference;
+
+
+  /* ==========================================
+     NO WITTYPAY RETURN
+  ========================================== */
+
+  if (
+    payment !== "success" &&
+    !reference
+  ) {
+
+    return;
+
+  }
+
+
+  if (!reference) {
+
+    return;
+
+  }
+
+
+  /* ==========================================
+     SHOW VERIFY SCREEN
+  ========================================== */
+
+  showWittypayVerifyingScreen();
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    const session =
+      data?.session;
+
+
+    if (
+      !session ||
+      !session.access_token
+    ) {
+
+      throw new Error(
+        "Your login session has expired."
+      );
+
+    }
+
+
+    /* ==========================================
+       VERIFY PAYMENT
+    ========================================== */
+
+    const response =
+      await fetch(
+        WITTYPAY_FUNCTION_URL,
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              session.access_token
+
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "verify",
+
+              reference:
+                reference,
+
+              amount:
+                savedAmount,
+
+              user_id:
+                session.user.id
+
+            })
+
+        }
+      );
+
+
+    const responseText =
+      await response.text();
+
+
+    console.log(
+      "Wittypay verify status:",
+      response.status
+    );
+
+
+    console.log(
+      "Wittypay verify response:",
+      responseText
+    );
+
+
+    let result;
+
+
+    try {
+
+      result =
+        JSON.parse(
+          responseText
+        );
+
+    } catch {
+
+      throw new Error(
+        "Invalid verification response."
+      );
+
+    }
+
+
+    if (
+      !response.ok ||
+      result?.success !== true
+    ) {
+
+      throw new Error(
+        result?.error ||
+        result?.message ||
+        "Payment could not be verified."
+      );
+
+    }
+
+
+    /* ==========================================
+       SUCCESS
+    ========================================== */
+
+    showWittypaySuccessScreen();
+
+
+    sessionStorage.removeItem(
+      "wittypay_reference"
+    );
+
+    sessionStorage.removeItem(
+      "wittypay_amount"
+    );
+
+    sessionStorage.removeItem(
+      "wittypay_user_id"
+    );
+
+
+    /* Remove query string */
+
+    window.history.replaceState(
+      {},
+      document.title,
+      "fund-wallet.html"
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Wittypay verification error:",
+      error
+    );
+
+
+    showWittypayPendingScreen(
+      reference
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   WITTYPAY VERIFYING SCREEN
+================================================== */
+
+function showWittypayVerifyingScreen() {
+
+  const screen =
+    document.getElementById(
+      "paymentStatusScreen"
+    );
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  screen.classList.add(
+    "show"
+  );
+
+
+  icon.className =
+    "status-icon";
+
+
+  icon.innerHTML =
+    '<div class="status-spinner"></div>';
+
+
+  title.innerText =
+    "Verifying Payment";
+
+
+  message.innerText =
+    "Your payment was received. We are securely verifying the transaction before crediting your wallet.";
+
+
+  warning.innerHTML =
+    '<i class="fa-solid fa-shield-halved"></i> Please wait while we confirm your payment.';
+
+
+  warning.style.display =
+    "block";
+
+
+  dashboardButton.style.display =
+    "none";
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* ==================================================
+   WITTYPAY SUCCESS
+================================================== */
+
+function showWittypaySuccessScreen() {
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  icon.className =
+    "status-icon success";
+
+
+  icon.innerHTML =
+    '<i class="fa-solid fa-check"></i>';
+
+
+  title.innerText =
+    "Payment Successful";
+
+
+  message.innerText =
+    "Your Wittypay payment has been verified and your wallet has been credited successfully.";
+
+
+  warning.style.display =
+    "none";
+
+
+  dashboardButton.style.display =
+    "block";
+
+}
+
+
+/* ==================================================
+   WITTYPAY PENDING
+================================================== */
+
+function showWittypayPendingScreen(
+  reference
+) {
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  icon.className =
+    "status-icon";
+
+
+  icon.innerHTML =
+    '<i class="fa-solid fa-clock"></i>';
+
+
+  title.innerText =
+    "Payment Verification Pending";
+
+
+  message.innerText =
+    "Your payment has been received, but verification is still pending. Your wallet will only be credited after the payment is confirmed.";
+
+
+  warning.innerHTML =
+    '<i class="fa-solid fa-circle-info"></i> Payment reference: ' +
+    reference;
+
+
+  warning.style.display =
+    "block";
+
+
+  dashboardButton.style.display =
+    "block";
+
+}
+
+
+/* ==================================================
+   COPY ACCOUNT NUMBER
+================================================== */
+
+async function copyAccountNumber() {
+
+  const number =
+    "2085214369";
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      number
+    );
+
+
+    const button =
+      document.querySelector(
+        ".copy-button"
+      );
+
+
+    const oldText =
+      button.innerHTML;
+
+
+    button.innerHTML =
+      '<i class="fa-solid fa-check"></i> Copied';
+
+
+    setTimeout(
+      function () {
+
+        button.innerHTML =
+          oldText;
+
+      },
+      1800
+    );
+
+  } catch {
+
+    alert(
+      "Unable to copy account number."
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   MANUAL WAITING SCREEN
+================================================== */
+
+function showPaymentWaitingScreen() {
+
+  const screen =
+    document.getElementById(
+      "paymentStatusScreen"
+    );
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  screen.classList.add(
+    "show"
+  );
+
+
+  icon.className =
+    "status-icon";
+
+
+  icon.innerHTML =
+    '<div class="status-spinner"></div>';
+
+
+  title.innerText =
+    "Waiting for Payment Confirmation";
+
+
+  message.innerText =
+    "Your funding request has been submitted successfully. Please wait while our admin confirms your payment.";
+
+
+  warning.innerHTML =
+    '<i class="fa-solid fa-triangle-exclamation"></i> Do not close or refresh this page while we confirm your payment.';
+
+
+  warning.style.display =
+    "block";
+
+
+  dashboardButton.style.display =
+    "none";
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* ==================================================
+   MANUAL APPROVED
+================================================== */
+
+function showPaymentApprovedScreen() {
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  icon.className =
+    "status-icon success";
+
+
+  icon.innerHTML =
+    '<i class="fa-solid fa-check"></i>';
+
+
+  title.innerText =
+    "Payment Successful";
+
+
+  message.innerText =
+    "Your payment has been approved and your wallet has been credited successfully.";
+
+
+  warning.style.display =
+    "none";
+
+
+  dashboardButton.style.display =
+    "block";
+
+
+  stopFundingStatusChecker();
+
+}
+
+
+/* ==================================================
+   MANUAL REJECTED
+================================================== */
+
+function showPaymentRejectedScreen() {
+
+  const icon =
+    document.getElementById(
+      "statusIcon"
+    );
+
+  const title =
+    document.getElementById(
+      "statusTitle"
+    );
+
+  const message =
+    document.getElementById(
+      "statusMessage"
+    );
+
+  const warning =
+    document.getElementById(
+      "statusWarning"
+    );
+
+  const dashboardButton =
+    document.getElementById(
+      "statusDashboardButton"
+    );
+
+
+  icon.className =
+    "status-icon rejected";
+
+
+  icon.innerHTML =
+    '<i class="fa-solid fa-xmark"></i>';
+
+
+  title.innerText =
+    "Payment Rejected";
+
+
+  message.innerText =
+    "Your funding request was rejected by the admin. Your wallet has not been credited.";
+
+
+  warning.style.display =
+    "none";
+
+
+  dashboardButton.style.display =
+    "block";
+
+
+  stopFundingStatusChecker();
+
+}
+
+
+/* ==================================================
+   STOP MANUAL CHECKER
+================================================== */
+
+function stopFundingStatusChecker() {
+
+  if (
+    fundingStatusChecker
+  ) {
+
+    clearInterval(
+      fundingStatusChecker
+    );
+
+
+    fundingStatusChecker =
+      null;
+
+  }
+
+}
+
+
+/* ==================================================
+   CHECK MANUAL REQUEST
+================================================== */
+
+async function checkFundingRequestStatus() {
+
+  if (
+    !currentFundingRequestId
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const {
+      data: request,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "wallet_funding_requests"
+        )
+        .select(
+          "status"
+        )
+        .eq(
+          "id",
+          currentFundingRequestId
+        )
+        .maybeSingle();
+
+
+    if (
+      error ||
+      !request
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      request.status ===
+      "approved"
+    ) {
+
+      showPaymentApprovedScreen();
+
+    }
+
+
+    else if (
+      request.status ===
+      "rejected"
+    ) {
+
+      showPaymentRejectedScreen();
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Funding status error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   START MANUAL CHECKER
+================================================== */
+
+function startFundingStatusChecker() {
+
+  stopFundingStatusChecker();
+
+  checkFundingRequestStatus();
+
+
+  fundingStatusChecker =
+    setInterval(
+      checkFundingRequestStatus,
+      5000
+    );
+
+}
+
+
+/* ==================================================
+   SUBMIT MANUAL FUNDING
+================================================== */
+
+async function submitFundingRequest() {
+
+  const senderInput =
+    document.getElementById(
+      "senderName"
+    );
+
+
+  const senderName =
+    senderInput.value.trim();
+
+
+  if (!senderName) {
+
+    alert(
+      "Please enter the sender name."
+    );
+
+    senderInput.focus();
+
+    return;
+
+  }
+
+
+  if (
+    senderName.length < 3
+  ) {
+
+    alert(
+      "Please enter a valid sender name."
+    );
+
+    senderInput.focus();
+
+    return;
+
+  }
+
+
+  if (
+    !selectedAmount ||
+    selectedAmount < 100
+  ) {
+
+    alert(
+      "Please select a valid funding amount."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "confirmButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.innerHTML =
+    '<span class="small-spinner"></span>Submitting...';
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (
+      error ||
+      !data?.session
+    ) {
+
+      throw new Error(
+        "Your login session has expired. Please log in again."
+      );
+
+    }
+
+
+    const session =
+      data.session;
+
+
+    /* ==========================================
+       CHECK EXISTING PENDING REQUEST
+    ========================================== */
+
+    const {
+      data: existing,
+      error: existingError
+    } =
+      await supabaseClient
+        .from(
+          "wallet_funding_requests"
+        )
+        .select(
+          "id"
+        )
+        .eq(
+          "user_id",
+          session.user.id
+        )
+        .eq(
+          "sender_name",
+          senderName
+        )
+        .eq(
+          "amount",
+          selectedAmount
+        )
+        .eq(
+          "status",
+          "pending"
+        )
+        .limit(
+          1
+        );
+
+
+    if (existingError) {
+
+      throw existingError;
+
+    }
+
+
+    if (
+      existing &&
+      existing.length > 0
+    ) {
+
+      currentFundingRequestId =
+        existing[0].id;
+
+
+      showPaymentWaitingScreen();
+
+      startFundingStatusChecker();
+
+      return;
+
+    }
+
+
+    /* ==========================================
+       CREATE REQUEST
+    ========================================== */
+
+    const {
+      data: request,
+      error: insertError
+    } =
+      await supabaseClient
+        .from(
+          "wallet_funding_requests"
+        )
+        .insert({
+
+          user_id:
+            session.user.id,
+
+          amount:
+            selectedAmount,
+
+          sender_name:
+            senderName,
+
+          status:
+            "pending"
+
+        })
+        .select(
+          "id"
+        )
+        .single();
+
+
+    if (insertError) {
+
+      throw insertError;
+
+    }
+
+
+    currentFundingRequestId =
+      request.id;
+
+
+    showPaymentWaitingScreen();
+
+    startFundingStatusChecker();
+
+  } catch (error) {
+
+    console.error(
+      "Manual funding error:",
+      error
+    );
+
+
+    alert(
+      error?.message ||
+      "Something went wrong. Please try again."
+    );
+
+
+    button.disabled =
+      false;
+
+
+    button.innerText =
+      "I've Made the Transfer";
+
+  }
+
+}
+
+
+/* ==================================================
+   START PAGE
+================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function () {
+
+    await loadBalance();
+
+    await handleWittypayReturn();
+
+  }
+);
+
+</script>
+
+</body>
+
+</html>
